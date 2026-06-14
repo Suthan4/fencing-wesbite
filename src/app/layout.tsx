@@ -5,58 +5,50 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Navi Fencing | Custom Fence Installation & Repair",
-    template: "%s | Navi Fencing",
+    default: "Navi Fencing | Fencing Contractor in Chennai & Tamil Nadu",
+    template: "%s | Navi Fencing Chennai",
   },
   description:
-    "Navi Fencing designs, installs, and repairs residential and commercial fences with durable materials, clean project management, and local expertise.",
+    "Navi Fencing – Chennai's trusted fencing contractor for residential, commercial, and industrial fencing. Chain link, barbed wire, concertina coil, razor wire, welded mesh, cement posts, and custom gates across Tamil Nadu.",
   applicationName: "Navi Fencing",
   keywords: [
-    "fencing contractor",
-    "fence installation",
-    "residential fencing",
-    "commercial fencing",
-    "wood fence",
-    "vinyl fence",
-    "aluminum fence",
-    "chain link fence",
-    "chain link supplier",
-    "barbed wire",
-    "concertina coil",
-    "razor wire",
-    "welded mesh",
-    "cement post",
-    "gate installation",
-    "fence repair",
+    "fencing contractor Chennai",
+    "fence installation Tamil Nadu",
+    "chain link fencing Chennai",
+    "barbed wire supplier Chennai",
+    "concertina coil Chennai",
+    "razor wire Tamil Nadu",
+    "welded mesh fencing",
+    "cement post fencing",
+    "compound fencing Chennai",
+    "security fencing Tamil Nadu",
+    "PVC chainlink Chennai",
+    "green mesh fencing",
+    "Y angle fencing",
+    "gate installation Chennai",
+    "fence repair Tamil Nadu",
   ],
   authors: [{ name: "Navi Fencing" }],
   creator: "Navi Fencing",
   publisher: "Navi Fencing",
-  alternates: {
-    canonical: "/",
-  },
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "en_IN",
     url: "/",
     siteName: "Navi Fencing",
-    title: "Navi Fencing | Custom Fence Installation & Repair",
+    title: "Navi Fencing | Fencing Contractor in Chennai & Tamil Nadu",
     description:
-      "Premium residential and commercial fencing built for privacy, security, curb appeal, and long-term performance.",
+      "Residential and commercial fencing solutions across Tamil Nadu. Chain link, barbed wire, concertina coil, razor wire, welded mesh, and custom gates.",
     images: [
-      {
-        url: "/logo.png",
-        width: 1200,
-        height: 630,
-        alt: "Navi Fencing logo",
-      },
+      { url: "/logo.png", width: 1200, height: 630, alt: "Navi Fencing" },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Navi Fencing | Custom Fence Installation & Repair",
+    title: "Navi Fencing | Chennai's Trusted Fencing Contractor",
     description:
-      "Residential and commercial fencing built with durable materials, clean lines, and reliable local service.",
+      "Premium fencing installation across Tamil Nadu. Chain link, security wire, mesh, posts, and custom gates.",
     images: ["/logo.png"],
   },
   robots: {
@@ -73,12 +65,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en" className="h-full scroll-smooth antialiased">
-      <body className="min-h-full flex flex-col bg-[#f8faf7] text-[#172118]">
+    <html lang="en-IN" className="scroll-smooth">
+      <body className="min-h-screen bg-white text-[#2c2c2a] antialiased overflow-x-hidden">
+        <div id="scroll-progress" aria-hidden="true" />
         {children}
       </body>
     </html>

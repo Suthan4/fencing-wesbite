@@ -10,29 +10,21 @@ import {
   services,
 } from "@/lib/site";
 
-type Props = {
-  params: Promise<{ slug: string }>;
-};
+type Props = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
-  return services.map((service) => ({ slug: service.slug }));
+  return services.map((s) => ({ slug: s.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const service = getService(slug);
-
-  if (!service) {
-    return {};
-  }
-
+  if (!service) return {};
   return {
     title: service.metaTitle,
     description: service.description,
     keywords: service.keywords,
-    alternates: {
-      canonical: `/services/${service.slug}`,
-    },
+    alternates: { canonical: `/services/${service.slug}` },
     openGraph: {
       title: `${service.metaTitle} | Navi Fencing`,
       description: service.description,
@@ -45,13 +37,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ServicePage({ params }: Props) {
   const { slug } = await params;
   const service = getService(slug);
-
-  if (!service) {
-    notFound();
-  }
-
+  if (!service) notFound();
   const path = `/services/${service.slug}`;
-
   return (
     <SeoPageTemplate
       page={service}

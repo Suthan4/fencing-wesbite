@@ -1,16 +1,16 @@
 import Link from "next/link";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { VisualPanel } from "@/components/VisualPanel";
+import { GsapAnimations } from "@/components/GsapAnimations";
 import type { SeoPage } from "@/lib/site";
+import { whatsappUrl } from "@/lib/site";
 
 type SeoPageTemplateProps = {
   page: SeoPage;
-  parent: {
-    title: string;
-    path: string;
-  };
+  parent: { title: string; path: string };
   jsonLd: object[];
 };
 
@@ -23,124 +23,186 @@ export function SeoPageTemplate({
     <>
       <JsonLd data={jsonLd} />
       <SiteHeader />
+      <GsapAnimations />
       <main>
-        <section className="bg-[#f8faf7] py-20 sm:py-24">
-          <div className="mx-auto grid max-w-7xl gap-12 px-6 sm:px-8 lg:grid-cols-[1fr_0.9fr] lg:px-10">
-            <div>
-              <nav className="text-sm font-semibold text-[#6f8f2f]">
-                <Link href="/">Home</Link>
-                <span className="px-2">/</span>
-                <Link href={parent.path}>{parent.title}</Link>
-              </nav>
-              <p className="mt-8 text-sm font-bold uppercase tracking-[0.28em] text-[#6f8f2f]">
-                {page.eyebrow}
-              </p>
-              <h1 className="mt-4 max-w-4xl font-serif text-5xl font-semibold leading-[0.98] text-[#172118] sm:text-6xl">
-                {page.title}
-              </h1>
-              <p className="mt-7 max-w-3xl text-lg leading-8 text-[#52604c]">
-                {page.intro}
-              </p>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/contact"
-                  className="inline-flex h-12 items-center justify-center rounded-md bg-[#314a26] px-6 text-sm font-bold uppercase tracking-[0.16em] text-white transition hover:bg-[#24371c]"
-                >
-                  Request estimate
-                </Link>
-                <a
-                  href="#faq"
-                  className="inline-flex h-12 items-center justify-center rounded-md border border-[#b6c7a5] px-6 text-sm font-bold uppercase tracking-[0.16em] text-[#314a26] transition hover:border-[#314a26]"
-                >
-                  Read FAQs
-                </a>
+        {/* Hero */}
+        <section className="relative bg-[#080c08] pt-[60px] pb-20 text-white overflow-hidden">
+          <div
+            className="absolute inset-0 opacity-[0.03]"
+            style={{
+              backgroundImage:
+                "linear-gradient(#a8e63d 1px, transparent 1px), linear-gradient(90deg, #a8e63d 1px, transparent 1px)",
+              backgroundSize: "60px 60px",
+            }}
+          />
+          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pt-12">
+            <nav className="flex items-center gap-2 text-xs text-white/40 mb-10">
+              <Link href="/" className="hover:text-white/70 transition-colors">
+                Home
+              </Link>
+              <ArrowRight size={12} />
+              <Link
+                href={parent.path}
+                className="hover:text-white/70 transition-colors"
+              >
+                {parent.title}
+              </Link>
+              <ArrowRight size={12} />
+              <span className="text-white/60">{page.navTitle}</span>
+            </nav>
+            <div className="grid lg:grid-cols-[1fr_0.8fr] gap-12 items-start">
+              <div>
+                <span className="eyebrow">{page.eyebrow}</span>
+                <h1 className="mt-5 font-serif text-5xl sm:text-6xl lg:text-7xl font-semibold leading-[1] tracking-tight">
+                  {page.title}
+                </h1>
+                <p className="mt-7 text-lg text-white/60 leading-relaxed max-w-xl">
+                  {page.intro}
+                </p>
+                <div className="mt-10 flex flex-wrap gap-4">
+                  <Link href="/contact" className="btn-primary">
+                    Request Estimate
+                  </Link>
+                  <a
+                    href={whatsappUrl()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-outline"
+                  >
+                    WhatsApp Quote
+                  </a>
+                </div>
               </div>
+              <VisualPanel label={page.navTitle} tone="dark" />
             </div>
-            <VisualPanel label={page.navTitle} />
           </div>
         </section>
 
-        <section className="bg-white py-20">
-          <div className="mx-auto grid max-w-7xl gap-10 px-6 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:px-10">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[0.28em] text-[#6f8f2f]">
-                Why it ranks and converts
-              </p>
-              <h2 className="mt-4 font-serif text-4xl font-semibold text-[#172118]">
-                Search intent, useful detail, and clear next steps.
+        {/* Benefits */}
+        <section className="bg-white py-24">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+            <div data-reveal className="max-w-xl mb-14">
+              <span className="eyebrow text-[#6a7d62]">Why choose this</span>
+              <h2 className="mt-4 font-serif text-4xl sm:text-5xl font-semibold text-[#080c08]">
+                What makes it work.
               </h2>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div data-stagger-parent className="grid sm:grid-cols-2 gap-4">
               {page.benefits.map((benefit) => (
                 <article
                   key={benefit}
-                  className="rounded-lg border border-[#dbe5d1] bg-[#f8faf7] p-6"
+                  data-stagger-child
+                  className="rounded-2xl border border-[#e8e8e2] bg-[#f5f5f0] p-7 flex gap-4 items-start"
                 >
-                  <p className="leading-7 text-[#52604c]">{benefit}</p>
+                  <div className="mt-1 h-5 w-5 rounded-full bg-[#a8e63d] shrink-0 flex items-center justify-center">
+                    <div className="h-2 w-2 rounded-full bg-[#080c08]" />
+                  </div>
+                  <p className="text-[#080c08] leading-relaxed font-medium">
+                    {benefit}
+                  </p>
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="bg-[#172118] py-20 text-white">
-          <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
-            <p className="text-sm font-bold uppercase tracking-[0.28em] text-[#b6db6b]">
-              Installation process
-            </p>
-            <h2 className="mt-4 max-w-3xl font-serif text-4xl font-semibold">
-              A clean project path from layout to final walkthrough.
-            </h2>
-            <ol className="mt-10 grid gap-4 md:grid-cols-3">
+        {/* Process */}
+        <section className="bg-[#080c08] py-24 text-white">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+            <div data-reveal className="max-w-xl mb-14">
+              <span className="eyebrow">Our process</span>
+              <h2 className="mt-4 font-serif text-4xl sm:text-5xl font-semibold">
+                A clean path from start to finish.
+              </h2>
+            </div>
+            <ol className="grid gap-4 md:grid-cols-3">
               {page.process.map((step, index) => (
                 <li
                   key={step}
-                  className="rounded-lg border border-white/15 bg-white/8 p-6"
+                  data-reveal
+                  className="glass-card rounded-2xl p-8"
                 >
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#b6db6b] font-bold text-[#172118]">
-                    {index + 1}
-                  </span>
-                  <p className="mt-5 leading-7 text-white/75">{step}</p>
+                  <div className="h-12 w-12 rounded-full bg-[#a8e63d] flex items-center justify-center mb-6">
+                    <span className="text-[0.75rem] font-black text-[#080c08]">
+                      0{index + 1}
+                    </span>
+                  </div>
+                  <p className="text-white/70 leading-relaxed">{step}</p>
                 </li>
               ))}
             </ol>
           </div>
         </section>
 
-        <section id="faq" className="bg-[#edf4e6] py-20">
-          <div className="mx-auto max-w-5xl px-6 sm:px-8">
-            <p className="text-center text-sm font-bold uppercase tracking-[0.28em] text-[#6f8f2f]">
-              Frequently asked questions
-            </p>
-            <h2 className="mt-4 text-center font-serif text-4xl font-semibold text-[#172118]">
-              {page.title} FAQ
-            </h2>
-            <div className="mt-10 grid gap-4">
+        {/* FAQ */}
+        <section id="faq" className="bg-[#f5f5f0] py-24">
+          <div className="mx-auto max-w-4xl px-5 sm:px-8">
+            <div data-reveal className="text-center mb-14">
+              <span className="eyebrow text-[#6a7d62]">Frequently asked</span>
+              <h2 className="mt-4 font-serif text-4xl sm:text-5xl font-semibold text-[#080c08]">
+                {page.title} FAQ
+              </h2>
+            </div>
+            <div className="grid gap-4">
               {page.faqs.map((faq) => (
-                <article key={faq.question} className="rounded-lg bg-white p-6">
-                  <h3 className="text-xl font-bold text-[#172118]">
+                <article
+                  key={faq.question}
+                  data-reveal
+                  className="rounded-2xl bg-white border border-[#e8e8e2] p-7"
+                >
+                  <h3 className="text-lg font-bold text-[#080c08] mb-3">
                     {faq.question}
                   </h3>
-                  <p className="mt-3 leading-7 text-[#52604c]">{faq.answer}</p>
+                  <p className="text-sm text-[#6a7d62] leading-relaxed">
+                    {faq.answer}
+                  </p>
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="bg-[#314a26] py-16 text-white">
-          <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 px-6 sm:px-8 lg:flex-row lg:items-center lg:px-10">
-            <h2 className="max-w-3xl font-serif text-4xl font-semibold">
-              Need help choosing the right {page.title.toLowerCase()} option?
-            </h2>
-            <Link
-              href="/contact"
-              className="inline-flex h-12 shrink-0 items-center justify-center rounded-md bg-white px-6 text-sm font-bold uppercase tracking-[0.16em] text-[#314a26] transition hover:bg-[#edf4e6]"
-            >
-              Talk to a fence expert
-            </Link>
+        {/* Bottom CTA */}
+        <section className="bg-[#1a3a12] py-20 text-white">
+          <div
+            data-reveal
+            className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8"
+          >
+            <div>
+              <p className="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-[#a8e63d] mb-3">
+                Ready to start?
+              </p>
+              <h2 className="font-serif text-3xl sm:text-4xl font-semibold max-w-xl">
+                Get a quote for {page.title.toLowerCase()} in Tamil Nadu.
+              </h2>
+            </div>
+            <div className="flex flex-wrap gap-4 shrink-0">
+              <Link href="/contact" className="btn-primary">
+                Contact Us
+              </Link>
+              <a
+                href={whatsappUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-white"
+              >
+                WhatsApp Now
+              </a>
+            </div>
           </div>
         </section>
+
+        {/* Back link */}
+        <div className="bg-white py-8 border-t border-[#e8e8e2]">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+            <Link
+              href={parent.path}
+              className="inline-flex items-center gap-2 text-sm font-semibold text-[#1a3a12] hover:gap-3 transition-all"
+            >
+              <ArrowLeft size={14} /> Back to {parent.title}
+            </Link>
+          </div>
+        </div>
       </main>
       <SiteFooter />
     </>
