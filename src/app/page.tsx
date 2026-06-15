@@ -1,243 +1,401 @@
 import Link from "next/link";
-import { ArrowRight, Shield, Wrench, Building2, DoorOpen } from "lucide-react";
+import Image from "next/image";
+import {
+  ArrowRight,
+  Shield,
+  Home as HomeIcon,
+  Building2,
+  Wrench,
+  Phone,
+  MessageCircle,
+  CheckCircle2,
+} from "lucide-react";
 import { GsapAnimations } from "@/components/GsapAnimations";
 import { JsonLd } from "@/components/JsonLd";
-import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
+import { FloatingWhatsApp } from "@/components/FloatingWhatsapp";
 import {
-  faqJsonLd,
-  localBusinessJsonLd,
-  materials,
+  company,
+  homeFaqs,
   products,
-  services,
   whatsappUrl,
+  localBusinessJsonLd,
+  faqJsonLd,
 } from "@/lib/site";
 
-const faqs = [
+const services = [
   {
-    question: "Which fencing contractor serves Chennai and Tamil Nadu?",
-    answer:
-      "Navi Fencing operates across Chennai and all districts of Tamil Nadu, offering residential, commercial, and industrial fencing installation.",
+    icon: HomeIcon,
+    title: "Residential",
+    desc: "Privacy & security fencing for homes, villas and farmhouses.",
   },
   {
-    question: "What fencing products does Navi Fencing supply?",
-    answer:
-      "We supply chain link, twisted chain link, PVC chainlink, barbed wire, PVC barbed wire, concertina coil, razor wire, welded mesh, green mesh, steel angles, L angles, Y angles, cement posts, bend posts, white stone, black stone, fiber stumph, and lactic sheet.",
+    icon: Building2,
+    title: "Commercial",
+    desc: "Perimeter security for factories, warehouses and offices.",
   },
   {
-    question: "How long does a fence installation take in Tamil Nadu?",
-    answer:
-      "Most residential fence installations are completed in two to four days after materials are ready. Commercial projects are scoped based on perimeter length and complexity.",
+    icon: Shield,
+    title: "Security",
+    desc: "Concertina, razor wire and high-security wall toppings.",
   },
   {
-    question:
-      "Do you install concertina coil and razor wire on compound walls?",
-    answer:
-      "Yes. We install concertina coil, razor wire, and barbed wire on existing compound walls using Y angle brackets for maximum perimeter security.",
+    icon: Wrench,
+    title: "Installation",
+    desc: "Expert end-to-end installation with quality materials.",
   },
 ];
 
-const serviceIcons = [Shield, Building2, Wrench, DoorOpen];
+const process = [
+  {
+    n: "01",
+    t: "Free Consultation",
+    d: "Call or WhatsApp. We listen first, then plan.",
+  },
+  {
+    n: "02",
+    t: "Site Survey",
+    d: "On-site measurement, material recommendation and clear quote.",
+  },
+  {
+    n: "03",
+    t: "Expert Install",
+    d: "Trained crew, premium materials, clean workmanship.",
+  },
+  {
+    n: "04",
+    t: "After-care",
+    d: "Walk-through, handover and ongoing support.",
+  },
+];
 
 const stats = [
-  { value: 500, suffix: "+", label: "Projects completed" },
-  { value: 18, suffix: "", label: "Products available" },
-  { value: 10, suffix: "+", label: "Years in Tamil Nadu" },
+  { value: 500, suffix: "+", label: "Projects delivered" },
+  { value: 19, suffix: "", label: "Fencing products" },
+  { value: 10, suffix: "+", label: "Years across Tamil Nadu" },
   { value: 4.9, suffix: "★", label: "Customer rating" },
 ];
 
 export default function Home() {
   return (
     <>
-      <JsonLd data={[localBusinessJsonLd(), faqJsonLd(faqs)]} />
+      <JsonLd data={[localBusinessJsonLd(), faqJsonLd(homeFaqs)]} />
       <SiteHeader />
       <GsapAnimations />
-      <main>
+      <FloatingWhatsApp />
+
+      <main className="cursor-fence">
         {/* ── HERO ── */}
-        <section
-          data-hero-section
-          className="relative min-h-screen bg-[#080c08] text-white flex items-center overflow-hidden pt-[60px]"
-        >
-          {/* Background grid */}
-          <div
-            className="absolute inset-0 opacity-[0.04]"
-            style={{
-              backgroundImage:
-                "linear-gradient(#a8e63d 1px, transparent 1px), linear-gradient(90deg, #a8e63d 1px, transparent 1px)",
-              backgroundSize: "60px 60px",
-            }}
-          />
-          {/* Radial glow */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] rounded-full bg-[#a8e63d]/[0.06] blur-[100px] pointer-events-none" />
+        <section className="relative h-[100svh] min-h-[640px] overflow-hidden bg-[#0a0a0a]">
+          <div className="absolute inset-0" data-hero-bg>
+            <Image
+              // src="https://images.unsplash.com/photo-1591474200742-8e512e6f98f8?w=2000&q=85"
+              src="/products/angle-fencing.jpg"
+              alt="Modern residential fence at dusk"
+              fill
+              priority
+              className="object-cover opacity-80"
+              sizes="100vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/80" />
+          </div>
 
-          <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 py-20 w-full">
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-              <div>
-                <p data-hero-word className="eyebrow mb-6">
-                  Fencing Contractor · Chennai &amp; Tamil Nadu
-                </p>
-                <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl font-semibold leading-[1] tracking-tight">
-                  <span data-hero-word className="block">
-                    Secure
-                  </span>
-                  <span data-hero-word className="block text-gradient">
-                    Boundaries.
-                  </span>
-                  <span data-hero-word className="block">
-                    Built Right.
-                  </span>
-                </h1>
-                <p
-                  data-hero-sub
-                  className="mt-8 text-lg sm:text-xl text-white/60 leading-relaxed max-w-lg"
+          <div className="relative h-full flex flex-col justify-between pt-[88px] sm:pt-[110px] pb-20 sm:pb-28">
+            <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
+              <p data-hero-sub className="eyebrow !text-white/70">
+                Chennai · Across Tamil Nadu
+              </p>
+            </div>
+
+            <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
+              <h1 className="display text-white text-[clamp(2.75rem,7.5vw,7rem)] max-w-5xl">
+                <span data-hero-word className="block">
+                  Secure
+                </span>
+                <span data-hero-word className="block">
+                  boundaries.
+                </span>
+                <span
+                  data-hero-word
+                  className="block italic font-normal text-white/70"
                 >
-                  Residential, commercial, and industrial fencing across Tamil
-                  Nadu. Chain link, concertina coil, razor wire, welded mesh,
-                  cement posts, and custom gates — supply and installation.
-                </p>
-                <div className="mt-10 flex flex-wrap gap-4">
-                  <a
-                    data-hero-cta
-                    href={whatsappUrl()}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-primary bg-[#25d366] text-white hover:bg-[#20be5a] hover:shadow-[0_8px_32px_rgba(37,211,102,0.35)]"
-                  >
-                    WhatsApp Quote
-                  </a>
-                  <Link data-hero-cta href="/products" className="btn-outline">
-                    Browse Products
-                  </Link>
-                </div>
-                {/* Phones */}
-                <div
+                  Built right.
+                </span>
+              </h1>
+              <p
+                data-hero-sub
+                className="mt-7 max-w-xl text-base sm:text-lg text-white/70 leading-relaxed"
+              >
+                Premium fencing for residential, commercial and industrial
+                projects. Chain link, mesh, security wire, posts — supplied and
+                installed.
+              </p>
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a
                   data-hero-cta
-                  className="mt-8 flex flex-wrap gap-4 text-sm text-white/40"
+                  href={whatsappUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-testid="hero-whatsapp"
+                  className="btn btn-wa"
                 >
-                  <a
-                    href="tel:+919176337014"
-                    className="hover:text-white/70 transition-colors"
-                  >
-                    +91 91763 37014
-                  </a>
-                  <span>·</span>
-                  <a
-                    href="tel:+918248055188"
-                    className="hover:text-white/70 transition-colors"
-                  >
-                    +91 82480 55188
-                  </a>
-                  <span>·</span>
-                  <a
-                    href="tel:+919597722813"
-                    className="hover:text-white/70 transition-colors"
-                  >
-                    +91 95977 22813
-                  </a>
-                </div>
+                  <MessageCircle size={16} /> Free WhatsApp Quote
+                </a>
+                <a
+                  data-hero-cta
+                  href={`tel:${company.phones[0]}`}
+                  data-testid="hero-call"
+                  className="btn bg-white text-[#1d1d1f] hover:bg-white/90"
+                >
+                  <Phone size={16} /> {company.displayPhones[0]}
+                </a>
+                <Link
+                  data-hero-cta
+                  href="/products"
+                  data-testid="hero-products"
+                  className="btn border border-white/20 text-white hover:bg-white/10"
+                >
+                  Explore Products <ArrowRight size={16} />
+                </Link>
               </div>
+            </div>
+          </div>
 
-              {/* Hero visual */}
-              <div data-hero-visual className="relative">
-                <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-gradient-to-br from-[#0f2209] to-[#1a3a12] p-8 shadow-2xl shadow-[#a8e63d]/5">
-                  {/* Fence illustration */}
-                  <div className="relative h-64 sm:h-80">
-                    {/* Sky */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-[#061018] to-[#0d2010] rounded-xl" />
-                    {/* Moon */}
-                    <div className="absolute top-6 right-8 h-12 w-12 rounded-full bg-white/10 border border-white/20" />
-                    {/* Ground */}
-                    <div className="absolute bottom-0 left-0 right-0 h-12 bg-[#1a3a12] rounded-b-xl" />
-                    {/* Fence posts */}
-                    {[6, 20, 34, 48, 62, 76, 90].map((l, i) => (
-                      <div
-                        key={i}
-                        className="absolute bottom-8 w-2.5 rounded-t bg-[#3a5a2a]"
-                        style={{
-                          left: `${l}%`,
-                          height: `${50 + (i % 3) * 15}%`,
-                        }}
-                      />
-                    ))}
-                    {/* Rails */}
-                    <div className="absolute bottom-[40%] left-2 right-2 h-2 rounded-full bg-[#4a7a35]" />
-                    <div className="absolute bottom-[58%] left-2 right-2 h-2 rounded-full bg-[#4a7a35]" />
-                    {/* Razor wire top */}
-                    <div className="absolute bottom-[73%] left-2 right-2 h-1 bg-[#a8e63d]/60" />
-                    {[...Array(14)].map((_, i) => (
-                      <div
-                        key={i}
-                        className="absolute h-3 w-0.5 bg-[#a8e63d]/50"
-                        style={{
-                          left: `${4 + i * 6.8}%`,
-                          bottom: "73%",
-                          transform: "rotate(45deg)",
-                        }}
-                      />
-                    ))}
-                    {/* Location badge */}
-                    <div className="absolute top-4 left-4 rounded-lg bg-white/[0.06] border border-white/10 px-3 py-2 backdrop-blur">
-                      <p className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-[#a8e63d]">
-                        Tamil Nadu
-                      </p>
-                      <p className="text-xs text-white/70 mt-0.5">
-                        Active installations
-                      </p>
-                    </div>
-                  </div>
+          {/* Scroll cue */}
+          <div
+            aria-hidden
+            className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/40 text-[10px] tracking-[0.3em] uppercase"
+          >
+            Scroll
+          </div>
+        </section>
 
-                  {/* Product grid */}
-                  <div className="mt-6 grid grid-cols-3 gap-2">
-                    {[
-                      "Chain Link",
-                      "Razor Wire",
-                      "Welded Mesh",
-                      "Concertina Coil",
-                      "Cement Post",
-                      "Barbed Wire",
-                    ].map((name) => (
-                      <div
-                        key={name}
-                        className="rounded-lg bg-white/[0.04] border border-white/[0.08] p-2.5 text-center"
-                      >
-                        <p className="text-[0.6rem] text-white/60 leading-tight">
-                          {name}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                {/* Glow accent */}
-                <div className="absolute -bottom-4 left-8 right-8 h-px bg-gradient-to-r from-transparent via-[#a8e63d]/50 to-transparent" />
+        {/* ── PRODUCTS MARQUEE ── */}
+        <section className="border-y border-[#e5e5ea] bg-white py-7 overflow-hidden">
+          <div className="marquee gap-12 text-[#86868b] whitespace-nowrap">
+            {[...products, ...products].map((p, i) => (
+              <span
+                key={i}
+                className="text-sm sm:text-base font-medium tracking-tight flex items-center gap-12"
+              >
+                {p.title}
+                <span className="text-[#d2d2d7]">·</span>
+              </span>
+            ))}
+          </div>
+        </section>
+
+        {/* ── INTRO / WHY US ── */}
+        <section className="relative bg-white py-32 sm:py-40">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8">
+            <div className="grid lg:grid-cols-12 gap-12 items-end">
+              <div className="lg:col-span-7">
+                <p className="eyebrow" data-reveal>
+                  Why Navi Fencing
+                </p>
+                <h2
+                  className="display mt-5 text-5xl sm:text-7xl md:text-8xl text-[#1d1d1f]"
+                  data-reveal
+                >
+                  Crafted for
+                  <br />
+                  <span className="italic font-normal text-[#86868b]">
+                    privacy, security
+                  </span>
+                  <br />& lasting strength.
+                </h2>
               </div>
+              <div className="lg:col-span-5">
+                <p
+                  className="text-lg text-[#515154] leading-relaxed"
+                  data-reveal
+                >
+                  At Navi Fencing, our mission is to create safe, private and
+                  beautiful spaces. With reliable craftsmanship and modern
+                  techniques, we deliver fencing that lasts for years.
+                </p>
+                <ul className="mt-8 space-y-3" data-stagger>
+                  {[
+                    "Residential & Commercial Fencing",
+                    "Privacy & Security Solutions",
+                    "Modern & Durable Designs",
+                    "Expert Installation with Quality Materials",
+                  ].map((t) => (
+                    <li
+                      key={t}
+                      data-stagger-item
+                      className="flex items-start gap-3 text-[#1d1d1f]"
+                    >
+                      <CheckCircle2
+                        size={18}
+                        className="mt-1 shrink-0 text-[#1d1d1f]"
+                        strokeWidth={1.7}
+                      />
+                      <span className="text-base">{t}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── SERVICE GRID (Bento) ── */}
+        <section className="bg-[#f5f5f7] py-32">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8">
+            <div className="mb-16 max-w-2xl" data-reveal>
+              <p className="eyebrow">What we do</p>
+              <h2 className="display mt-5 text-5xl sm:text-7xl text-[#1d1d1f]">
+                One team.
+                <br />
+                <span className="italic font-normal text-[#86868b]">
+                  Every fencing need.
+                </span>
+              </h2>
+            </div>
+
+            <div
+              className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
+              data-stagger
+            >
+              {services.map((s) => (
+                <article
+                  key={s.title}
+                  data-stagger-item
+                  data-testid={`service-${s.title.toLowerCase()}`}
+                  className="card-soft card-hover bg-white p-8 min-h-[260px] flex flex-col justify-between"
+                >
+                  <s.icon
+                    size={28}
+                    strokeWidth={1.5}
+                    className="text-[#1d1d1f]"
+                  />
+                  <div>
+                    <h3 className="text-2xl font-semibold tracking-tight text-[#1d1d1f]">
+                      {s.title}
+                    </h3>
+                    <p className="mt-3 text-[#515154] text-sm leading-relaxed">
+                      {s.desc}
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── HORIZONTAL PRODUCT SHOWCASE (Apple-style pinned) ── */}
+        <section
+          data-h-scroll
+          className="relative bg-[#0a0a0a] text-white h-[100svh] overflow-hidden hidden lg:block"
+        >
+          <div className="absolute top-0 left-0 right-0 z-10 px-8 pt-12">
+            <p className="eyebrow !text-white/50">19 Products</p>
+            <h2 className="display mt-4 text-5xl sm:text-7xl text-white max-w-3xl">
+              The catalog.
+              <span className="italic font-normal text-white/50"> Scroll.</span>
+            </h2>
+          </div>
+          <div className="absolute inset-0 flex items-center">
+            <div
+              data-h-track
+              className="flex gap-6 pl-[5vw] pr-[5vw]"
+              style={{ willChange: "transform" }}
+            >
+              {products.map((p, i) => (
+                <Link
+                  key={p.slug}
+                  href={`/products/${p.slug}`}
+                  data-testid={`hscroll-product-${p.slug}`}
+                  className="group relative w-[360px] shrink-0 overflow-hidden rounded-3xl bg-[#161616]"
+                >
+                  <div className="relative h-[480px] w-full overflow-hidden">
+                    <Image
+                      src={p.image}
+                      alt={p.title}
+                      fill
+                      className="object-cover image-zoom"
+                      sizes="360px"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0" />
+                  </div>
+                  <div className="absolute inset-x-0 bottom-0 p-7">
+                    <p className="text-[0.65rem] uppercase tracking-[0.22em] text-white/60">
+                      {String(i + 1).padStart(2, "0")} · {p.category}
+                    </p>
+                    <h3 className="mt-2 text-2xl font-semibold tracking-tight text-white">
+                      {p.title}
+                    </h3>
+                    <p className="mt-2 text-sm text-white/70 leading-relaxed line-clamp-2">
+                      {p.blurb}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── MOBILE PRODUCT GRID ── */}
+        <section className="bg-[#0a0a0a] text-white py-24 lg:hidden">
+          <div className="px-5 sm:px-8">
+            <p className="eyebrow !text-white/50" data-reveal>
+              19 Products
+            </p>
+            <h2 className="display mt-4 text-5xl text-white" data-reveal>
+              The catalog.
+            </h2>
+            <div
+              className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3"
+              data-stagger
+            >
+              {products.map((p) => (
+                <Link
+                  key={p.slug}
+                  href={`/products/${p.slug}`}
+                  data-stagger-item
+                  className="group relative aspect-[3/4] overflow-hidden rounded-2xl bg-[#161616]"
+                >
+                  <Image
+                    src={p.image}
+                    alt={p.title}
+                    fill
+                    className="object-cover image-zoom"
+                    sizes="(max-width:640px) 50vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 p-4">
+                    <p className="text-[10px] uppercase tracking-[0.18em] text-white/60">
+                      {p.category}
+                    </p>
+                    <h3 className="mt-1 text-base font-semibold text-white">
+                      {p.title}
+                    </h3>
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
         </section>
 
         {/* ── STATS ── */}
-        <section className="bg-[#0d110d] border-y border-white/[0.05] py-10">
-          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.06] rounded-2xl overflow-hidden">
-              {stats.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="bg-[#0d110d] px-8 py-8 text-center"
-                >
-                  <div className="text-4xl font-bold text-white">
-                    {typeof stat.value === "number" &&
-                    Number.isInteger(stat.value) ? (
-                      <span data-count={stat.value} data-suffix={stat.suffix}>
-                        0{stat.suffix}
-                      </span>
-                    ) : (
-                      <span>
-                        {stat.value}
-                        {stat.suffix}
-                      </span>
-                    )}
+        <section className="bg-white py-32">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8">
+            <div
+              className="grid grid-cols-2 lg:grid-cols-4 gap-y-12"
+              data-stagger
+            >
+              {stats.map((s) => (
+                <div key={s.label} data-stagger-item>
+                  <div className="display text-6xl sm:text-7xl text-[#1d1d1f] tabular-nums">
+                    <span data-count={s.value} data-suffix={s.suffix}>
+                      0{s.suffix}
+                    </span>
                   </div>
-                  <p className="mt-2 text-xs text-white/40 uppercase tracking-[0.15em]">
-                    {stat.label}
+                  <p className="mt-3 text-sm text-[#86868b] tracking-tight">
+                    {s.label}
                   </p>
                 </div>
               ))}
@@ -245,291 +403,111 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── SERVICES ── */}
-        <section className="bg-white py-28">
-          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-            <div data-reveal className="max-w-2xl mb-16">
-              <span className="eyebrow">What we do</span>
-              <h2 className="mt-4 font-serif text-5xl sm:text-6xl font-semibold text-[#080c08] leading-[1.02]">
-                Every fencing need,
+        {/* ── PROCESS CARD STACK ── */}
+        <section className="bg-[#f5f5f7] py-32">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8">
+            <div className="mb-16 max-w-2xl" data-reveal>
+              <p className="eyebrow">How we work</p>
+              <h2 className="display mt-5 text-5xl sm:text-7xl text-[#1d1d1f]">
+                A clean path.
                 <br />
-                one team.
+                <span className="italic font-normal text-[#86868b]">
+                  From hello to handover.
+                </span>
               </h2>
             </div>
             <div
-              data-stagger-parent
-              className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+              className="grid gap-5 md:grid-cols-2 lg:grid-cols-4"
+              data-card-stack
             >
-              {services.map((service, i) => {
-                const Icon = serviceIcons[i];
-                return (
-                  <article
-                    key={service.slug}
-                    data-stagger-child
-                    className="group relative rounded-2xl bg-[#f5f5f0] p-7 card-hover overflow-hidden"
-                  >
-                    <div className="absolute top-0 right-0 h-32 w-32 rounded-full bg-[#a8e63d]/5 translate-x-8 -translate-y-8 group-hover:bg-[#a8e63d]/12 transition-all duration-500" />
-                    <Icon
-                      className="relative h-8 w-8 text-[#a8e63d] mb-6"
-                      strokeWidth={1.5}
-                    />
-                    <p className="text-[0.68rem] font-bold uppercase tracking-[0.18em] text-[#6a7d62] mb-3">
-                      {service.eyebrow}
-                    </p>
-                    <h3 className="text-xl font-bold text-[#080c08] mb-3 leading-snug">
-                      {service.title}
-                    </h3>
-                    <p className="text-sm text-[#6a7d62] leading-relaxed mb-6">
-                      {service.description.slice(0, 90)}…
-                    </p>
-                    <Link
-                      href={`/services/${service.slug}`}
-                      className="inline-flex items-center gap-2 text-sm font-bold text-[#1a3a12] hover:gap-3 transition-all"
-                    >
-                      Learn more <ArrowRight size={14} />
-                    </Link>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* ── PRODUCTS HORIZONTAL SCROLL ── */}
-        <section className="bg-[#080c08] py-20">
-          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 mb-12">
-            <div
-              data-reveal
-              className="flex flex-col sm:flex-row sm:items-end justify-between gap-6"
-            >
-              <div>
-                <span className="eyebrow">Product catalog</span>
-                <h2 className="mt-4 font-serif text-5xl sm:text-6xl font-semibold text-white leading-tight">
-                  18 products.
-                  <br />
-                  <span className="text-gradient">One supplier.</span>
-                </h2>
-              </div>
-              <Link href="/products" className="btn-outline shrink-0">
-                View all products
-              </Link>
-            </div>
-          </div>
-
-          {/* Horizontal scroll track */}
-          <div className="overflow-hidden">
-            <div
-              className="pl-5 sm:pl-8 lg:pl-10 overflow-x-auto scrollbar-none pb-6"
-              style={{ scrollbarWidth: "none" }}
-            >
-              <div className="flex gap-4" style={{ width: "max-content" }}>
-                {products.map((product) => (
-                  <Link
-                    key={product.slug}
-                    href={`/products/${product.slug}`}
-                    className="group flex-shrink-0 w-56 rounded-2xl bg-white/[0.04] border border-white/[0.08] overflow-hidden hover:border-[#a8e63d]/40 transition-all duration-300 hover:-translate-y-2"
-                  >
-                    <div className="h-36 bg-gradient-to-br from-[#1a3a12] to-[#0f2209] flex items-center justify-center">
-                      <div className="w-16 h-16 rounded-xl bg-[#a8e63d]/10 border border-[#a8e63d]/20 flex items-center justify-center">
-                        <div className="w-8 h-8 border-2 border-[#a8e63d]/40 rounded" />
-                      </div>
-                    </div>
-                    <div className="p-4">
-                      <p className="text-[0.6rem] font-bold uppercase tracking-[0.2em] text-[#a8e63d]/70 mb-1">
-                        {product.category}
-                      </p>
-                      <p className="text-sm font-bold text-white group-hover:text-[#a8e63d] transition-colors">
-                        {product.title}
-                      </p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ── MATERIALS ── */}
-        <section className="bg-[#f5f5f0] py-28">
-          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-            <div data-reveal className="max-w-2xl mb-16">
-              <span className="eyebrow">Fencing materials</span>
-              <h2 className="mt-4 font-serif text-5xl sm:text-6xl font-semibold text-[#080c08] leading-tight">
-                Choose your material.
-                <br />
-                We handle the rest.
-              </h2>
-            </div>
-            <div
-              data-stagger-parent
-              className="grid gap-5 sm:grid-cols-2 lg:grid-cols-2"
-            >
-              {materials.map((material) => (
+              {process.map((p) => (
                 <article
-                  key={material.slug}
-                  data-stagger-child
-                  className="group relative rounded-2xl bg-[#080c08] overflow-hidden p-8 min-h-[220px] flex flex-col justify-between card-hover"
+                  key={p.n}
+                  data-stack-card
+                  data-testid={`process-${p.n}`}
+                  className="bg-white rounded-3xl p-8 min-h-[260px] flex flex-col justify-between border border-[#e5e5ea]"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#1a3a12]/80 to-[#080c08] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="relative">
-                    <span className="text-[0.65rem] font-bold uppercase tracking-[0.2em] text-[#a8e63d]/70">
-                      {material.eyebrow}
-                    </span>
-                    <h3 className="mt-3 text-2xl font-bold text-white leading-tight">
-                      {material.title}
+                  <span className="text-xs font-semibold tracking-[0.2em] text-[#86868b]">
+                    {p.n}
+                  </span>
+                  <div>
+                    <h3 className="text-2xl font-semibold tracking-tight text-[#1d1d1f]">
+                      {p.t}
                     </h3>
-                    <p className="mt-3 text-sm text-white/50 leading-relaxed">
-                      {material.description.slice(0, 100)}…
+                    <p className="mt-3 text-[#515154] text-sm leading-relaxed">
+                      {p.d}
                     </p>
                   </div>
-                  <Link
-                    href={`/materials/${material.slug}`}
-                    className="relative mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#a8e63d] hover:gap-3 transition-all"
-                  >
-                    Explore {material.navTitle} <ArrowRight size={14} />
-                  </Link>
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ── PROCESS ── */}
-        <section className="bg-[#080c08] py-28 overflow-hidden">
-          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-            <div data-reveal className="text-center mb-20">
-              <span className="eyebrow">Simple process</span>
-              <h2 className="mt-4 font-serif text-5xl sm:text-6xl font-semibold text-white">
-                From enquiry to
-                <br />
-                <span className="text-gradient">finished fence.</span>
-              </h2>
+        {/* ── PARALLAX QUOTE ── */}
+        <section className="relative h-[80vh] min-h-[520px] overflow-hidden bg-black">
+          <div className="absolute inset-0" data-parallax="0.25">
+            <Image
+              src="https://images.unsplash.com/photo-1532622286598-f87b4290fe22?w=2000&q=85"
+              alt="Wire mesh texture"
+              fill
+              className="object-cover opacity-60"
+              sizes="100vw"
+            />
+            <div className="absolute inset-0 bg-black/50" />
+          </div>
+          <div className="relative h-full flex items-center">
+            <div className="mx-auto max-w-5xl px-5 sm:px-8 text-center">
+              <p
+                className="display text-white text-3xl sm:text-5xl md:text-6xl leading-tight"
+                data-reveal
+              >
+                &ldquo;Reliable craftsmanship, modern techniques, fencing that
+                lasts for years.&rdquo;
+              </p>
+              <p className="mt-8 eyebrow !text-white/60" data-reveal>
+                — Navi Fencing
+              </p>
             </div>
-            <ol className="relative grid gap-6 md:grid-cols-3">
-              {/* Line connector */}
-              <div className="hidden md:block absolute top-12 left-[16.5%] right-[16.5%] h-px bg-gradient-to-r from-[#a8e63d]/20 via-[#a8e63d]/60 to-[#a8e63d]/20" />
-              {[
-                {
-                  step: "01",
-                  title: "Contact & Site Visit",
-                  desc: "Call, WhatsApp, or message us. We visit your site across Chennai and Tamil Nadu for measurement and consultation.",
-                },
-                {
-                  step: "02",
-                  title: "Material & Scope Plan",
-                  desc: "We recommend the right materials — chain link, mesh, posts, security wire — with a clear scope and honest price.",
-                },
-                {
-                  step: "03",
-                  title: "Install & Handover",
-                  desc: "We install, align, and clean up. You get a durable fence with professional workmanship from post to gate.",
-                },
-              ].map((item) => (
-                <li
-                  key={item.step}
-                  data-reveal
-                  className="relative glass-card rounded-2xl p-8 text-center"
-                >
-                  <div className="mx-auto h-14 w-14 rounded-full bg-[#a8e63d] flex items-center justify-center mb-6">
-                    <span className="text-[0.7rem] font-black text-[#080c08]">
-                      {item.step}
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-3">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-white/50 leading-relaxed">
-                    {item.desc}
-                  </p>
-                </li>
-              ))}
-            </ol>
           </div>
         </section>
 
         {/* ── FAQ ── */}
-        <section className="bg-white py-28">
-          <div className="mx-auto max-w-4xl px-5 sm:px-8">
-            <div data-reveal className="text-center mb-16">
-              <span className="eyebrow">FAQ</span>
-              <h2 className="mt-4 font-serif text-5xl font-semibold text-[#080c08]">
-                Common questions
+        <section className="bg-white py-32">
+          <div className="mx-auto max-w-5xl px-5 sm:px-8">
+            <div className="mb-16" data-reveal>
+              <p className="eyebrow">FAQ</p>
+              <h2 className="display mt-5 text-5xl sm:text-7xl text-[#1d1d1f]">
+                Good questions.
               </h2>
             </div>
-            <div className="grid gap-4">
-              {faqs.map((faq) => (
-                <article
-                  key={faq.question}
+            <div className="divide-y divide-[#e5e5ea] border-y border-[#e5e5ea]">
+              {homeFaqs.map((f) => (
+                <details
+                  key={f.question}
+                  className="group py-6 cursor-pointer"
                   data-reveal
-                  className="rounded-2xl border border-[#e8e8e2] bg-[#f5f5f0] p-7"
+                  data-testid={`faq-${f.question.slice(0, 12)}`}
                 >
-                  <h3 className="text-lg font-bold text-[#080c08] mb-3">
-                    {faq.question}
-                  </h3>
-                  <p className="text-sm text-[#6a7d62] leading-relaxed">
-                    {faq.answer}
+                  <summary className="flex items-center justify-between list-none">
+                    <h3 className="text-xl sm:text-2xl font-medium tracking-tight text-[#1d1d1f] pr-6">
+                      {f.question}
+                    </h3>
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-[#e5e5ea] text-[#1d1d1f] transition-transform group-open:rotate-45">
+                      <svg width="14" height="14" viewBox="0 0 14 14">
+                        <path
+                          d="M7 1v12M1 7h12"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                        />
+                      </svg>
+                    </span>
+                  </summary>
+                  <p className="mt-5 text-[#515154] text-base leading-relaxed max-w-3xl">
+                    {f.answer}
                   </p>
-                </article>
+                </details>
               ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── CTA ── */}
-        <section className="bg-[#1a3a12] py-28 relative overflow-hidden">
-          <div
-            className="absolute inset-0 opacity-[0.06]"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle at 30% 50%, #a8e63d 0%, transparent 50%), radial-gradient(circle at 70% 50%, #a8e63d 0%, transparent 50%)",
-            }}
-          />
-          <div
-            data-reveal
-            className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 text-center"
-          >
-            <span className="eyebrow">Start your project</span>
-            <h2 className="mt-6 font-serif text-5xl sm:text-6xl lg:text-7xl font-semibold text-white leading-tight max-w-3xl mx-auto">
-              Ready for a stronger boundary?
-            </h2>
-            <p className="mt-6 text-lg text-white/60 max-w-lg mx-auto">
-              Get a free consultation for any fencing project in Chennai and
-              Tamil Nadu.
-            </p>
-            <div className="mt-10 flex flex-wrap gap-4 justify-center">
-              <Link href="/contact" className="btn-primary">
-                Get a Free Quote
-              </Link>
-              <a
-                href={whatsappUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-white"
-              >
-                WhatsApp Us Now
-              </a>
-            </div>
-            <div className="mt-12 flex flex-wrap gap-6 justify-center text-white/50 text-sm">
-              <a
-                href="tel:+919176337014"
-                className="hover:text-white/80 transition-colors"
-              >
-                +91 91763 37014
-              </a>
-              <span>·</span>
-              <a
-                href="tel:+918248055188"
-                className="hover:text-white/80 transition-colors"
-              >
-                +91 82480 55188
-              </a>
-              <span>·</span>
-              <a
-                href="tel:+919597722813"
-                className="hover:text-white/80 transition-colors"
-              >
-                +91 95977 22813
-              </a>
             </div>
           </div>
         </section>

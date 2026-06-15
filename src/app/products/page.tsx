@@ -1,169 +1,188 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import { JsonLd } from "@/components/JsonLd";
-import { SiteFooter } from "@/components/SiteFooter";
-import { SiteHeader } from "@/components/SiteHeader";
+import Image from "next/image";
+import { ArrowRight, MessageCircle } from "lucide-react";
 import { GsapAnimations } from "@/components/GsapAnimations";
-import {
-  breadcrumbJsonLd,
-  localBusinessJsonLd,
-  products,
-  whatsappUrl,
-} from "@/lib/site";
+import { JsonLd } from "@/components/JsonLd";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
+import { FloatingWhatsApp } from "@/components/FloatingWhatsapp";
+import { products, productCategories, whatsappUrl, siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Fencing Products in Chennai – Chain Link, Barbed Wire, Mesh & More",
+  title: "Products — Fencing Materials, Wire, Mesh, Posts",
   description:
-    "Navi Fencing supplies 18 fencing products in Chennai and Tamil Nadu: chain link, twisted chain link, PVC chainlink, barbed wire, PVC barbed wire, concertina coil, razor wire, welded mesh, green mesh, steel angles, L angles, Y angles, cement posts, bend posts, landscape stones, and accessories.",
+    "Browse Navi Fencing's full product range: chain link, twisted chain link, PVC chainlink, barbed wire, concertina coil, razor wire, welded mesh, green mesh, steel, angles, cement posts and more.",
   alternates: { canonical: "/products" },
-  openGraph: {
-    title: "Fencing Products | Navi Fencing",
-    description:
-      "18 fencing products available for supply and installation across Tamil Nadu.",
-    url: "/products",
-  },
 };
 
-// Group products by category
-const grouped = products.reduce<Record<string, typeof products>>((acc, p) => {
-  if (!acc[p.category]) acc[p.category] = [];
-  acc[p.category].push(p);
-  return acc;
-}, {});
-
 export default function ProductsPage() {
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: products.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: p.title,
+      url: `${siteUrl}/products/${p.slug}`,
+    })),
+  };
+
   return (
     <>
-      <JsonLd
-        data={[
-          localBusinessJsonLd(),
-          breadcrumbJsonLd([
-            { name: "Home", path: "/" },
-            { name: "Products", path: "/products" },
-          ]),
-        ]}
-      />
+      <JsonLd data={productJsonLd} />
       <SiteHeader />
       <GsapAnimations />
+      <FloatingWhatsApp />
+
       <main>
-        <section className="relative bg-[#080c08] pt-[60px] pb-24 text-white overflow-hidden">
-          <div
-            className="absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage:
-                "linear-gradient(#a8e63d 1px, transparent 1px), linear-gradient(90deg, #a8e63d 1px, transparent 1px)",
-              backgroundSize: "60px 60px",
-            }}
-          />
-          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pt-16">
-            <div className="max-w-3xl">
-              <span className="eyebrow">Product catalog</span>
-              <h1 className="mt-5 font-serif text-5xl sm:text-6xl lg:text-7xl font-semibold leading-[1] tracking-tight">
-                18 products.
-                <br />
-                <span className="text-gradient">Supplied &amp; installed.</span>
-              </h1>
-              <p className="mt-7 text-lg text-white/60 leading-relaxed max-w-xl">
-                Chain link, barbed wire, concertina coil, razor wire, welded
-                mesh, steel angles, posts, stones, and accessories — available
-                for supply and installation across Tamil Nadu.
-              </p>
-              <div className="mt-10 flex flex-wrap gap-4">
+        {/* Hero */}
+        <section className="bg-white pt-[120px] pb-20 sm:pt-[160px] sm:pb-32">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8">
+            <p className="eyebrow" data-reveal>
+              Catalog · 19 products
+            </p>
+            <h1
+              className="display mt-6 text-6xl sm:text-8xl md:text-[10rem] text-[#1d1d1f]"
+              data-reveal
+            >
+              Every fence,
+              <br />
+              <span className="italic font-normal text-[#86868b]">
+                every wire,
+              </span>
+              <br />
+              every post.
+            </h1>
+            <p
+              className="mt-10 max-w-2xl text-lg text-[#515154] leading-relaxed"
+              data-reveal
+            >
+              Browse our complete fencing range — supplied and installed across
+              Chennai and Tamil Nadu. Tap any product to enquire on WhatsApp.
+            </p>
+          </div>
+        </section>
+
+        {/* Category jump nav */}
+        <section className="sticky top-[52px] z-30 bg-white/80 backdrop-blur-xl border-y border-[#e5e5ea]">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8 py-3 overflow-x-auto">
+            <div className="flex gap-2 w-max">
+              {productCategories.map((c) => (
                 <a
-                  href={whatsappUrl()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary bg-[#25d366] text-white hover:bg-[#20be5a]"
+                  key={c}
+                  href={`#cat-${c.replace(/\s|&/g, "-").toLowerCase()}`}
+                  data-testid={`cat-link-${c}`}
+                  className="rounded-full border border-[#e5e5ea] px-4 py-2 text-xs font-medium text-[#1d1d1f] hover:bg-[#f5f5f7] whitespace-nowrap"
                 >
-                  WhatsApp for Product Quote
+                  {c}
                 </a>
-                <Link href="/contact" className="btn-outline">
-                  Contact Us
-                </Link>
-              </div>
+              ))}
             </div>
           </div>
         </section>
 
-        <section className="bg-[#f5f5f0] py-24">
-          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 space-y-20">
-            {Object.entries(grouped).map(([category, items]) => (
-              <div key={category}>
-                <div data-reveal className="mb-8 flex items-center gap-4">
-                  <h2 className="text-xl font-bold text-[#080c08]">
-                    {category}
-                  </h2>
-                  <div className="flex-1 h-px bg-[#e8e8e2]" />
+        {/* Product grid by category */}
+        {productCategories.map((cat) => {
+          const items = products.filter((p) => p.category === cat);
+          if (!items.length) return null;
+          return (
+            <section
+              key={cat}
+              id={`cat-${cat.replace(/\s|&/g, "-").toLowerCase()}`}
+              className="bg-white py-20 sm:py-28 border-b border-[#e5e5ea]"
+            >
+              <div className="mx-auto max-w-7xl px-5 sm:px-8">
+                <div
+                  className="mb-12 flex items-end justify-between"
+                  data-reveal
+                >
+                  <div>
+                    <p className="eyebrow">{`0${productCategories.indexOf(cat) + 1}`}</p>
+                    <h2 className="display mt-3 text-4xl sm:text-6xl text-[#1d1d1f]">
+                      {cat}
+                    </h2>
+                  </div>
+                  <p className="text-sm text-[#86868b] hidden sm:block">
+                    {items.length} {items.length === 1 ? "product" : "products"}
+                  </p>
                 </div>
                 <div
-                  data-stagger-parent
-                  className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
+                  className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+                  data-stagger
                 >
-                  {items.map((product) => (
+                  {items.map((p) => (
                     <Link
-                      key={product.slug}
-                      href={`/products/${product.slug}`}
-                      data-stagger-child
-                      className="group rounded-2xl bg-white border border-[#e8e8e2] overflow-hidden card-hover"
+                      key={p.slug}
+                      id={p.slug}
+                      href={`/products/${p.slug}`}
+                      data-stagger-item
+                      data-testid={`product-card-${p.slug}`}
+                      className="group card-soft card-hover scroll-mt-32 block"
                     >
-                      <div className="relative aspect-[4/3] bg-gradient-to-br from-[#1a3a12] to-[#080c08] flex items-center justify-center overflow-hidden">
+                      <div className="relative aspect-[4/3] overflow-hidden">
                         <Image
-                          src={product.image}
-                          alt={`${product.title} – Navi Fencing`}
-                          width={600}
-                          height={450}
-                          className="w-full h-full object-cover opacity-80 transition duration-500 group-hover:scale-105"
-                          onError={() => {}}
+                          src={p.image}
+                          alt={p.title}
+                          fill
+                          className="object-cover image-zoom"
+                          sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#080c08]/60 to-transparent" />
-                        <div className="absolute bottom-3 left-3 text-[0.6rem] font-bold uppercase tracking-[0.2em] text-[#a8e63d]/80">
-                          {product.category}
-                        </div>
                       </div>
-                      <div className="p-5">
-                        <h3 className="text-lg font-bold text-[#080c08] group-hover:text-[#1a3a12] transition-colors">
-                          {product.title}
+                      <div className="p-7">
+                        <p className="text-[10px] uppercase tracking-[0.22em] text-[#86868b]">
+                          {p.category}
+                        </p>
+                        <h3 className="mt-2 text-2xl font-semibold tracking-tight text-[#1d1d1f]">
+                          {p.title}
                         </h3>
-                        <p className="mt-2 text-xs text-[#6a7d62] leading-relaxed line-clamp-2">
-                          {product.description}
+                        <p className="mt-3 text-sm text-[#515154] leading-relaxed">
+                          {p.blurb}
                         </p>
-                        <p className="mt-4 text-xs font-bold text-[#1a3a12]">
-                          View details →
-                        </p>
+                        <div className="mt-6 flex items-center gap-3">
+                          <span className="link-arrow !text-sm">
+                            View details <ArrowRight size={14} />
+                          </span>
+                        </div>
                       </div>
                     </Link>
                   ))}
                 </div>
               </div>
-            ))}
-          </div>
-        </section>
+            </section>
+          );
+        })}
 
-        <section className="bg-[#080c08] py-20 text-white">
+        {/* Bottom CTA */}
+        <section className="bg-[#f5f5f7] py-32">
           <div
+            className="mx-auto max-w-5xl px-5 sm:px-8 text-center"
             data-reveal
-            className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8"
           >
-            <div>
-              <p className="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-[#a8e63d] mb-3">
-                Quick quote
-              </p>
-              <h2 className="font-serif text-3xl sm:text-4xl font-semibold max-w-xl">
-                Need a product quote for Tamil Nadu delivery?
-              </h2>
-            </div>
-            <div className="flex flex-wrap gap-4 shrink-0">
+            <p className="eyebrow">Not sure which to pick?</p>
+            <h2 className="display mt-5 text-5xl sm:text-7xl text-[#1d1d1f]">
+              We&apos;ll guide you.
+            </h2>
+            <p className="mt-6 text-lg text-[#515154] max-w-xl mx-auto">
+              Free consultation. Honest material recommendation. Quick quote
+              across Chennai and Tamil Nadu.
+            </p>
+            <div className="mt-10 flex flex-wrap gap-3 justify-center">
               <a
                 href={whatsappUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary bg-[#25d366] text-white hover:bg-[#20be5a]"
+                data-testid="products-cta-wa"
+                className="btn btn-wa"
               >
-                WhatsApp Now
+                WhatsApp Us
               </a>
-              <Link href="/contact" className="btn-outline">
-                Contact Form
+              <Link
+                href="/contact"
+                data-testid="products-cta-contact"
+                className="btn btn-primary"
+              >
+                Request a Quote <ArrowRight size={15} />
               </Link>
             </div>
           </div>

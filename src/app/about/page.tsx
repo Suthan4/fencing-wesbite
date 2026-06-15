@@ -1,154 +1,192 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { JsonLd } from "@/components/JsonLd";
-import { SiteFooter } from "@/components/SiteFooter";
-import { SiteHeader } from "@/components/SiteHeader";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import { GsapAnimations } from "@/components/GsapAnimations";
-import { VisualPanel } from "@/components/VisualPanel";
-import {
-  breadcrumbJsonLd,
-  company,
-  localBusinessJsonLd,
-  whatsappUrl,
-} from "@/lib/site";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
+import { FloatingWhatsApp } from "@/components/FloatingWhatsapp";
+import { company, whatsappUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "About Navi Fencing",
+  title: "About — Navi Fencing, Chennai",
   description:
-    "Learn about Navi Fencing — Chennai's trusted fencing contractor serving Tamil Nadu with durable, modern fencing solutions and honest expert guidance.",
+    "Navi Fencing is a Chennai-based fencing contractor serving Tamil Nadu with reliable craftsmanship, modern techniques and quality materials.",
   alternates: { canonical: "/about" },
 };
 
 const values = [
   {
-    title: "Honest material guidance",
-    desc: "We recommend what works for your project and budget — not what costs more.",
+    t: "Craft over shortcuts",
+    d: "Every post set, every wire tensioned. We don't cut corners on alignment, finish or hardware.",
   },
   {
-    title: "Serving all of Tamil Nadu",
-    desc: "Based in Chennai, we take on residential, commercial, and industrial fencing projects across the state.",
+    t: "Honest recommendations",
+    d: "We suggest what fits your site, budget and climate — not what's most profitable for us.",
   },
   {
-    title: "18 products, one supplier",
-    desc: "From chain link to concertina coil, cement posts to green mesh — we supply and install.",
+    t: "Local, accountable",
+    d: "Based in Chennai, serving all of Tamil Nadu. We're around when you need us — before and after the install.",
   },
   {
-    title: "Clean installs",
-    desc: "Every project ends with a proper walkthrough and a site left the way we found it.",
+    t: "Long-term thinking",
+    d: "Materials chosen for durability against coastal salt, monsoons and heavy use.",
   },
 ];
 
 export default function AboutPage() {
   return (
     <>
-      <JsonLd
-        data={[
-          localBusinessJsonLd(),
-          breadcrumbJsonLd([
-            { name: "Home", path: "/" },
-            { name: "About", path: "/about" },
-          ]),
-        ]}
-      />
       <SiteHeader />
       <GsapAnimations />
+      <FloatingWhatsApp />
       <main>
-        <section className="relative bg-[#080c08] pt-[60px] pb-24 text-white overflow-hidden">
-          <div
-            className="absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage:
-                "linear-gradient(#a8e63d 1px, transparent 1px), linear-gradient(90deg, #a8e63d 1px, transparent 1px)",
-              backgroundSize: "60px 60px",
-            }}
-          />
-          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pt-16">
-            <div className="grid lg:grid-cols-[1fr_0.8fr] gap-12 items-start">
-              <div>
-                <span className="eyebrow">About {company.name}</span>
-                <h1 className="mt-5 font-serif text-5xl sm:text-6xl lg:text-7xl font-semibold leading-[1] tracking-tight">
-                  Fencing built with care,
-                  <br />
-                  <span className="text-gradient">installed right.</span>
-                </h1>
-                <p className="mt-7 text-lg text-white/60 leading-relaxed max-w-xl">
-                  Navi Fencing is a Chennai-based fencing contractor serving
-                  homeowners, businesses, farms, and industries across Tamil
-                  Nadu. We combine quality materials with experienced
-                  installation teams to deliver boundaries that last.
-                </p>
-                <div className="mt-10 flex flex-wrap gap-4">
-                  <Link href="/contact" className="btn-primary">
-                    Work with us
-                  </Link>
-                  <a
-                    href={whatsappUrl()}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-outline"
-                  >
-                    WhatsApp
-                  </a>
-                </div>
+        {/* Hero */}
+        <section className="bg-white pt-[120px] pb-20 sm:pt-[160px] sm:pb-32">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8">
+            <p className="eyebrow" data-reveal>
+              About Navi Fencing
+            </p>
+            <h1
+              className="display mt-6 text-6xl sm:text-8xl md:text-[9rem] text-[#1d1d1f] max-w-5xl"
+              data-reveal
+            >
+              Safe spaces.
+              <br />
+              <span className="italic font-normal text-[#86868b]">
+                Made with care.
+              </span>
+            </h1>
+            <p
+              className="mt-10 max-w-2xl text-xl text-[#515154] leading-relaxed"
+              data-reveal
+            >
+              Welcome to Navi Fencing — your trusted partner for strong, stylish
+              and secure fencing solutions across Chennai and Tamil Nadu.
+            </p>
+          </div>
+        </section>
+
+        {/* Image + Mission */}
+        <section className="bg-white py-20">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8 grid lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-7 relative aspect-[4/3] rounded-3xl overflow-hidden">
+              <Image
+                src="https://images.unsplash.com/photo-1591474200742-8e512e6f98f8?w=1600&q=85"
+                alt="Modern fenced property"
+                fill
+                className="object-cover"
+                sizes="(max-width:1024px) 100vw, 60vw"
+              />
+            </div>
+            <div className="lg:col-span-5" data-reveal>
+              <p className="eyebrow">Our mission</p>
+              <h2 className="display mt-4 text-4xl sm:text-5xl text-[#1d1d1f]">
+                Create safe, private and beautiful spaces.
+              </h2>
+              <p className="mt-6 text-[#515154] leading-relaxed">
+                With reliable craftsmanship and modern techniques, we deliver
+                fencing solutions that last for years. We specialise in
+                Residential &amp; Commercial Fencing, Privacy &amp; Security
+                Fencing, Modern &amp; Durable Designs, and Expert Installation
+                with Quality Materials.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link href="/products" className="btn btn-primary">
+                  See Products <ArrowRight size={14} />
+                </Link>
+                <a
+                  href={whatsappUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-ghost"
+                >
+                  WhatsApp us
+                </a>
               </div>
-              <VisualPanel label="About Us" tone="dark" />
             </div>
           </div>
         </section>
 
-        <section className="bg-white py-24">
-          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-            <div data-reveal className="max-w-xl mb-14">
-              <span className="eyebrow text-[#6a7d62]">Our values</span>
-              <h2 className="mt-4 font-serif text-4xl sm:text-5xl font-semibold text-[#080c08]">
-                How we work.
+        {/* Values grid */}
+        <section className="bg-[#f5f5f7] py-32">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8">
+            <div className="mb-16 max-w-2xl" data-reveal>
+              <p className="eyebrow">What we stand for</p>
+              <h2 className="display mt-4 text-5xl sm:text-7xl text-[#1d1d1f]">
+                Four things,
+                <br />
+                <span className="italic font-normal text-[#86868b]">
+                  always.
+                </span>
               </h2>
             </div>
-            <div data-stagger-parent className="grid sm:grid-cols-2 gap-5">
-              {values.map((v) => (
+            <div className="grid gap-5 sm:grid-cols-2" data-stagger>
+              {values.map((v, i) => (
                 <article
-                  key={v.title}
-                  data-stagger-child
-                  className="rounded-2xl bg-[#f5f5f0] border border-[#e8e8e2] p-8"
+                  key={v.t}
+                  data-stagger-item
+                  className="bg-white rounded-3xl p-10 min-h-[240px] flex flex-col justify-between"
                 >
-                  <div className="h-2 w-8 rounded-full bg-[#a8e63d] mb-6" />
-                  <h3 className="text-xl font-bold text-[#080c08] mb-3">
-                    {v.title}
-                  </h3>
-                  <p className="text-sm text-[#6a7d62] leading-relaxed">
-                    {v.desc}
-                  </p>
+                  <span className="text-xs font-semibold tracking-[0.22em] text-[#86868b]">
+                    0{i + 1}
+                  </span>
+                  <div>
+                    <h3 className="text-2xl sm:text-3xl font-semibold tracking-tight text-[#1d1d1f]">
+                      {v.t}
+                    </h3>
+                    <p className="mt-3 text-[#515154] leading-relaxed">{v.d}</p>
+                  </div>
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="bg-[#1a3a12] py-20 text-white">
-          <div
-            data-reveal
-            className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8"
-          >
-            <div>
-              <p className="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-[#a8e63d] mb-3">
-                Get in touch
-              </p>
-              <h2 className="font-serif text-3xl sm:text-4xl font-semibold max-w-xl">
-                Start your fencing project today.
+        {/* Service area */}
+        <section className="bg-white py-32">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8 grid lg:grid-cols-2 gap-12 items-center">
+            <div data-reveal>
+              <p className="eyebrow">Where we work</p>
+              <h2 className="display mt-4 text-5xl sm:text-7xl text-[#1d1d1f]">
+                Based in Chennai.
+                <br />
+                <span className="italic font-normal text-[#86868b]">
+                  Serving Tamil Nadu.
+                </span>
               </h2>
+              <p className="mt-6 text-[#515154] leading-relaxed max-w-lg">
+                From the city centre out to the farthest districts, we travel
+                where the work is. Site visits typically within 24–48 hours.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a
+                  href={`tel:${company.phones[0]}`}
+                  className="btn btn-primary"
+                >
+                  Call {company.displayPhones[0]}
+                </a>
+                <a
+                  href={whatsappUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-wa"
+                >
+                  WhatsApp
+                </a>
+              </div>
             </div>
-            <div className="flex flex-wrap gap-4">
-              <Link href="/contact" className="btn-primary">
-                Contact Us
-              </Link>
-              <a
-                href={whatsappUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-white"
-              >
-                WhatsApp
-              </a>
+            <div
+              className="relative aspect-square rounded-3xl overflow-hidden bg-[#f5f5f7]"
+              data-reveal
+            >
+              <Image
+                src="https://images.unsplash.com/photo-1651372152626-401714d6b371?w=1400&q=85"
+                alt="Fence detail"
+                fill
+                className="object-cover"
+                sizes="(max-width:1024px) 100vw, 50vw"
+              />
             </div>
           </div>
         </section>

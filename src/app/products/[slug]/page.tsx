@@ -1,44 +1,52 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import { JsonLd } from "@/components/JsonLd";
-import { SiteFooter } from "@/components/SiteFooter";
-import { SiteHeader } from "@/components/SiteHeader";
-import { GsapAnimations } from "@/components/GsapAnimations";
 import {
-  breadcrumbJsonLd,
-  faqJsonLd,
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  MessageCircle,
+  Phone,
+} from "lucide-react";
+import { GsapAnimations } from "@/components/GsapAnimations";
+import { JsonLd } from "@/components/JsonLd";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
+import { FloatingWhatsApp } from "@/components/FloatingWhatsapp";
+import {
+  company,
   getProduct,
-  localBusinessJsonLd,
   productJsonLd,
   products,
+  relatedProducts,
+  siteUrl,
   whatsappUrl,
 } from "@/lib/site";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProduct(slug);
-  if (!product) return {};
+  const p = getProduct(slug);
+  if (!p) return { title: "Product not found" };
+  const desc =
+    p.details?.description ??
+    `${p.title} supplied and installed by Navi Fencing across Chennai and Tamil Nadu.`;
   return {
-    title: product.metaTitle,
-    description: product.description,
-    keywords: product.keywords,
-    alternates: { canonical: `/products/${product.slug}` },
+    title: `${p.title} — ${p.category} in Chennai`,
+    description: desc,
+    alternates: { canonical: `/products/${p.slug}` },
     openGraph: {
-      title: `${product.metaTitle} | Navi Fencing`,
-      description: product.description,
-      url: `/products/${product.slug}`,
-      images: [
-        { url: product.image, width: 1200, height: 900, alt: product.title },
-      ],
+      title: `${p.title} · Navi Fencing`,
+      description: desc,
+      images: [{ url: p.image, alt: p.title }],
+      url: `/products/${p.slug}`,
+      type: "article",
     },
   };
 }
@@ -47,163 +55,291 @@ export default async function ProductDetailPage({ params }: Props) {
   const { slug } = await params;
   const product = getProduct(slug);
   if (!product) notFound();
-  const path = `/products/${product.slug}`;
+  const details = product.details;
+  const related = relatedProducts(product.slug, 3);
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Products",
+        item: `${siteUrl}/products`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: product.title,
+        item: `${siteUrl}/products/${product.slug}`,
+      },
+    ],
+  };
+
+  const enquireMsg = `Hi Navi Fencing, I'd like a quote for ${product.title}. Please share rates and availability.`;
 
   return (
     <>
-      <JsonLd
-        data={[
-          localBusinessJsonLd(),
-          productJsonLd(product),
-          faqJsonLd(product.faqs),
-          breadcrumbJsonLd([
-            { name: "Home", path: "/" },
-            { name: "Products", path: "/products" },
-            { name: product.title, path },
-          ]),
-        ]}
-      />
+      <JsonLd data={[productJsonLd(product), breadcrumbJsonLd]} />
       <SiteHeader />
       <GsapAnimations />
+      <FloatingWhatsApp />
+
       <main>
         {/* Hero */}
-        <section className="relative bg-[#080c08] pt-[60px] pb-20 text-white overflow-hidden">
-          <div
-            className="absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage:
-                "linear-gradient(#a8e63d 1px, transparent 1px), linear-gradient(90deg, #a8e63d 1px, transparent 1px)",
-              backgroundSize: "60px 60px",
-            }}
-          />
-          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10 pt-12">
-            <nav className="flex items-center gap-2 text-xs text-white/40 mb-10">
-              <Link href="/" className="hover:text-white/70 transition-colors">
+        <section className="bg-white pt-[100px] sm:pt-[120px] pb-16">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8">
+            {/* Breadcrumb */}
+            <nav
+              className="flex items-center gap-2 text-xs text-[#86868b]"
+              aria-label="Breadcrumb"
+              data-testid="product-breadcrumb"
+            >
+              <Link href="/" className="hover:text-[#1d1d1f]">
                 Home
               </Link>
-              <ArrowRight size={12} />
-              <Link
-                href="/products"
-                className="hover:text-white/70 transition-colors"
-              >
+              <ArrowRight size={11} />
+              <Link href="/products" className="hover:text-[#1d1d1f]">
                 Products
               </Link>
-              <ArrowRight size={12} />
-              <span className="text-white/60">{product.title}</span>
+              <ArrowRight size={11} />
+              <span className="text-[#1d1d1f]">{product.title}</span>
             </nav>
-            <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-12 items-start">
-              <div>
-                <span className="eyebrow">{product.category}</span>
-                <h1 className="mt-5 font-serif text-5xl sm:text-6xl font-semibold leading-[1] tracking-tight">
-                  {product.title}
-                </h1>
-                <p className="mt-7 text-lg text-white/60 leading-relaxed">
-                  {product.intro}
-                </p>
-                <div className="mt-10 flex flex-wrap gap-4">
-                  <a
-                    href={whatsappUrl()}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-primary bg-[#25d366] text-white hover:bg-[#20be5a]"
-                  >
-                    WhatsApp Quote
-                  </a>
-                  <Link href="/contact" className="btn-outline">
-                    Contact Us
-                  </Link>
-                </div>
-              </div>
-              {/* Product image */}
-              <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-br from-[#1a3a12] to-[#080c08] aspect-[4/3] shadow-2xl shadow-[#a8e63d]/5">
+
+            <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:gap-16 items-start">
+              {/* Image */}
+              <div
+                className="lg:col-span-7 relative aspect-[4/3] overflow-hidden rounded-3xl bg-[#f5f5f7]"
+                data-reveal
+              >
                 <Image
                   src={product.image}
-                  alt={`${product.title} by Navi Fencing`}
+                  alt={product.title}
                   fill
-                  className="object-cover opacity-80"
                   priority
-                  onError={() => {}}
+                  sizes="(max-width:1024px) 100vw, 60vw"
+                  className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#080c08]/50 to-transparent" />
               </div>
-            </div>
-          </div>
-        </section>
 
-        {/* Uses & specs */}
-        <section className="bg-white py-20">
-          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-            <div className="grid md:grid-cols-2 gap-10">
-              <div data-reveal>
-                <span className="eyebrow text-[#6a7d62] mb-6 block">
-                  Common uses
-                </span>
-                <div className="grid gap-3">
-                  {product.uses.map((use) => (
-                    <div
-                      key={use}
-                      className="flex items-start gap-3 rounded-xl bg-[#f5f5f0] border border-[#e8e8e2] p-5"
-                    >
-                      <div className="mt-1.5 h-3 w-3 rounded-full bg-[#a8e63d] shrink-0" />
-                      <p className="font-medium text-[#080c08]">{use}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div data-reveal>
-                <span className="eyebrow text-[#6a7d62] mb-6 block">
-                  Product notes
-                </span>
-                <div className="grid gap-3">
-                  {product.specs.map((spec) => (
-                    <div
-                      key={spec}
-                      className="flex items-start gap-3 rounded-xl bg-[#080c08] p-5"
-                    >
-                      <div className="mt-1.5 h-3 w-3 rounded-full bg-[#a8e63d]/60 shrink-0" />
-                      <p className="font-medium text-white/80">{spec}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* FAQ */}
-        <section className="bg-[#f5f5f0] py-20">
-          <div className="mx-auto max-w-4xl px-5 sm:px-8">
-            <div data-reveal className="text-center mb-12">
-              <span className="eyebrow text-[#6a7d62]">Product FAQ</span>
-              <h2 className="mt-4 font-serif text-4xl font-semibold text-[#080c08]">
-                {product.title} questions
-              </h2>
-            </div>
-            <div className="grid gap-4">
-              {product.faqs.map((faq) => (
-                <article
-                  key={faq.question}
-                  data-reveal
-                  className="rounded-2xl bg-white border border-[#e8e8e2] p-7"
-                >
-                  <h3 className="text-lg font-bold text-[#080c08] mb-3">
-                    {faq.question}
-                  </h3>
-                  <p className="text-sm text-[#6a7d62] leading-relaxed">
-                    {faq.answer}
+              {/* Info */}
+              <div className="lg:col-span-5 lg:pt-4" data-reveal>
+                <p className="eyebrow">{product.category}</p>
+                <h1 className="display mt-4 text-5xl sm:text-7xl text-[#1d1d1f]">
+                  {product.title}
+                </h1>
+                {details?.tagline && (
+                  <p className="mt-5 text-xl text-[#86868b] italic">
+                    {details.tagline}
                   </p>
-                </article>
-              ))}
+                )}
+                <p className="mt-6 text-base text-[#515154] leading-relaxed">
+                  {details?.description ?? product.blurb}
+                </p>
+
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <a
+                    href={whatsappUrl(enquireMsg)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-testid="product-detail-whatsapp"
+                    className="btn btn-wa"
+                  >
+                    <MessageCircle size={15} /> WhatsApp Enquiry
+                  </a>
+                  <a
+                    href={`tel:${company.phones[0]}`}
+                    data-testid="product-detail-call"
+                    className="btn btn-primary"
+                  >
+                    <Phone size={14} /> Call us
+                  </a>
+                </div>
+
+                {details?.highlights && details.highlights.length > 0 && (
+                  <ul className="mt-10 space-y-3">
+                    {details.highlights.map((h) => (
+                      <li
+                        key={h}
+                        className="flex items-start gap-3 text-[#1d1d1f]"
+                      >
+                        <CheckCircle2
+                          size={17}
+                          className="mt-0.5 shrink-0 text-[#1d1d1f]"
+                          strokeWidth={1.7}
+                        />
+                        <span className="text-sm">{h}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Back */}
-        <div className="bg-white py-8 border-t border-[#e8e8e2]">
-          <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        {/* Uses + Specs */}
+        {details && (
+          <section className="bg-[#f5f5f7] py-24">
+            <div className="mx-auto max-w-7xl px-5 sm:px-8 grid gap-12 lg:grid-cols-2">
+              {/* Uses */}
+              <div data-reveal>
+                <p className="eyebrow">Common applications</p>
+                <h2 className="display mt-4 text-4xl sm:text-5xl text-[#1d1d1f]">
+                  Where it&apos;s used.
+                </h2>
+                <ul className="mt-8 divide-y divide-[#e5e5ea] border-y border-[#e5e5ea]">
+                  {details.uses.map((u, i) => (
+                    <li
+                      key={u}
+                      className="flex items-center justify-between py-5"
+                    >
+                      <span className="text-[#1d1d1f] text-base sm:text-lg">
+                        {u}
+                      </span>
+                      <span className="text-xs text-[#86868b] tabular-nums">
+                        0{i + 1}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Specs */}
+              <div data-reveal>
+                <p className="eyebrow">Specifications</p>
+                <h2 className="display mt-4 text-4xl sm:text-5xl text-[#1d1d1f]">
+                  What you get.
+                </h2>
+                <dl className="mt-8 divide-y divide-[#e5e5ea] border-y border-[#e5e5ea]">
+                  {details.specs.map((s) => (
+                    <div
+                      key={s.label}
+                      className="flex items-start justify-between gap-6 py-5"
+                    >
+                      <dt className="text-xs uppercase tracking-[0.18em] text-[#86868b] pt-0.5">
+                        {s.label}
+                      </dt>
+                      <dd className="text-[#1d1d1f] text-right text-base font-medium max-w-[60%]">
+                        {s.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+                <p className="mt-6 text-xs text-[#86868b]">
+                  * Sizes, gauges and finishes are indicative. Final
+                  specifications are confirmed at site visit.
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Quote CTA */}
+        <section className="bg-white py-24">
+          <div
+            className="mx-auto max-w-5xl px-5 sm:px-8 text-center"
+            data-reveal
+          >
+            <p className="eyebrow">Free consultation</p>
+            <h2 className="display mt-5 text-5xl sm:text-7xl text-[#1d1d1f]">
+              Get a quote
+              <br />
+              <span className="italic font-normal text-[#86868b]">
+                for {product.title.toLowerCase()}.
+              </span>
+            </h2>
+            <p className="mt-6 text-lg text-[#515154] max-w-xl mx-auto">
+              Share your site location, approximate length and we&apos;ll come
+              back with a clear quote — usually the same day.
+            </p>
+            <div className="mt-10 flex flex-wrap gap-3 justify-center">
+              <a
+                href={whatsappUrl(enquireMsg)}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-testid="cta-product-whatsapp"
+                className="btn btn-wa"
+              >
+                <MessageCircle size={15} /> WhatsApp Us
+              </a>
+              <Link
+                href="/contact"
+                data-testid="cta-product-contact"
+                className="btn btn-primary"
+              >
+                Contact Page <ArrowRight size={14} />
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Related */}
+        {related.length > 0 && (
+          <section className="bg-[#f5f5f7] py-24 border-t border-[#e5e5ea]">
+            <div className="mx-auto max-w-7xl px-5 sm:px-8">
+              <div className="mb-12 flex items-end justify-between" data-reveal>
+                <div>
+                  <p className="eyebrow">More in {product.category}</p>
+                  <h2 className="display mt-3 text-4xl sm:text-5xl text-[#1d1d1f]">
+                    Related products.
+                  </h2>
+                </div>
+                <Link
+                  href="/products"
+                  className="link-arrow !text-sm hidden sm:inline-flex"
+                >
+                  All products <ArrowRight size={14} />
+                </Link>
+              </div>
+              <div
+                className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+                data-stagger
+              >
+                {related.map((r) => (
+                  <Link
+                    key={r.slug}
+                    href={`/products/${r.slug}`}
+                    data-stagger-item
+                    data-testid={`related-${r.slug}`}
+                    className="group card-soft card-hover bg-white"
+                  >
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      <Image
+                        src={r.image}
+                        alt={r.title}
+                        fill
+                        className="object-cover image-zoom"
+                        sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
+                      />
+                    </div>
+                    <div className="p-7">
+                      <p className="text-[10px] uppercase tracking-[0.22em] text-[#86868b]">
+                        {r.category}
+                      </p>
+                      <h3 className="mt-2 text-xl font-semibold tracking-tight text-[#1d1d1f]">
+                        {r.title}
+                      </h3>
+                      <p className="mt-3 text-sm text-[#515154] line-clamp-2">
+                        {r.blurb}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Back link */}
+        <div className="bg-white py-10 border-t border-[#e5e5ea]">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <Link
               href="/products"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[#1a3a12] hover:gap-3 transition-all"
+              data-testid="back-to-products"
+              className="link-arrow !text-sm"
             >
               <ArrowLeft size={14} /> Back to all products
             </Link>
