@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Menu, X, Phone } from "lucide-react";
 import { whatsappUrl } from "@/lib/site";
+import Image from "next/image";
 
 const nav = [
   { href: "/", label: "Home" },
@@ -25,12 +26,20 @@ export function SiteHeader() {
           <Link
             href="/"
             data-testid="nav-logo"
-            className="flex items-center gap-2.5"
+            className="flex items-center gap-3"
           >
-            <span className="grid h-7 w-7 place-items-center rounded-full bg-[#1d1d1f] text-white text-[10px] font-semibold tracking-wider">
-              NF
-            </span>
-            <span className="text-[0.85rem] font-semibold tracking-tight text-[#1d1d1f]">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black shadow-md">
+              <Image
+                src="/logo.png"
+                alt="Navi Fencing Logo"
+                width={40}
+                height={40}
+                className="h-12 w-12 object-contain"
+                priority
+              />
+            </div>
+
+            <span className="text-[0.95rem] font-semibold tracking-tight text-[#1d1d1f]">
               Navi Fencing
             </span>
           </Link>
