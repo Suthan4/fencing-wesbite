@@ -10,7 +10,7 @@ export const company = {
   whatsapp: "919176337014",
   whatsappMessage:
     "Hi Navi Fencing, I'd like a free consultation and quote for fencing.",
-  email: "hello@navifencing.in",
+  email: "fencingnavi@gmail.com",
   area: "Chennai · Across Tamil Nadu",
   city: "Chennai",
   state: "Tamil Nadu",
