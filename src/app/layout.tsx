@@ -18,7 +18,7 @@ const fraunces = Fraunces({
 
 export const metadata: Metadata = {
   // metadataBase: new URL(siteUrl),
-  metadataBase: new URL("http://localhost:3000"),
+  metadataBase: new URL("https://fencing-wesbite.vercel.app/"),
   title: {
     default: "Navi Fencing — Fencing Contractor in Chennai & Tamil Nadu",
     template: "%s · Navi Fencing",
@@ -52,8 +52,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/logo.png",
-        width: 500,
-        height: 500,
+        width: 1200,
+        height: 630,
         alt: "Navi Fencing",
       },
     ],
