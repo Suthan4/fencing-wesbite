@@ -28,13 +28,13 @@ export function SiteHeader() {
             data-testid="nav-logo"
             className="flex items-center gap-3"
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black shadow-md">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black shadow-md">
               <Image
                 src="/logo.png"
                 alt="Navi Fencing Logo"
                 width={40}
                 height={40}
-                className="h-12 w-12 object-contain"
+                className="h-10 w-10 object-contain"
                 priority
               />
             </div>
