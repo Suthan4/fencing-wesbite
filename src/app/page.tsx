@@ -32,6 +32,7 @@ import {
   localBusinessJsonLd,
   faqJsonLd,
 } from "@/lib/site";
+import { FloatingPhone } from "@/components/FloatingPhone";
 
 export const metadata: Metadata = {
   title:
@@ -108,6 +109,7 @@ export default function Home() {
       <SiteHeader />
       <GsapAnimations />
       <FloatingWhatsApp />
+      <FloatingPhone />
 
       <main className="cursor-fence">
         {/* ── HERO ── */}
@@ -317,8 +319,7 @@ export default function Home() {
           data-h-scroll
           className="relative bg-[#0a0a0a] text-white h-[100svh] overflow-hidden hidden lg:block"
         >
-          <div className="absolute top-0 left-0 right-0 z-10 px-8 pt-12">
-            <p className="eyebrow !text-white/50">19 Products</p>
+          <div className="absolute top-0 left-0 right-0 z-10 px-8 p-12">
             <h2 className="display mt-4 text-5xl sm:text-7xl text-white max-w-3xl">
               The catalog.
               <span className="italic font-normal text-white/50"> Scroll.</span>
@@ -466,34 +467,6 @@ export default function Home() {
                   </div>
                 </article>
               ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── PARALLAX QUOTE ── */}
-        <section className="relative h-[80vh] min-h-[520px] overflow-hidden bg-black">
-          <div className="absolute inset-0" data-parallax="0.25">
-            <Image
-              src="https://images.unsplash.com/photo-1532622286598-f87b4290fe22?w=2000&q=85"
-              alt="Wire mesh fencing texture — Navi Fencing Contractors Tamil Nadu"
-              fill
-              className="object-cover opacity-60"
-              sizes="100vw"
-            />
-            <div className="absolute inset-0 bg-black/50" />
-          </div>
-          <div className="relative h-full flex items-center">
-            <div className="mx-auto max-w-5xl px-5 sm:px-8 text-center">
-              <p
-                className="display text-white text-3xl sm:text-5xl md:text-6xl leading-tight"
-                data-reveal
-              >
-                &ldquo;Reliable craftsmanship, modern techniques, fencing that
-                lasts for years.&rdquo;
-              </p>
-              <p className="mt-8 eyebrow !text-white/60" data-reveal>
-                — Navi Fencing Contractors, Chennai
-              </p>
             </div>
           </div>
         </section>

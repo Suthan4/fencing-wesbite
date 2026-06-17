@@ -1,5 +1,4 @@
-// src/components/SeoKeywords.tsx
-// Renders visually subtle but crawlable keyword-rich content for local SEO
+import Link from "next/link";
 
 const tamilNaduDistricts = [
   "Chennai",
@@ -125,10 +124,10 @@ export function SeoKeywords() {
   ]);
 
   const allKeywords = [
+    ...districtKeywords,
+    ...typeKeywords,
     ...serviceKeywords.map((s) => `${s} in Tamil Nadu`),
     ...serviceKeywords.map((s) => `${s} in Chennai`),
-    ...typeKeywords,
-    ...districtKeywords,
     // Extra high-value combos
     "Navi Fencing Contractors",
     "Navi Fencing Chennai",
@@ -171,6 +170,8 @@ export function SeoKeywords() {
     "Best Fencing Services in Tamil Nadu",
   ];
 
+  const uniqueKeywords = [...new Set(allKeywords)];
+
   return (
     <section
       className="bg-[#f5f5f7] py-14 border-t border-[#e5e5ea]"
@@ -197,12 +198,13 @@ export function SeoKeywords() {
           </h3>
           <div className="flex flex-wrap gap-2">
             {tamilNaduDistricts.map((d) => (
-              <span
+              <Link
                 key={d}
-                className="text-xs bg-white border border-[#e5e5ea] rounded-full px-3 py-1 text-[#515154]"
+                href="/contact"
+                className="text-xs bg-white border border-[#e5e5ea] rounded-full px-3 py-1 text-[#515154] hover:bg-[#1d1d1f] hover:text-white transition-colors"
               >
                 {d}
-              </span>
+              </Link>
             ))}
           </div>
         </div>
@@ -214,20 +216,40 @@ export function SeoKeywords() {
           </h3>
           <div className="flex flex-wrap gap-2">
             {fencingTypes.map((t) => (
-              <span
+              <Link
                 key={t}
-                className="text-xs bg-white border border-[#e5e5ea] rounded-full px-3 py-1 text-[#515154]"
+                href="/contact"
+                className="text-xs bg-white border border-[#e5e5ea] rounded-full px-3 py-1 text-[#515154] hover:bg-[#1d1d1f] hover:text-white transition-colors"
               >
                 {t}
-              </span>
+              </Link>
             ))}
           </div>
         </div>
 
         {/* Hidden keyword block — crawlable but not visually intrusive */}
-        <p className="text-[0.65rem] text-[#86868b] leading-relaxed">
-          {allKeywords.join(" | ")}
-        </p>
+        <div className="text-base text-[#515154] leading-relaxed">
+          {uniqueKeywords.map((keyword, index) => (
+            <span key={`${keyword}-${index}`}>
+              <Link
+                href="/contact"
+                className="
+          hover:text-blue-600
+          hover:underline
+          underline-offset-4
+          transition-colors
+          duration-200
+        "
+              >
+                {keyword}
+              </Link>
+
+              {index < uniqueKeywords.length - 1 && (
+                <span className="mx-2 text-[#86868b]">|</span>
+              )}
+            </span>
+          ))}
+        </div>
       </div>
     </section>
   );

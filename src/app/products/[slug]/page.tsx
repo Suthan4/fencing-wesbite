@@ -23,6 +23,7 @@ import {
   siteUrl,
   whatsappUrl,
 } from "@/lib/site";
+import { FloatingPhone } from "@/components/FloatingPhone";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -86,6 +87,7 @@ export default async function ProductDetailPage({ params }: Props) {
       <SiteHeader />
       <GsapAnimations />
       <FloatingWhatsApp />
+      <FloatingPhone />
 
       <main>
         {/* Hero */}

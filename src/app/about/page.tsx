@@ -7,6 +7,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { FloatingWhatsApp } from "@/components/FloatingWhatsapp";
 import { company, whatsappUrl } from "@/lib/site";
+import { FloatingPhone } from "@/components/FloatingPhone";
 
 export const metadata: Metadata = {
   title: "About — Navi Fencing, Chennai",
@@ -40,6 +41,7 @@ export default function AboutPage() {
       <SiteHeader />
       <GsapAnimations />
       <FloatingWhatsApp />
+      <FloatingPhone />
       <main>
         {/* Hero */}
         <section className="bg-white pt-[120px] pb-20 sm:pt-[160px] sm:pb-32">

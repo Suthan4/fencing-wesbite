@@ -8,6 +8,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { FloatingWhatsApp } from "@/components/FloatingWhatsapp";
 import { products, productCategories, whatsappUrl, siteUrl } from "@/lib/site";
+import { FloatingPhone } from "@/components/FloatingPhone";
 
 export const metadata: Metadata = {
   title: "Products — Fencing Materials, Wire, Mesh, Posts",
@@ -34,6 +35,7 @@ export default function ProductsPage() {
       <SiteHeader />
       <GsapAnimations />
       <FloatingWhatsApp />
+      <FloatingPhone />
 
       <main>
         {/* Hero */}
