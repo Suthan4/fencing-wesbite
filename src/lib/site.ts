@@ -7,7 +7,7 @@ export const company = {
   tagline: "Secure Boundaries. Modern Fencing. Expert Installation.",
   phones: ["+919176337014", "+918248055188", "+919597722813"],
   displayPhones: ["+91 91763 37014", "+91 82480 55188", "+91 95977 22813"],
-  whatsapp: "919176337014",
+  whatsapp: "919094909918",
   whatsappMessage:
     "Hi Navi Fencing, I'd like a free consultation and quote for fencing.",
   email: "fencingnavi@gmail.com",
