@@ -130,7 +130,8 @@ export default function Home() {
             <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
               {/* ★ "Navi Fencing Contractors" badge — visible brand signal for SEO */}
               <p data-hero-sub className="eyebrow !text-white/70">
-                Navi Fencing Contractors · Chennai · Across Tamil Nadu
+                Navi Fencing Contractors · Kallakurichi · Avinashi, Tirupur,
+                Across Tamil Nadu
               </p>
             </div>
 

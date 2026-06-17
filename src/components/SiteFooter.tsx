@@ -79,13 +79,14 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <p className="eyebrow !text-[0.65rem]">Sitemap</p>
+            <p className="eyebrow !text-[0.65rem]">Explore</p>
             <ul className="mt-5 space-y-3 text-sm">
               {[
                 ["Home", "/"],
                 ["Products", "/products"],
                 ["About", "/about"],
                 ["Contact", "/contact"],
+                ["Gallery", "/gallery"],
               ].map(([label, href]) => (
                 <li key={href}>
                   <Link

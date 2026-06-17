@@ -11,6 +11,7 @@ const nav = [
   { href: "/products", label: "Products" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
+  { href: "/gallery", label: "Gallery" },
 ];
 
 export function SiteHeader() {
@@ -28,17 +29,14 @@ export function SiteHeader() {
             data-testid="nav-logo"
             className="flex items-center gap-3"
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black shadow-md">
-              <Image
-                src="/logo.png"
-                alt="Navi Fencing Logo"
-                width={40}
-                height={40}
-                className="h-10 w-10 object-contain"
-                priority
-              />
-            </div>
-
+            <Image
+              src="/logo.png"
+              alt="Navi Fencing Logo"
+              width={50}
+              height={50}
+              className="h-20 w-20 object-contain"
+              priority
+            />
             <span className="text-[0.95rem] font-semibold tracking-tight text-[#1d1d1f]">
               Navi Fencing
             </span>
