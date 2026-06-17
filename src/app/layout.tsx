@@ -1,3 +1,4 @@
+// src/app/layout.tsx
 import type { Metadata } from "next";
 import { Manrope, Fraunces } from "next/font/google";
 import { siteUrl, company } from "@/lib/site";
@@ -17,26 +18,83 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  // metadataBase: new URL(siteUrl),
-  metadataBase: new URL("https://fencing-wesbite.vercel.app/"),
+  metadataBase: new URL("https://navifencing.in"),
   title: {
-    default: "Navi Fencing — Fencing Contractor in Chennai & Tamil Nadu",
-    template: "%s · Navi Fencing",
+    default:
+      "Navi Fencing Contractors — #1 Fencing Contractor in Chennai & Tamil Nadu",
+    template: "%s · Navi Fencing Contractors",
   },
   description:
-    "Navi Fencing supplies and installs chain link, barbed wire, concertina coil, razor wire, welded mesh, posts and more across Chennai and Tamil Nadu. Free consultation.",
+    "Navi Fencing Contractors — Top fencing contractor in Chennai & Tamil Nadu. Chain link, barbed wire, concertina coil, razor wire, welded mesh fencing. Free consultation & best rates. Call +91 91763 37014.",
   applicationName: company.name,
   keywords: [
+    // Brand
+    "Navi Fencing",
+    "Navi Fencing Contractors",
+    "Navi Fencing Chennai",
+    // Core service
     "fencing contractor Chennai",
+    "fencing contractor Tamil Nadu",
+    "fencing contractors near me",
+    "fencing company Chennai",
+    "best fencing contractor Tamil Nadu",
+    "top fencing contractor Chennai",
+    // Product types
     "chain link fencing Tamil Nadu",
+    "chain link fencing Chennai",
+    "barbed wire fencing Tamil Nadu",
     "barbed wire Chennai",
-    "concertina coil",
-    "razor wire",
-    "welded mesh",
-    "PVC chainlink",
-    "cement post",
-    "fencing supplier Chennai",
-    "navi fencing",
+    "concertina coil Tamil Nadu",
+    "concertina coil Chennai",
+    "razor wire Tamil Nadu",
+    "razor wire Chennai",
+    "welded mesh fencing Tamil Nadu",
+    "PVC chain link Chennai",
+    "security fencing Tamil Nadu",
+    "compound wall fencing Chennai",
+    // Districts
+    "fencing contractor Coimbatore",
+    "fencing contractor Madurai",
+    "fencing contractor Tiruchirappalli",
+    "fencing contractor Salem",
+    "fencing contractor Vellore",
+    "fencing contractor Erode",
+    "fencing contractor Tiruppur",
+    "fencing contractor Thanjavur",
+    "fencing contractor Kancheepuram",
+    "fencing contractor Chengalpattu",
+    "fencing contractor Villupuram",
+    "fencing contractor Cuddalore",
+    "fencing contractor Namakkal",
+    "fencing contractor Dindigul",
+    "fencing contractor Tirunelveli",
+    "fencing contractor Thoothukudi",
+    // Service areas Chennai
+    "fencing contractor OMR",
+    "fencing contractor ECR",
+    "fencing contractor Tambaram",
+    "fencing contractor Avadi",
+    "fencing contractor Ambattur",
+    "fencing contractor Porur",
+    "fencing contractor Velachery",
+    "fencing contractor Anna Nagar",
+    "fencing contractor Poonamallee",
+    "fencing contractor Sriperumbudur",
+    // Use-case
+    "agricultural fencing Tamil Nadu",
+    "farm fencing Tamil Nadu",
+    "industrial fencing Tamil Nadu",
+    "residential fencing Chennai",
+    "garden fencing Chennai",
+    "privacy fencing Tamil Nadu",
+    // Pricing intent
+    "fencing cost per foot Tamil Nadu",
+    "chain link fence price Tamil Nadu",
+    "barbed wire price Tamil Nadu",
+    "fencing rates Chennai",
+    "cheap fencing Tamil Nadu",
+    "affordable fencing Chennai",
+    "fencing materials supplier Tamil Nadu",
   ],
   authors: [{ name: company.name }],
   creator: company.name,
@@ -46,22 +104,24 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     url: "/",
-    siteName: company.name,
-    title: "Navi Fencing — Chennai & Tamil Nadu",
-    description: company.tagline,
+    siteName: "Navi Fencing Contractors",
+    title: "Navi Fencing Contractors — Chennai & Tamil Nadu",
+    description:
+      "Top fencing contractor in Chennai & Tamil Nadu. Chain link, barbed wire, concertina coil, razor wire, welded mesh. Free consultation. Call +91 91763 37014.",
     images: [
       {
         url: "/logo.png",
         width: 1200,
         height: 630,
-        alt: "Navi Fencing",
+        alt: "Navi Fencing Contractors — Chennai Tamil Nadu",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Navi Fencing — Secure Boundaries",
-    description: company.tagline,
+    title: "Navi Fencing Contractors — Chennai & Tamil Nadu",
+    description:
+      "Best fencing contractor in Tamil Nadu. Chain link, barbed wire, concertina coil, security fencing. Free consultation.",
     images: ["/logo.png"],
   },
   robots: {
@@ -83,6 +143,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en-IN" className={`${manrope.variable} ${fraunces.variable}`}>
+      <head>
+        {/* Extra meta for local SEO */}
+        <meta name="geo.region" content="IN-TN" />
+        <meta name="geo.placename" content="Chennai, Tamil Nadu" />
+        <meta name="geo.position" content="13.0827;80.2707" />
+        <meta name="ICBM" content="13.0827, 80.2707" />
+      </head>
       <body className="bg-white text-[#1d1d1f] antialiased">
         <div id="scroll-progress" aria-hidden="true" />
         {children}

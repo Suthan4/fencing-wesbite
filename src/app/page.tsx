@@ -1,3 +1,11 @@
+// src/app/page.tsx
+// KEY CHANGES vs original:
+// 1. Added "Navi Fencing Contractors" heading/badge on hero
+// 2. Added <SeoKeywords> section before footer
+// 3. Enhanced metadata title/description
+// 4. Added localBusinessJsonLd with geo data
+
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -15,6 +23,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { FloatingWhatsApp } from "@/components/FloatingWhatsapp";
+import { SeoKeywords } from "@/components/SeoKeywords";
 import {
   company,
   homeFaqs,
@@ -23,6 +32,21 @@ import {
   localBusinessJsonLd,
   faqJsonLd,
 } from "@/lib/site";
+
+export const metadata: Metadata = {
+  title:
+    "Navi Fencing Contractors — Best Fencing Contractor in Chennai & Tamil Nadu",
+  description:
+    "Navi Fencing Contractors — #1 fencing contractor in Chennai & Tamil Nadu. Chain link, barbed wire, concertina coil, razor wire, welded mesh, PVC chainlink. Free consultation, best rates. Serving all Tamil Nadu districts. Call +91 91763 37014.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "Navi Fencing Contractors — Chennai & Tamil Nadu",
+    description:
+      "Best fencing contractor in Tamil Nadu. Free consultation, expert installation, quality materials. Call now.",
+    url: "/",
+    type: "website",
+  },
+};
 
 const services = [
   {
@@ -90,9 +114,8 @@ export default function Home() {
         <section className="relative h-[100svh] min-h-[640px] overflow-hidden bg-[#0a0a0a]">
           <div className="absolute inset-0" data-hero-bg>
             <Image
-              // src="https://images.unsplash.com/photo-1591474200742-8e512e6f98f8?w=2000&q=85"
               src="/products/angle-fencing.jpg"
-              alt="Modern residential fence at dusk"
+              alt="Navi Fencing Contractors — Best Fencing in Chennai Tamil Nadu"
               fill
               priority
               className="object-cover opacity-80"
@@ -103,18 +126,20 @@ export default function Home() {
 
           <div className="relative h-full flex flex-col justify-between pt-[88px] sm:pt-[110px] pb-20 sm:pb-28">
             <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
+              {/* ★ "Navi Fencing Contractors" badge — visible brand signal for SEO */}
               <p data-hero-sub className="eyebrow !text-white/70">
-                Chennai · Across Tamil Nadu
+                Navi Fencing Contractors · Chennai · Across Tamil Nadu
               </p>
             </div>
 
             <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
+              {/* ★ H1 now includes "Navi Fencing Contractors" for SEO */}
               <h1 className="display text-white text-[clamp(2.75rem,7.5vw,7rem)] max-w-5xl">
                 <span data-hero-word className="block">
-                  Secure
+                  Navi Fencing
                 </span>
                 <span data-hero-word className="block">
-                  boundaries.
+                  Contractors.
                 </span>
                 <span
                   data-hero-word
@@ -127,9 +152,9 @@ export default function Home() {
                 data-hero-sub
                 className="mt-7 max-w-xl text-base sm:text-lg text-white/70 leading-relaxed"
               >
-                Premium fencing for residential, commercial and industrial
-                projects. Chain link, mesh, security wire, posts — supplied and
-                installed.
+                Tamil Nadu's trusted fencing contractor — chain link, barbed
+                wire, concertina coil, razor wire, welded mesh. Supplied &amp;
+                installed across all districts.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
@@ -163,7 +188,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Scroll cue */}
           <div
             aria-hidden
             className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/40 text-[10px] tracking-[0.3em] uppercase"
@@ -193,7 +217,7 @@ export default function Home() {
             <div className="grid lg:grid-cols-12 gap-12 items-end">
               <div className="lg:col-span-7">
                 <p className="eyebrow" data-reveal>
-                  Why Navi Fencing
+                  Why Navi Fencing Contractors
                 </p>
                 <h2
                   className="display mt-5 text-5xl sm:text-7xl md:text-8xl text-[#1d1d1f]"
@@ -204,7 +228,8 @@ export default function Home() {
                   <span className="italic font-normal text-[#86868b]">
                     privacy, security
                   </span>
-                  <br />& lasting strength.
+                  <br />
+                  &amp; lasting strength.
                 </h2>
               </div>
               <div className="lg:col-span-5">
@@ -212,9 +237,10 @@ export default function Home() {
                   className="text-lg text-[#515154] leading-relaxed"
                   data-reveal
                 >
-                  At Navi Fencing, our mission is to create safe, private and
-                  beautiful spaces. With reliable craftsmanship and modern
-                  techniques, we deliver fencing that lasts for years.
+                  Navi Fencing Contractors deliver safe, private and beautiful
+                  spaces across Chennai and all Tamil Nadu districts. With
+                  reliable craftsmanship and modern techniques, we install
+                  fencing that lasts for years.
                 </p>
                 <ul className="mt-8 space-y-3" data-stagger>
                   {[
@@ -449,7 +475,7 @@ export default function Home() {
           <div className="absolute inset-0" data-parallax="0.25">
             <Image
               src="https://images.unsplash.com/photo-1532622286598-f87b4290fe22?w=2000&q=85"
-              alt="Wire mesh texture"
+              alt="Wire mesh fencing texture — Navi Fencing Contractors Tamil Nadu"
               fill
               className="object-cover opacity-60"
               sizes="100vw"
@@ -466,7 +492,7 @@ export default function Home() {
                 lasts for years.&rdquo;
               </p>
               <p className="mt-8 eyebrow !text-white/60" data-reveal>
-                — Navi Fencing
+                — Navi Fencing Contractors, Chennai
               </p>
             </div>
           </div>
@@ -511,6 +537,10 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* ── SEO KEYWORDS SECTION ── */}
+        {/* Visible district/product pills + hidden keyword block for crawlers */}
+        <SeoKeywords />
       </main>
       <SiteFooter />
     </>
