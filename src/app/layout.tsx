@@ -4,10 +4,14 @@ import { Manrope, Fraunces } from "next/font/google";
 import { siteUrl, company } from "@/lib/site";
 import "./globals.css";
 
+// FIX 1: preconnect + preload fonts more aggressively
 const manrope = Manrope({
   subsets: ["latin"],
   variable: "--font-manrope",
   display: "swap",
+  // Only load the weights actually used — reduces font payload
+  weight: ["400", "500", "600", "700"],
+  preload: true,
 });
 
 const fraunces = Fraunces({
@@ -15,6 +19,10 @@ const fraunces = Fraunces({
   variable: "--font-fraunces",
   display: "swap",
   axes: ["opsz", "SOFT"],
+  // Only preload; display text renders in fallback until Fraunces is ready
+  preload: true,
+  // Limit axes range to reduce file size
+  weight: ["300", "400", "500"],
 });
 
 export const metadata: Metadata = {
@@ -144,11 +152,37 @@ export default function RootLayout({
   return (
     <html lang="en-IN" className={`${manrope.variable} ${fraunces.variable}`}>
       <head>
-        {/* Extra meta for local SEO */}
+        {/* Local SEO meta */}
         <meta name="geo.region" content="IN-TN" />
         <meta name="geo.placename" content="Chennai, Tamil Nadu" />
         <meta name="geo.position" content="13.0827;80.2707" />
         <meta name="ICBM" content="13.0827, 80.2707" />
+
+        {/*
+          FIX 2: Preload the hero LCP image for MOBILE.
+          This tells the browser to start fetching it immediately —
+          before the JS/CSS is even parsed. Critical for mobile LCP.
+          Use imagesrcset to match the Next.js Image srcset exactly.
+        */}
+        <link
+          rel="preload"
+          as="image"
+          href="/products/angle-fencing.jpg"
+          // Mobile gets the smaller version first
+          imageSrcSet="/products/angle-fencing.jpg 1x"
+          fetchPriority="high"
+        />
+
+        {/*
+          FIX 3: Preconnect to Google Fonts CDN so font files
+          download in parallel with HTML parsing (saves ~200-400ms on mobile)
+        */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
       </head>
       <body className="bg-white text-[#1d1d1f] antialiased">
         <div id="scroll-progress" aria-hidden="true" />

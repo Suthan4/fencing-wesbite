@@ -225,3 +225,52 @@ button:focus-visible {
     transition-duration: 0.01ms !important;
   }
 }
+
+/*
+  FIX: content-visibility: auto skips rendering off-screen sections entirely
+  until they scroll into view. This is the single biggest mobile Speed Index fix.
+  The browser renders only what's visible, then renders the rest progressively.
+ 
+  Apply to every major section that's below the fold.
+  containIntrinsicSize gives the browser a height estimate to preserve scroll position.
+*/
+section:not(:first-of-type) {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 400px;
+  /* rough estimate — prevents layout shift */
+}
+
+/*
+  FIX: Font size-adjust — when Fraunces loads late, the fallback font
+  (Times New Roman / Georgia) causes a layout shift (CLS) because of
+  different metrics. size-adjust compensates so swap is seamless.
+*/
+@font-face {
+  font-family: "Fraunces-fallback";
+  src: local("Georgia"), local("Times New Roman");
+  ascent-override: 92%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+  size-adjust: 104%;
+}
+
+/*
+  FIX: Reduce animation complexity on mobile to free up main thread.
+  On desktop the marquee is fine; on mobile it burns CPU during LCP window.
+*/
+@media (max-width: 640px) {
+  .marquee {
+    animation-duration: 55s;
+    /* slower = less CPU per frame */
+  }
+}
+
+/*
+  FIX: Avoid painting the scroll progress bar before it's needed.
+  On mobile this composite layer costs memory during initial load.
+*/
+@media (max-width: 640px) {
+  #scroll-progress {
+    display: none;
+  }
+}
