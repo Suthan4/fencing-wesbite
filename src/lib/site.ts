@@ -191,7 +191,7 @@ export const products: Product[] = [
     category: "Stones & Sheets",
     blurb: "White stone for fence-base finishing and bright landscape borders.",
     image:
-      "/products/white-stone.jpeg",
+      "/gallery/IMG20201016163232.jpg",
   },
   {
     slug: "black-stone",
@@ -200,7 +200,7 @@ export const products: Product[] = [
     blurb:
       "Black stone for premium landscape contrast and outdoor finishing.",
     image:
-      "/products/black-stone.jpeg",
+      "/gallery/IMG20201022082704_01.jpg",
   },
   {
     slug: "fiber-stumph",
