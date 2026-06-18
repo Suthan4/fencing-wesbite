@@ -8,6 +8,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { FloatingWhatsApp } from "@/components/FloatingWhatsapp";
 import { FloatingPhone } from "@/components/FloatingPhone";
 import { products, whatsappUrl } from "@/lib/site";
+import { GalleryImages } from "@/components/GalleryImage";
 
 export const metadata: Metadata = {
   title: "Gallery — Fencing Projects in Chennai & Tamil Nadu",
@@ -117,6 +118,9 @@ export default function GalleryPage() {
             </div>
           </div>
         </section>
+
+        {/* Real project photos from /public/gallery/ */}
+        <GalleryImages />
 
         {/* Gallery Grid */}
         <section className="bg-[#f5f5f7] py-8 sm:py-16">
