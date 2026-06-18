@@ -21,8 +21,6 @@ const fraunces = Fraunces({
   axes: ["opsz", "SOFT"],
   // Only preload; display text renders in fallback until Fraunces is ready
   preload: true,
-  // Limit axes range to reduce file size
-  weight: ["300", "400", "500"],
 });
 
 export const metadata: Metadata = {
