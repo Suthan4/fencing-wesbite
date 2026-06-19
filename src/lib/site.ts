@@ -209,7 +209,7 @@ export const products: Product[] = [
     blurb:
       "Lightweight fiber stumph for outdoor supports and garden layouts.",
     image:
-      "/products/fiber-stumph.jpeg",
+      "/gallery/Shinestar-7-scaled.jpg",
   },
   {
     slug: "lactic-sheet",
@@ -218,7 +218,7 @@ export const products: Product[] = [
     blurb:
       "Lactic sheet covering for temporary site protection and outdoor use.",
     image:
-      "/products/lactic-sheets.jpeg",
+      "/gallery/8mm-plastic-lattice.jpg",
   },
 ];
 
