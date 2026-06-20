@@ -227,7 +227,7 @@ export const products: Product[] = [
     blurb:
       "Black stone for premium landscape contrast and outdoor finishing.",
     image:
-      "/gallery/IMG20201022082704_01.jpg",
+      "/gallery/black-stone-ne.jpeg",
   },
   {
     slug: "fiber-stumph",
