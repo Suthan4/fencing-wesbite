@@ -65,7 +65,7 @@ export function SiteHeader() {
               className="hidden sm:inline-flex items-center gap-1.5 text-[0.78rem] font-medium text-[#1d1d1f]/70 hover:text-[#1d1d1f]"
             >
               <Phone size={13} />
-              +91 91763 37014
+              +91 90949 09918
             </a>
             <a
               href={whatsappUrl()}

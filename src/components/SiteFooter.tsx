@@ -3,9 +3,29 @@ import { Phone, Mail, MapPin } from "lucide-react";
 import Image from "next/image";
 import { company, whatsappUrl, products } from "@/lib/site";
 
-const mapsUrl =
-  "https://www.google.com/maps/search/?api=1&query=" +
-  encodeURIComponent("JRPG+JV8, Road, Chinnasalem, Elavadi, Tamil Nadu 606201");
+// Two branch locations.
+// If you'd rather keep this data in lib/site.ts (e.g. company.branches),
+// move this array there and import it instead — the rest of this file
+// will work unchanged as long as the shape matches.
+const branches = [
+  {
+    label: "Elavadi Branch",
+    address: "Elavadi, Chinnasalem Taluk, Kallakurichi Dt, Tamil Nadu 606201",
+    mapsQuery: "Elavadi, Chinnasalem, Kallakurichi, Tamil Nadu 606201",
+  },
+  {
+    label: "Avinashi Branch",
+    address: "Avinashi, Tiruppur Dt, Tamil Nadu 641654",
+    mapsQuery: "Avinashi, Tiruppur, Tamil Nadu 641654",
+  },
+];
+
+function mapsUrlFor(query: string) {
+  return (
+    "https://www.google.com/maps/search/?api=1&query=" +
+    encodeURIComponent(query)
+  );
+}
 
 // NOTE: lucide-react no longer ships brand/logo icons (Instagram, YouTube,
 // Facebook, etc.) — they were removed due to trademark concerns. Using
@@ -138,18 +158,33 @@ export function SiteFooter() {
                 <Mail size={13} className="text-[#86868b]" />
                 {company.email}
               </a>
-              <a
-                href={mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-testid="footer-address"
-                className="flex items-start gap-2.5 hover:text-[#1d1d1f]"
-              >
-                <MapPin size={13} className="mt-0.5 shrink-0 text-[#86868b]" />
-                <span>
-                  JRPG+JV8, Road, Chinnasalem, Elavadi, Tamil Nadu 606201
-                </span>
-              </a>
+            </div>
+
+            {/* Branch addresses */}
+            <div className="mt-6 space-y-4">
+              {branches.map((b) => (
+                <a
+                  key={b.label}
+                  href={mapsUrlFor(b.mapsQuery)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-testid={`footer-address-${b.label
+                    .toLowerCase()
+                    .replace(/\s+/g, "-")}`}
+                  className="flex items-start gap-2.5 text-sm text-[#515154] hover:text-[#1d1d1f]"
+                >
+                  <MapPin
+                    size={13}
+                    className="mt-0.5 shrink-0 text-[#86868b]"
+                  />
+                  <span>
+                    <span className="block font-medium text-[#1d1d1f]">
+                      {b.label}
+                    </span>
+                    {b.address}
+                  </span>
+                </a>
+              ))}
             </div>
 
             {/* Social links */}
