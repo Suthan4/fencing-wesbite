@@ -100,11 +100,38 @@ export const products: Product[] = [
     category: "Security Wire",
     blurb: "PVC coated barbed wire for coastal and humid climates.",
     image:
-      "/products/pvc-barbed-wire.jpg",
+      "/gallery/pvc-barbed-wire-20240402162909974.jpeg",
+  },
+  {
+    slug: "barbed-wire-x-model",
+    title: "Barbed Wire X Model",
+    category: "Security Wire",
+    blurb:
+      "X-shaped barbed wire support for compound walls — strong angled bracing for multi-strand wire runs.",
+    image:
+      "/products/barbed-wire-x.jpeg",
+  },
+  {
+    slug: "barbed-wire-u-model",
+    title: "Barbed Wire U Model",
+    category: "Security Wire",
+    blurb:
+      "U-shaped barbed wire bracket — compact wall-top fixing for boundary and compound security.",
+    image:
+      "/products/barbed-wire-u.jpeg",
+  },
+  {
+    slug: "barbed-wire-vertical-model",
+    title: "Barbed Wire Vertical Model",
+    category: "Security Wire",
+    blurb:
+      "Vertical post-mounted barbed wire model for straight-line compound and farm boundary runs.",
+    image:
+      "/products/barbed-wire-vertical.jpeg",
   },
   {
     slug: "concertina-coil",
-    title: "Concertina Coil",
+    title: "Concertina Coil", 
     category: "Security Wire",
     blurb:
       "High-security concertina razor coil for walls, gates and industrial sites.",
@@ -175,7 +202,7 @@ export const products: Product[] = [
     blurb:
       "Precast cement posts — durable, low maintenance fencing pillars.",
     image:
-      "/products/cement.jpeg",
+      "/products/cement-post-ne.jpeg",
   },
   {
     slug: "bend-post",

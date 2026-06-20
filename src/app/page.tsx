@@ -237,7 +237,7 @@ export default function Home() {
         </section>
 
         {/* ── INTRO / WHY US ── */}
-        <section className="relative bg-white py-32 sm:py-40">
+        <section className="relative bg-white py-16 sm:py-24">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <div className="grid lg:grid-cols-12 gap-12 items-end">
               <div className="lg:col-span-7">
@@ -294,7 +294,7 @@ export default function Home() {
         </section>
 
         {/* ── SERVICE GRID (Bento) ── */}
-        <section className="bg-[#f5f5f7] py-32">
+        <section className="bg-[#f5f5f7] py-16">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <div className="mb-16 max-w-2xl" data-reveal>
               <p className="eyebrow">What we do</p>
@@ -437,7 +437,7 @@ export default function Home() {
         </section>
 
         {/* ── STATS ── */}
-        <section className="bg-white py-32">
+        <section className="bg-white py-16">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <div
               className="grid grid-cols-2 lg:grid-cols-4 gap-y-12"

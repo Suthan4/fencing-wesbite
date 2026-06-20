@@ -233,11 +233,11 @@ button:focus-visible {
  
   Apply to every major section that's below the fold.
   containIntrinsicSize gives the browser a height estimate to preserve scroll position.
-*/
+  Lowered from 400px to 320px to match the tighter section padding used across pages.
+ */
 section:not(:first-of-type) {
   content-visibility: auto;
-  contain-intrinsic-size: 0 400px;
-  /* rough estimate — prevents layout shift */
+  contain-intrinsic-size: 0 320px;
 }
 
 /*

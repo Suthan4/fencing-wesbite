@@ -115,11 +115,11 @@ export function SiteHeader() {
               WhatsApp Us
             </a>
             <a
-              href="tel:+919176337014"
+              href="tel:+919094909918"
               data-testid="mobile-call"
               className="btn btn-ghost mt-3 w-full"
             >
-              Call +91 91763 37014
+              Call +91 90949 09918
             </a>
           </nav>
         </div>
