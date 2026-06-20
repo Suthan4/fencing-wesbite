@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Phone, Mail, MapPin } from "lucide-react";
+import Image from "next/image";
 import { company, whatsappUrl, products } from "@/lib/site";
 
 export function SiteFooter() {
@@ -42,9 +43,14 @@ export function SiteFooter() {
         <div className="grid gap-12 md:grid-cols-4 border-t border-[#e5e5ea] pt-12">
           <div className="md:col-span-2">
             <div className="flex items-center gap-2.5">
-              <span className="grid h-7 w-7 place-items-center rounded-full bg-[#1d1d1f] text-white text-[10px] font-semibold tracking-wider">
-                NF
-              </span>
+              <Image
+                src="/logo.png"
+                alt="Navi Fencing Logo"
+                width={50}
+                height={50}
+                className="h-20 w-20 object-contain"
+                priority
+              />
               <span className="text-[0.95rem] font-semibold tracking-tight">
                 {company.name}
               </span>
