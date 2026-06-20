@@ -3,6 +3,67 @@ import { Phone, Mail, MapPin } from "lucide-react";
 import Image from "next/image";
 import { company, whatsappUrl, products } from "@/lib/site";
 
+const mapsUrl =
+  "https://www.google.com/maps/search/?api=1&query=" +
+  encodeURIComponent("JRPG+JV8, Road, Chinnasalem, Elavadi, Tamil Nadu 606201");
+
+// NOTE: lucide-react no longer ships brand/logo icons (Instagram, YouTube,
+// Facebook, etc.) — they were removed due to trademark concerns. Using
+// small inline SVGs instead so we don't depend on a brand-icon package.
+type IconProps = { size?: number; strokeWidth?: number };
+
+function InstagramIcon({ size = 16, strokeWidth = 1.7 }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <path d="M16 11.37a4 4 0 1 1-7.914 1.173A4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+    </svg>
+  );
+}
+
+function YoutubeIcon({ size = 16, strokeWidth = 1.7 }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17z" />
+      <path d="m10 15 5-3-5-3z" />
+    </svg>
+  );
+}
+
+const socials = [
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/navi_fencing/",
+    icon: InstagramIcon,
+  },
+  {
+    label: "YouTube",
+    href: "https://www.youtube.com/@NaviFencing",
+    icon: YoutubeIcon,
+  },
+];
+
 export function SiteFooter() {
   return (
     <footer
@@ -77,10 +138,35 @@ export function SiteFooter() {
                 <Mail size={13} className="text-[#86868b]" />
                 {company.email}
               </a>
-              <div className="flex items-center gap-2.5">
-                <MapPin size={13} className="text-[#86868b]" />
-                Chennai, Tamil Nadu, India
-              </div>
+              <a
+                href={mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-testid="footer-address"
+                className="flex items-start gap-2.5 hover:text-[#1d1d1f]"
+              >
+                <MapPin size={13} className="mt-0.5 shrink-0 text-[#86868b]" />
+                <span>
+                  JRPG+JV8, Road, Chinnasalem, Elavadi, Tamil Nadu 606201
+                </span>
+              </a>
+            </div>
+
+            {/* Social links */}
+            <div className="mt-6 flex items-center gap-3">
+              {socials.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.label}
+                  data-testid={`footer-social-${s.label.toLowerCase()}`}
+                  className="grid h-9 w-9 place-items-center rounded-full border border-[#e5e5ea] text-[#515154] transition-colors hover:border-[#1d1d1f] hover:text-[#1d1d1f]"
+                >
+                  <s.icon size={16} strokeWidth={1.7} />
+                </a>
+              ))}
             </div>
           </div>
 
