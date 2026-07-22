@@ -9,6 +9,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { headers } from "next/headers";
 import {
   ArrowRight,
   Shield,
@@ -18,6 +19,7 @@ import {
   Phone,
   MessageCircle,
   CheckCircle2,
+  MapPin,
 } from "lucide-react";
 import { GsapAnimations } from "@/components/GsapAnimations";
 import { JsonLd } from "@/components/JsonLd";
@@ -33,6 +35,13 @@ import {
   faqJsonLd,
 } from "@/lib/site";
 import { FloatingPhone } from "@/components/FloatingPhone";
+import {
+  getLocation,
+  getNearbyLocations,
+  getDistricts,
+  DEFAULT_LOCATION_SLUG,
+  LOCATION_HEADER,
+} from "@/lib/locations";
 
 // FIX: Lazy-load SeoKeywords — it renders hundreds of DOM nodes.
 // Dynamic import means it won't block initial paint on mobile.
@@ -63,22 +72,25 @@ const services = [
   {
     icon: HomeIcon,
     title: "Residential",
-    desc: "Privacy & security fencing for homes, villas and farmhouses.",
+    descFor: (place: string) =>
+      `Privacy & security fencing for homes, villas and farmhouses in ${place}.`,
   },
   {
     icon: Building2,
     title: "Commercial",
-    desc: "Perimeter security for factories, warehouses and offices.",
+    descFor: (place: string) =>
+      `Perimeter security for factories, warehouses and offices in ${place}.`,
   },
   {
     icon: Shield,
     title: "Security",
-    desc: "Concertina, razor wire and high-security wall toppings.",
+    descFor: () => "Concertina, razor wire and high-security wall toppings.",
   },
   {
     icon: Wrench,
     title: "Installation",
-    desc: "Expert end-to-end installation with quality materials.",
+    descFor: (place: string) =>
+      `Expert end-to-end installation, on-site in ${place}.`,
   },
 ];
 
@@ -112,7 +124,14 @@ const stats = [
   { value: 4.9, suffix: "★", label: "Customer rating" },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const headerList = await headers();
+  const detectedSlug = headerList.get(LOCATION_HEADER) ?? DEFAULT_LOCATION_SLUG;
+  const location =
+    getLocation(detectedSlug) ?? getLocation(DEFAULT_LOCATION_SLUG)!;
+  const nearbyAreas = getNearbyLocations(location.slug, 8);
+  const districts = getDistricts().slice(0, 12);
+
   return (
     <>
       <JsonLd data={[localBusinessJsonLd(), faqJsonLd(homeFaqs)]} />
@@ -148,8 +167,7 @@ export default function Home() {
           <div className="relative h-full flex flex-col justify-between pt-[88px] sm:pt-[110px] pb-20 sm:pb-28">
             <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
               <p data-hero-sub className="eyebrow !text-white/70">
-                Navi Fencing Contractors · Kallakurichi · Avinashi, Tirupur,
-                Across Tamil Nadu
+                Navi Fencing Contractors · {location.name} · Across Tamil Nadu
               </p>
             </div>
 
@@ -172,9 +190,10 @@ export default function Home() {
                 data-hero-sub
                 className="mt-7 max-w-xl text-base sm:text-lg text-white/70 leading-relaxed"
               >
-                Tamil Nadu's trusted fencing contractor — chain link, barbed
-                wire, concertina coil, razor wire, welded mesh. Supplied &amp;
-                installed across all districts.
+                Tamil Nadu&apos;s trusted fencing contractor — chain link,
+                barbed wire, concertina coil, razor wire, welded mesh. Supplied
+                &amp; installed in {location.name} and every district across
+                Tamil Nadu.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
@@ -297,7 +316,7 @@ export default function Home() {
         <section className="bg-[#f5f5f7] py-16">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <div className="mb-16 max-w-2xl" data-reveal>
-              <p className="eyebrow">What we do</p>
+              <p className="eyebrow">What we do in {location.name}</p>
               <h2 className="display mt-5 text-5xl sm:text-7xl text-[#1d1d1f]">
                 One team.
                 <br />
@@ -328,7 +347,7 @@ export default function Home() {
                       {s.title}
                     </h3>
                     <p className="mt-3 text-[#515154] text-sm leading-relaxed">
-                      {s.desc}
+                      {s.descFor(location.name)}
                     </p>
                   </div>
                 </article>
@@ -536,6 +555,73 @@ export default function Home() {
                   </p>
                 </details>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── LOCAL AREAS + DISTRICTS (location-aware, before keywords) ── */}
+        <section className="bg-white py-20 border-t border-[#e5e5ea]">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8">
+            <p className="eyebrow flex items-center gap-2">
+              <MapPin size={13} /> Serving {location.name}
+            </p>
+            <h2 className="display mt-5 text-4xl sm:text-6xl text-[#1d1d1f]">
+              {location.name} & nearby.
+              <br />
+              <span className="italic font-normal text-[#86868b]">
+                Every district in Tamil Nadu.
+              </span>
+            </h2>
+            <p className="mt-6 max-w-2xl text-base text-[#515154] leading-relaxed">
+              You&apos;re browsing from around {location.name}
+              {location.kind === "area"
+                ? `, ${location.districtName} district`
+                : ""}
+              . We supply and install fencing here, in the areas nearby, and
+              across every one of Tamil Nadu&apos;s 38 districts.
+            </p>
+
+            {nearbyAreas.length > 0 && (
+              <div className="mt-10">
+                <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#86868b] mb-4">
+                  Local areas near {location.name}
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {nearbyAreas.map((n) => (
+                    <Link
+                      key={n.slug}
+                      href={`/${n.slug}`}
+                      className="text-sm bg-[#f5f5f7] border border-[#e5e5ea] rounded-full px-4 py-2 text-[#515154] hover:bg-[#1d1d1f] hover:text-white transition-colors"
+                    >
+                      {n.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="mt-10">
+              <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#86868b] mb-4">
+                Districts across Tamil Nadu
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {districts.map((d) => (
+                  <Link
+                    key={d.slug}
+                    href={`/${d.slug}`}
+                    className="text-sm bg-[#f5f5f7] border border-[#e5e5ea] rounded-full px-4 py-2 text-[#515154] hover:bg-[#1d1d1f] hover:text-white transition-colors"
+                  >
+                    {d.name}
+                  </Link>
+                ))}
+                <Link
+                  href="/locations"
+                  className="text-sm border border-[#1d1d1f] rounded-full px-4 py-2 text-[#1d1d1f] hover:bg-[#1d1d1f] hover:text-white transition-colors"
+                >
+                  View all districts{" "}
+                  <ArrowRight size={12} className="inline ml-1" />
+                </Link>
+              </div>
             </div>
           </div>
         </section>

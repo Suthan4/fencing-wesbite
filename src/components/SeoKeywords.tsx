@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getLocation, slugify } from "@/lib/locations";
 
 const tamilNaduDistricts = [
   "Chennai",
@@ -197,15 +198,18 @@ export function SeoKeywords() {
             Districts &amp; Areas We Serve
           </h3>
           <div className="flex flex-wrap gap-2">
-            {tamilNaduDistricts.map((d) => (
-              <Link
-                key={d}
-                href="/contact"
-                className="text-xs bg-white border border-[#e5e5ea] rounded-full px-3 py-1 text-[#515154] hover:bg-[#1d1d1f] hover:text-white transition-colors"
-              >
-                {d}
-              </Link>
-            ))}
+            {tamilNaduDistricts.map((d) => {
+              const loc = getLocation(slugify(d));
+              return (
+                <Link
+                  key={d}
+                  href={loc ? `/${loc.slug}` : "/contact"}
+                  className="text-xs bg-white border border-[#e5e5ea] rounded-full px-3 py-1 text-[#515154] hover:bg-[#1d1d1f] hover:text-white transition-colors"
+                >
+                  {d}
+                </Link>
+              );
+            })}
           </div>
         </div>
 
