@@ -1,14 +1,12 @@
 // src/app/page.tsx — OPTIMISED for mobile LCP + Speed Index
 // Key changes vs original:
 // 1. Hero Image: added fetchpriority="high", quality={72}, fixed sizes="100vw", removed opacity-80
-// 2. SeoKeywords: lazy loaded (dynamic import) — saves ~300ms parse time on mobile
-// 3. Marquee section: deferred with Suspense so it doesn't block first paint
-// 4. Horizontal scroll section image sizes fixed for mobile
+// 2. Marquee section: deferred with Suspense so it doesn't block first paint
+// 3. Horizontal scroll section image sizes fixed for mobile
 
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import { headers } from "next/headers";
 import {
   ArrowRight,
@@ -42,16 +40,6 @@ import {
   DEFAULT_LOCATION_SLUG,
   LOCATION_HEADER,
 } from "@/lib/locations";
-
-// FIX: Lazy-load SeoKeywords — it renders hundreds of DOM nodes.
-// Dynamic import means it won't block initial paint on mobile.
-const SeoKeywords = dynamic(
-  () =>
-    import("@/components/SeoKeywords").then((m) => ({
-      default: m.SeoKeywords,
-    })),
-  { ssr: true, loading: () => null },
-);
 
 export const metadata: Metadata = {
   title:
@@ -383,7 +371,7 @@ export default async function Home() {
                   <div className="relative h-[480px] w-full overflow-hidden">
                     <Image
                       src={p.image}
-                      alt={p.title}
+                      alt={`${p.title} — ${p.category} fencing by Navi Fencing`}
                       fill
                       // FIX: desktop-only section — don't preload on mobile
                       loading="lazy"
@@ -432,7 +420,7 @@ export default async function Home() {
                 >
                   <Image
                     src={p.image}
-                    alt={p.title}
+                    alt={`${p.title} — ${p.category} fencing by Navi Fencing`}
                     fill
                     // FIX: Only eager-load first 4 on mobile, rest lazy
                     loading={i < 4 ? "eager" : "lazy"}
@@ -625,10 +613,6 @@ export default async function Home() {
             </div>
           </div>
         </section>
-
-        {/* ── SEO KEYWORDS SECTION ── */}
-        {/* FIX: Dynamically imported — defers heavy DOM construction off main thread */}
-        <SeoKeywords />
       </main>
       <SiteFooter />
     </>
