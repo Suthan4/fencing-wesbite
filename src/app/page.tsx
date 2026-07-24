@@ -141,7 +141,7 @@ export default async function Home() {
               // resource — fetch it before stylesheets finish parsing on mobile
               fetchPriority="high"
               // FIX: quality 72 saves ~25% bytes with no perceptible visual difference
-              quality={72}
+              // quality={72}
               // FIX: removed opacity-80 — forces a GPU compositing layer on mobile,
               // which delays LCP paint. Gradient below does the same job.
               className="object-cover"
