@@ -4,6 +4,7 @@
 // pre-filter, see proxy.ts for details).
 
 import Link from "next/link";
+import { Toaster } from "react-hot-toast";
 import { requireAdminSession } from "@/lib/auth/dal";
 import { logout } from "@/app/actions/auth-actions";
 
@@ -16,6 +17,7 @@ export default async function AdminProtectedLayout({
 
   return (
     <div className="min-h-screen bg-[#fafafa]">
+      <Toaster position="top-right" toastOptions={{ duration: 3500 }} />
       <header className="border-b border-[#e5e5ea] bg-white">
         <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-5">
           <Link href="/admin" className="flex items-baseline gap-2">
