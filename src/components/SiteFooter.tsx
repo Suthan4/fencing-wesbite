@@ -18,6 +18,11 @@ const branches = [
     address: "Avinashi, Tiruppur Dt, Tamil Nadu 641654",
     mapsQuery: "Avinashi, Tiruppur, Tamil Nadu 641654",
   },
+  {
+    label: "Erode Branch",
+    address: "kempanaickenpalayam, Erode Dt, Tamil Nadu 638452",
+    mapsQuery: "G8H2+FVJ Kempanaickenpalayam Tamil Nadu 638503",
+  },
 ];
 
 function mapsUrlFor(query: string) {
@@ -211,7 +216,9 @@ export function SiteFooter() {
               {[
                 ["Home", "/"],
                 ["Products", "/products"],
+                ["Locations", "/locations"],
                 ["About", "/about"],
+                ["Blog", "/blog"],
                 ["Contact", "/contact"],
                 ["Gallery", "/gallery"],
               ].map(([label, href]) => (

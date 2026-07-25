@@ -24,6 +24,7 @@ import {
   whatsappUrl,
 } from "@/lib/site";
 import { FloatingPhone } from "@/components/FloatingPhone";
+import { getCurrentLocation } from "@/lib/get-location";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -35,11 +36,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const p = getProduct(slug);
   if (!p) return { title: "Product not found" };
+  const location = await getCurrentLocation();
   const desc =
     p.details?.description ??
-    `${p.title} supplied and installed by Navi Fencing across Chennai and Tamil Nadu.`;
+    `${p.title} supplied and installed by Navi Fencing across ${location.name} and Tamil Nadu.`;
   return {
-    title: `${p.title} — ${p.category} in Chennai`,
+    title: `${p.title} — ${p.category} in ${location.name}`,
     description: desc,
     alternates: { canonical: `/products/${p.slug}` },
     openGraph: {

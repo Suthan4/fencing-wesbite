@@ -9,6 +9,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { FloatingWhatsApp } from "@/components/FloatingWhatsapp";
 import { products, productCategories, whatsappUrl, siteUrl } from "@/lib/site";
 import { FloatingPhone } from "@/components/FloatingPhone";
+import { getCurrentLocation } from "@/lib/get-location";
 
 export const metadata: Metadata = {
   title: "Products — Fencing Materials, Wire, Mesh, Posts",
@@ -17,7 +18,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/products" },
 };
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  const location = await getCurrentLocation();
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -60,8 +62,9 @@ export default function ProductsPage() {
               className="mt-10 max-w-2xl text-lg text-[#515154] leading-relaxed"
               data-reveal
             >
-              Browse our complete fencing range — supplied and installed across
-              Chennai and Tamil Nadu. Tap any product to enquire on WhatsApp.
+              Browse our complete fencing range — supplied and installed across{" "}
+              {location.name} and Tamil Nadu. Tap any product to enquire on
+              WhatsApp.
             </p>
           </div>
         </section>
@@ -167,7 +170,7 @@ export default function ProductsPage() {
             </h2>
             <p className="mt-6 text-lg text-[#515154] max-w-xl mx-auto">
               Free consultation. Honest material recommendation. Quick quote
-              across Chennai and Tamil Nadu.
+              across {location.name} and Tamil Nadu.
             </p>
             <div className="mt-10 flex flex-wrap gap-3 justify-center">
               <a

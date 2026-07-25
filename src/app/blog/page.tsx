@@ -6,15 +6,19 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { FloatingWhatsApp } from "@/components/FloatingWhatsapp";
 import { FloatingPhone } from "@/components/FloatingPhone";
 import { listPublishedPosts } from "@/lib/db";
+import { getCurrentLocation } from "@/lib/get-location";
 
-export const metadata: Metadata = {
-  title: "Blog — Navi Fencing, Chennai",
-  description:
-    "Fencing tips, product guides and project stories from Navi Fencing, Chennai & Tamil Nadu.",
-  alternates: { canonical: "/blog" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const location = await getCurrentLocation();
+  return {
+    title: `Blog — Navi Fencing, ${location.name}`,
+    description: `Fencing tips, product guides and project stories from Navi Fencing, ${location.name} & Tamil Nadu.`,
+    alternates: { canonical: "/blog" },
+  };
+}
 
 export default async function BlogPage() {
+  const location = await getCurrentLocation();
   let posts: Awaited<ReturnType<typeof listPublishedPosts>> = [];
   try {
     posts = await listPublishedPosts();
@@ -36,8 +40,8 @@ export default async function BlogPage() {
               Blog
             </h1>
             <p className="mt-4 max-w-xl text-[1rem] text-[#515154]">
-              Fencing tips, product guides, and project stories from Chennai
-              &amp; Tamil Nadu.
+              Fencing tips, product guides, and project stories from{" "}
+              {location.name} &amp; Tamil Nadu.
             </p>
           </div>
         </section>

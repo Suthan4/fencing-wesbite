@@ -9,15 +9,19 @@ import { FloatingWhatsApp } from "@/components/FloatingWhatsapp";
 import { FloatingPhone } from "@/components/FloatingPhone";
 import { products, whatsappUrl } from "@/lib/site";
 import { GalleryImages } from "@/components/GalleryImage";
+import { getCurrentLocation } from "@/lib/get-location";
 
-export const metadata: Metadata = {
-  title: "Gallery — Fencing Projects in Chennai & Tamil Nadu",
-  description:
-    "Browse Navi Fencing's project gallery — chain link, barbed wire, concertina coil, razor wire, welded mesh and more, installed across Chennai and Tamil Nadu.",
-  alternates: { canonical: "/gallery" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const location = await getCurrentLocation();
+  return {
+    title: `Gallery — Fencing Projects in ${location.name} & Tamil Nadu`,
+    description: `Browse Navi Fencing's project gallery — chain link, barbed wire, concertina coil, razor wire, welded mesh and more, installed across ${location.name} and Tamil Nadu.`,
+    alternates: { canonical: "/gallery" },
+  };
+}
 
-export default function GalleryPage() {
+export default async function GalleryPage() {
+  const location = await getCurrentLocation();
   return (
     <>
       <SiteHeader />
@@ -51,7 +55,8 @@ export default function GalleryPage() {
                   data-reveal
                 >
                   From residential compound walls to industrial perimeters —
-                  every project we've completed across Chennai and Tamil Nadu.
+                  every project we've completed across {location.name} and Tamil
+                  Nadu.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3" data-reveal>
                   <a

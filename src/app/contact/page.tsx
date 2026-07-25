@@ -6,15 +6,19 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { FloatingWhatsApp } from "@/components/FloatingWhatsapp";
 import { FloatingPhone } from "@/components/FloatingPhone";
 import { company, whatsappUrl } from "@/lib/site";
+import { getCurrentLocation } from "@/lib/get-location";
 
-export const metadata: Metadata = {
-  title: "Contact — Free Fencing Consultation in Chennai",
-  description:
-    "Contact Navi Fencing for a free fencing consultation and quote. Call, WhatsApp or email — based in Chennai, serving Tamil Nadu.",
-  alternates: { canonical: "/contact" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const location = await getCurrentLocation();
+  return {
+    title: `Contact — Free Fencing Consultation in ${location.name}`,
+    description: `Contact Navi Fencing for a free fencing consultation and quote. Call, WhatsApp or email — serving ${location.name} and all of Tamil Nadu.`,
+    alternates: { canonical: "/contact" },
+  };
+}
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const location = await getCurrentLocation();
   return (
     <>
       <SiteHeader />
@@ -164,7 +168,7 @@ export default function ContactPage() {
                     24 – 48 Hours
                   </p>
                   <p className="text-sm text-[#515154]">
-                    Across Chennai & nearby areas
+                    Across {location.name} & nearby areas
                   </p>
                 </div>
               </div>

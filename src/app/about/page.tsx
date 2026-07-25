@@ -8,34 +8,42 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { FloatingWhatsApp } from "@/components/FloatingWhatsapp";
 import { company, whatsappUrl } from "@/lib/site";
 import { FloatingPhone } from "@/components/FloatingPhone";
+import { getCurrentLocation } from "@/lib/get-location";
 
-export const metadata: Metadata = {
-  title: "About — Navi Fencing, Chennai",
-  description:
-    "Navi Fencing is a Chennai-based fencing contractor serving Tamil Nadu with reliable craftsmanship, modern techniques and quality materials.",
-  alternates: { canonical: "/about" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const location = await getCurrentLocation();
+  return {
+    title: `About — Navi Fencing, ${location.name}`,
+    description: `Navi Fencing is a ${location.name}-based fencing contractor serving Tamil Nadu with reliable craftsmanship, modern techniques and quality materials.`,
+    alternates: { canonical: "/about" },
+  };
+}
 
-const values = [
-  {
-    t: "Craft over shortcuts",
-    d: "Every post set, every wire tensioned. We don't cut corners on alignment, finish or hardware.",
-  },
-  {
-    t: "Honest recommendations",
-    d: "We suggest what fits your site, budget and climate — not what's most profitable for us.",
-  },
-  {
-    t: "Local, accountable",
-    d: "Based in Chennai, serving all of Tamil Nadu. We're around when you need us — before and after the install.",
-  },
-  {
-    t: "Long-term thinking",
-    d: "Materials chosen for durability against coastal salt, monsoons and heavy use.",
-  },
-];
+function getValues(locationName: string) {
+  return [
+    {
+      t: "Craft over shortcuts",
+      d: "Every post set, every wire tensioned. We don't cut corners on alignment, finish or hardware.",
+    },
+    {
+      t: "Honest recommendations",
+      d: "We suggest what fits your site, budget and climate — not what's most profitable for us.",
+    },
+    {
+      t: "Local, accountable",
+      d: `Based in ${locationName}, serving all of Tamil Nadu. We're around when you need us — before and after the install.`,
+    },
+    {
+      t: "Long-term thinking",
+      d: "Materials chosen for durability against coastal salt, monsoons and heavy use.",
+    },
+  ];
+}
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const location = await getCurrentLocation();
+  const values = getValues(location.name);
+
   return (
     <>
       <SiteHeader />
@@ -64,7 +72,8 @@ export default function AboutPage() {
               data-reveal
             >
               Welcome to Navi Fencing — your trusted partner for strong, stylish
-              and secure fencing solutions across Chennai and Tamil Nadu.
+              and secure fencing solutions across {location.name} and Tamil
+              Nadu.
             </p>
           </div>
         </section>
@@ -151,7 +160,7 @@ export default function AboutPage() {
             <div data-reveal>
               <p className="eyebrow">Where we work</p>
               <h2 className="display mt-4 text-5xl sm:text-7xl text-[#1d1d1f]">
-                Based in Chennai.
+                Based in {location.name}.
                 <br />
                 <span className="italic font-normal text-[#86868b]">
                   Serving Tamil Nadu.
