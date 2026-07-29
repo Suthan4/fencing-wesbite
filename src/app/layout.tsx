@@ -24,7 +24,7 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://navifencing.in"),
+  metadataBase: new URL("https://www.navifencing.in"),
   verification: {
     google: "ZI8XtCxb1Jl-1UdHR9XXUiwxrIzD0S_6VsnBWATXImc",
   },
@@ -168,9 +168,9 @@ export default function RootLayout({
         <link
           rel="preload"
           as="image"
-          href="/products/angle-fencing.jpg"
+          href="/products/angle-fencing.webp"
           // Mobile gets the smaller version first
-          imageSrcSet="/products/angle-fencing.jpg 1x"
+          imageSrcSet="/products/angle-fencing.webp 1x"
           fetchPriority="high"
         />
 

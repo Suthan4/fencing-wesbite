@@ -133,19 +133,10 @@ export default async function Home() {
         <section className="relative h-[100svh] min-h-[640px] overflow-hidden bg-[#0a0a0a]">
           <div className="absolute inset-0" data-hero-bg>
             <Image
-              src="/products/angle-fencing.jpg"
+              src="/products/angle-fencing.webp"
               alt="Navi Fencing Contractors — Best Fencing in Chennai Tamil Nadu"
               fill
-              priority
-              // FIX: fetchpriority tells the browser this is THE most important
-              // resource — fetch it before stylesheets finish parsing on mobile
-              fetchPriority="high"
-              // FIX: quality 72 saves ~25% bytes with no perceptible visual difference
-              // quality={72}
-              // FIX: removed opacity-80 — forces a GPU compositing layer on mobile,
-              // which delays LCP paint. Gradient below does the same job.
               className="object-cover"
-              // FIX: simplified sizes — hero is always full viewport width
               sizes="100vw"
             />
             {/* Slightly darker gradient to compensate for no opacity on image */}
