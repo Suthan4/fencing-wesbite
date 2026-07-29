@@ -25,6 +25,9 @@ const fraunces = Fraunces({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://navifencing.in"),
+  verification: {
+    google: "ZI8XtCxb1Jl-1UdHR9XXUiwxrIzD0S_6VsnBWATXImc",
+  },
   title: {
     default:
       "Navi Fencing Contractors — #1 Fencing Contractor in Chennai & Tamil Nadu",
