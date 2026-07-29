@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Manrope, Fraunces } from "next/font/google";
 import { siteUrl, company } from "@/lib/site";
 import "./globals.css";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 // FIX 1: preconnect + preload fonts more aggressively
 const manrope = Manrope({
@@ -163,6 +164,7 @@ export default function RootLayout({
         <div id="scroll-progress" aria-hidden="true" />
         {children}
       </body>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID!} />
     </html>
   );
 }
