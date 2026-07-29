@@ -26,7 +26,7 @@ const fraunces = Fraunces({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.navifencing.in"),
   verification: {
-    google: "ZI8XtCxb1Jl-1UdHR9XXUiwxrIzD0S_6VsnBWATXImc",
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "",
   },
   title: {
     default:
@@ -158,32 +158,6 @@ export default function RootLayout({
         <meta name="geo.placename" content="Chennai, Tamil Nadu" />
         <meta name="geo.position" content="13.0827;80.2707" />
         <meta name="ICBM" content="13.0827, 80.2707" />
-
-        {/*
-          FIX 2: Preload the hero LCP image for MOBILE.
-          This tells the browser to start fetching it immediately —
-          before the JS/CSS is even parsed. Critical for mobile LCP.
-          Use imagesrcset to match the Next.js Image srcset exactly.
-        */}
-        <link
-          rel="preload"
-          as="image"
-          href="/products/angle-fencing.webp"
-          // Mobile gets the smaller version first
-          imageSrcSet="/products/angle-fencing.webp 1x"
-          fetchPriority="high"
-        />
-
-        {/*
-          FIX 3: Preconnect to Google Fonts CDN so font files
-          download in parallel with HTML parsing (saves ~200-400ms on mobile)
-        */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
       </head>
       <body className="bg-white text-[#1d1d1f] antialiased">
         <div id="scroll-progress" aria-hidden="true" />
