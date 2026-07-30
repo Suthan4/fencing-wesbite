@@ -24,6 +24,7 @@ import {
   siteUrl,
   whatsappUrl,
   localBusinessJsonLd,
+  locationFaqs,
 } from "@/lib/site";
 import {
   getAllLocationSlugs,
@@ -32,6 +33,7 @@ import {
   getDistrictHighlight,
   getDistricts,
 } from "@/lib/locations";
+import { FaqSection } from "@/components/faqSection";
 
 type Props = { params: Promise<{ location: string }> };
 
@@ -161,6 +163,13 @@ export default async function LocationPage({ params }: Props) {
       addressCountry: "IN",
     },
   };
+
+  const faqs = locationFaqs(
+    loc.name,
+    loc.kind,
+    loc.kind === "area" ? loc.districtName : undefined,
+    featuredProducts.slice(0, 4).map((p) => p.title),
+  );
 
   return (
     <>
@@ -417,6 +426,21 @@ export default async function LocationPage({ params }: Props) {
             </div>
           </div>
         </section>
+
+        {/* FAQ — AEO: answer-first Q&A backed by FAQPage schema above */}
+        <FaqSection
+          faqs={faqs}
+          eyebrow={`FAQ — ${loc.name}`}
+          title={
+            <>
+              Common questions
+              <br />
+              <span className="italic font-normal text-[#86868b]">
+                about fencing in {loc.name}.
+              </span>
+            </>
+          }
+        />
 
         {/* CTA */}
         <section className="bg-[#0a0a0a] text-white py-24">

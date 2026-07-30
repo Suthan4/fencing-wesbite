@@ -24,6 +24,120 @@ const fraunces = Fraunces({
   preload: true,
 });
 
+const locations = [
+  "Coimbatore",
+  "Avinashi",
+  "Annur",
+  "Sulur",
+  "Pollachi",
+  "Mettupalayam",
+  "Karamadai",
+  "Kinathukadavu",
+  "Madukkarai",
+  "Perur",
+  "Saravanampatti",
+  "Vadavalli",
+
+  "Tiruppur",
+  "Palladam",
+  "Kangeyam",
+  "Dharapuram",
+  "Udumalpet",
+  "Avinashipalayam",
+
+  "Erode",
+  "Gobichettipalayam",
+  "Sathyamangalam",
+  "Perundurai",
+  "Bhavani",
+  "Anthiyur",
+  "Kodumudi",
+  "Chennimalai",
+
+  "Salem",
+  "Attur",
+  "Mettur",
+  "Edappadi",
+  "Omalur",
+  "Sankagiri",
+
+  "Namakkal",
+  "Tiruchengode",
+  "Rasipuram",
+  "Paramathi Velur",
+  "Kumarapalayam",
+
+  "Karur",
+  "Kulithalai",
+  "Aravakurichi",
+
+  "Ooty",
+  "Coonoor",
+  "Kotagiri",
+  "Gudalur",
+
+  "Dindigul",
+  "Palani",
+  "Oddanchatram",
+
+  "Madurai",
+  "Melur",
+  "Thirumangalam",
+  "Usilampatti",
+
+  "Tiruchirappalli",
+  "Manapparai",
+  "Lalgudi",
+  "Musiri",
+
+  "Thanjavur",
+  "Kumbakonam",
+  "Pattukkottai",
+
+  "Tirunelveli",
+  "Tenkasi",
+  "Sankarankovil",
+
+  "Thoothukudi",
+  "Kovilpatti",
+
+  "Virudhunagar",
+  "Sivakasi",
+  "Rajapalayam",
+  "Aruppukkottai",
+
+  "Dharmapuri",
+  "Harur",
+
+  "Krishnagiri",
+  "Hosur",
+
+  "Vellore",
+  "Ranipet",
+  "Arcot",
+  "Katpadi",
+
+  "Tiruvannamalai",
+  "Arani",
+  "Polur",
+
+  "Cuddalore",
+  "Neyveli",
+  "Panruti",
+  "Chidambaram",
+
+  "Villupuram",
+  "Tindivanam",
+  "Kallakurichi",
+
+  "Chennai",
+  "Tambaram",
+  "Avadi",
+  "Ambattur",
+  "Chengalpattu",
+  "Kanchipuram",
+];
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.navifencing.in"),
   verification: {
@@ -62,34 +176,16 @@ export const metadata: Metadata = {
     "PVC chain link Chennai",
     "security fencing Tamil Nadu",
     "compound wall fencing Chennai",
-    // Districts
-    "fencing contractor Coimbatore",
-    "fencing contractor Madurai",
-    "fencing contractor Tiruchirappalli",
-    "fencing contractor Salem",
-    "fencing contractor Vellore",
-    "fencing contractor Erode",
-    "fencing contractor Tiruppur",
-    "fencing contractor Thanjavur",
-    "fencing contractor Kancheepuram",
-    "fencing contractor Chengalpattu",
-    "fencing contractor Villupuram",
-    "fencing contractor Cuddalore",
-    "fencing contractor Namakkal",
-    "fencing contractor Dindigul",
-    "fencing contractor Tirunelveli",
-    "fencing contractor Thoothukudi",
-    // Service areas Chennai
-    "fencing contractor OMR",
-    "fencing contractor ECR",
-    "fencing contractor Tambaram",
-    "fencing contractor Avadi",
-    "fencing contractor Ambattur",
-    "fencing contractor Porur",
-    "fencing contractor Velachery",
-    "fencing contractor Anna Nagar",
-    "fencing contractor Poonamallee",
-    "fencing contractor Sriperumbudur",
+    // Districts and places
+    ...locations.flatMap((city) => [
+      `fencing contractor in ${city}`,
+      `fencing contractors in ${city}`,
+      `chain link fencing ${city}`,
+      `barbed wire fencing ${city}`,
+      `razor wire fencing ${city}`,
+      `welded mesh fencing ${city}`,
+      `security fencing ${city}`,
+    ]),
     // Use-case
     "agricultural fencing Tamil Nadu",
     "farm fencing Tamil Nadu",
@@ -159,6 +255,8 @@ export default function RootLayout({
         <meta name="geo.placename" content="Chennai, Tamil Nadu" />
         <meta name="geo.position" content="13.0827;80.2707" />
         <meta name="ICBM" content="13.0827, 80.2707" />
+        {/* GEO: points AI crawlers/answer engines at the structured summary */}
+        <link rel="llms.txt" href="/llms.txt" />
       </head>
       <body className="bg-white text-[#1d1d1f] antialiased">
         <div id="scroll-progress" aria-hidden="true" />

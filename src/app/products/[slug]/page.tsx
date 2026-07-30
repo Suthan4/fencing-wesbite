@@ -16,7 +16,9 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { FloatingWhatsApp } from "@/components/FloatingWhatsapp";
 import {
   company,
+  faqJsonLd,
   getProduct,
+  productFaqs,
   productJsonLd,
   products,
   relatedProducts,
@@ -25,6 +27,7 @@ import {
 } from "@/lib/site";
 import { FloatingPhone } from "@/components/FloatingPhone";
 import { getCurrentLocation } from "@/lib/get-location";
+import { FaqSection } from "@/components/faqSection";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -82,10 +85,12 @@ export default async function ProductDetailPage({ params }: Props) {
   };
 
   const enquireMsg = `Hi Navi Fencing, I'd like a quote for ${product.title}. Please share rates and availability.`;
-
+  const faqs = productFaqs(product);
   return (
     <>
-      <JsonLd data={[productJsonLd(product), breadcrumbJsonLd]} />
+      <JsonLd
+        data={[productJsonLd(product), breadcrumbJsonLd, faqJsonLd(faqs)]}
+      />
       <SiteHeader />
       <GsapAnimations />
       <FloatingWhatsApp />
@@ -240,6 +245,20 @@ export default async function ProductDetailPage({ params }: Props) {
             </div>
           </section>
         )}
+
+        {/* FAQ — AEO: answer-first Q&A backed by FAQPage schema above */}
+        <FaqSection
+          faqs={faqs}
+          eyebrow="FAQ"
+          title={
+            <>
+              {product.title} —{" "}
+              <span className="italic font-normal text-[#86868b]">
+                common questions.
+              </span>
+            </>
+          }
+        />
 
         {/* Quote CTA */}
         <section className="bg-white py-24">

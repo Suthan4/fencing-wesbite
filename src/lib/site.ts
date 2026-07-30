@@ -1,5 +1,5 @@
 export const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://navifencing.in";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.navifencing.in";
 
 export const company = {
   name: "Navi Fencing",
@@ -702,6 +702,95 @@ export const homeFaqs: Faq[] = [
       "Yes. Site measurement, material recommendation and quote are completely free of cost.",
   },
 ];
+
+/**
+ * AEO (Answer Engine Optimization) FAQ blocks.
+ *
+ * These are written "answer-first": the opening sentence of every answer
+ * is a complete, self-contained response to the question on its own —
+ * exactly what Google's featured snippets, AI Overviews, ChatGPT/Perplexity
+ * answers and voice assistants pull out and quote/read aloud. The
+ * follow-up sentence adds supporting detail for the human reader.
+ *
+ * Deliberately no invented rupee figures — pricing is genuinely site- and
+ * spec-dependent, so a fabricated number would be inaccurate and could
+ * misquote us in an AI answer. "Free quote after site visit" is the
+ * honest, still-answerable version of a pricing question.
+ */
+export function productFaqs(product: Product): Faq[] {
+  const details = product.details;
+  const useList = details?.uses?.slice(0, 3).join(", ") ?? undefined;
+  const faqs: Faq[] = [];
+
+  faqs.push({
+    question: `What is ${product.title} fencing used for?`,
+    answer: useList
+      ? `${product.title} is mainly used for ${useList}. ${product.blurb}`
+      : product.blurb,
+  });
+
+  faqs.push({
+    question: `How much does ${product.title} fencing cost?`,
+    answer:
+      `${product.title} pricing depends on the length, height, mesh size/gauge and site conditions, so we don't quote a fixed rate online. ` +
+      `Navi Fencing gives a free site visit and a clear per-foot quote — usually within 24–48 hours of your call or WhatsApp message.`,
+  });
+
+  faqs.push({
+    question: `Does Navi Fencing supply and install ${product.title}?`,
+    answer:
+      `Yes — Navi Fencing both supplies the material and handles expert installation for ${product.title} across Chennai and every district of Tamil Nadu.`,
+  });
+
+  if (details?.specs && details.specs.length > 0) {
+    const specLine = details.specs
+      .slice(0, 3)
+      .map((s) => `${s.label.toLowerCase()}: ${s.value}`)
+      .join("; ");
+    faqs.push({
+      question: `What are the specifications of ${product.title}?`,
+      answer: `Standard ${product.title} specifications are — ${specLine}. Final specification is confirmed on-site to match your project.`,
+    });
+  }
+
+  return faqs;
+}
+
+/**
+ * Location-page FAQ generator. Kept generic and honest (no fabricated
+ * pricing or turnaround claims per area) but answer-first for AEO.
+ */
+export function locationFaqs(
+  name: string,
+  kind: "district" | "area",
+  districtName: string | undefined,
+  featuredProductNames: string[],
+): Faq[] {
+  const areaLabel =
+    kind === "area" && districtName ? `${name}, ${districtName} district` : name;
+
+  return [
+    {
+      question: `Does Navi Fencing install fencing in ${name}?`,
+      answer: `Yes — Navi Fencing supplies and installs fencing in ${areaLabel}, covering chain link, barbed wire, concertina coil, razor wire and welded mesh fencing for residential, commercial and industrial sites.`,
+    },
+    {
+      question: `How much does fencing cost in ${name}?`,
+      answer: `Fencing cost in ${name} depends on the length, fence height, material and mesh gauge chosen. Navi Fencing offers a free site visit and gives a clear per-foot quote, usually within 24–48 hours.`,
+    },
+    {
+      question: `What fencing materials are available in ${name}?`,
+      answer:
+        featuredProductNames.length > 0
+          ? `Navi Fencing supplies ${featuredProductNames.join(", ")} and more in ${name} — see the full catalogue on our Products page.`
+          : `Navi Fencing supplies chain link, barbed wire, concertina coil, razor wire, welded mesh and PVC-coated fencing in ${name}.`,
+    },
+    {
+      question: `Is Navi Fencing a local contractor in ${name}?`,
+      answer: `Navi Fencing is based in Chennai and runs site visits and installation crews across ${name} and the rest of Tamil Nadu — we're a Tamil Nadu-wide contractor, not a single-city outfit.`,
+    },
+  ];
+}
 
 export function localBusinessJsonLd() {
   return {

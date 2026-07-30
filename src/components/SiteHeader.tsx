@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Menu, X, Phone } from "lucide-react";
 import { whatsappUrl } from "@/lib/site";
 import Image from "next/image";
+import { contactActions } from "@/application/contact-actions";
 
 const nav = [
   { href: "/", label: "Home" },
@@ -64,6 +65,7 @@ export function SiteHeader() {
             <a
               href="tel:+919176337014"
               data-testid="header-call"
+              onClick={() => contactActions.phone("header")}
               className="hidden sm:inline-flex items-center gap-1.5 text-[0.78rem] font-medium text-[#1d1d1f]/70 hover:text-[#1d1d1f]"
             >
               <Phone size={13} />
@@ -74,6 +76,7 @@ export function SiteHeader() {
               target="_blank"
               rel="noopener noreferrer"
               data-testid="header-whatsapp"
+              onClick={() => contactActions.whatsapp("header")}
               className="btn btn-primary !py-2 !px-4 !text-[0.78rem]"
             >
               Get Quote
@@ -112,6 +115,7 @@ export function SiteHeader() {
               target="_blank"
               rel="noopener noreferrer"
               data-testid="mobile-whatsapp"
+              onClick={() => contactActions.whatsapp("mobile_menu")}
               className="btn btn-wa mt-8 w-full"
             >
               WhatsApp Us
@@ -119,6 +123,7 @@ export function SiteHeader() {
             <a
               href="tel:+919094909918"
               data-testid="mobile-call"
+              onClick={() => contactActions.phone("mobile_menu")}
               className="btn btn-ghost mt-3 w-full"
             >
               Call +91 90949 09918
