@@ -27,7 +27,7 @@ import {
 } from "@/lib/site";
 import { FloatingPhone } from "@/components/FloatingPhone";
 import { getCurrentLocation } from "@/lib/get-location";
-import { FaqSection } from "@/components/faqSection";
+import { FaqSection } from "@/components/FaqSection";
 
 type Props = { params: Promise<{ slug: string }> };
 

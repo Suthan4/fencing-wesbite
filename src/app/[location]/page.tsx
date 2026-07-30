@@ -33,7 +33,7 @@ import {
   getDistrictHighlight,
   getDistricts,
 } from "@/lib/locations";
-import { FaqSection } from "@/components/faqSection";
+import { FaqSection } from "@/components/FaqSection";
 
 type Props = { params: Promise<{ location: string }> };
 
