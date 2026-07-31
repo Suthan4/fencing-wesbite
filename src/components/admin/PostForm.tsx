@@ -18,10 +18,6 @@ type Action = (
   formData: FormData,
 ) => Promise<PostFormState>;
 
-// One image slot in the form. While `uploading` is true, `url` is empty and
-// `previewUrl` (a local blob: URL from the picked File) is shown instead —
-// so the user sees the picture immediately, before it's finished uploading
-// to Vercel Blob.
 type FormImage = {
   id: string;
   url: string;
@@ -78,8 +74,6 @@ export function PostForm({
     if (state?.error) toast.error(state.error);
   }, [state?.error]);
 
-  // Revoke local object URLs on unmount so we don't leak memory. Runs only
-  // once; intentionally not re-running when `images` changes.
   useEffect(() => {
     return () => {
       images.forEach((img) => {
@@ -109,8 +103,6 @@ export function PostForm({
       );
     }
 
-    // 1) Show every picked image instantly as a local preview, before any
-    //    network request has even started.
     const pending = accepted.map((file) => ({
       file,
       entry: {
@@ -124,9 +116,6 @@ export function PostForm({
     }));
     setImages((prev) => [...prev, ...pending.map((p) => p.entry)]);
 
-    // 2) Upload each file; once Blob storage returns a URL, swap the
-    //    preview for the real one. Only the URL (not the file itself) ever
-    //    reaches the database, and only after the upload has succeeded.
     await Promise.all(
       pending.map(async ({ file, entry }) => {
         try {
@@ -161,10 +150,6 @@ export function PostForm({
   }
 
   function handleFocalPick(id: string, e: React.PointerEvent<HTMLDivElement>) {
-    // Only respond while the primary pointer button is pressed (a plain
-    // click still fires pointerdown, so this covers click *and* drag) —
-    // the same "grab the photo and slide it" feel as LinkedIn's cover
-    // photo repositioner.
     if (e.buttons !== 1 && e.type !== "pointerdown") return;
     const rect = e.currentTarget.getBoundingClientRect();
     const x = clamp(((e.clientX - rect.left) / rect.width) * 100);
@@ -191,7 +176,6 @@ export function PostForm({
   }
 
   function handleDeleteImage(image: FormImage) {
-    // Still uploading — nothing saved anywhere yet, just drop the preview.
     if (image.uploading || !image.url) {
       setImages((prev) => prev.filter((img) => img.id !== image.id));
       URL.revokeObjectURL(image.previewUrl);
@@ -216,8 +200,8 @@ export function PostForm({
     .map((img) => ({ url: img.url, x: img.x, y: img.y }));
 
   return (
-    <form action={formAction} className="space-y-6">
-      <div className="rounded-2xl border border-[#e5e5ea] bg-white p-6">
+    <form action={formAction} className="space-y-5 pb-24 sm:space-y-6 sm:pb-0">
+      <div className="rounded-2xl border border-[#e5e5ea] bg-white p-4 sm:p-6">
         <div className="mb-5">
           <label
             htmlFor="title"
@@ -231,7 +215,7 @@ export function PostForm({
             type="text"
             required
             defaultValue={post?.title}
-            className="w-full rounded-xl border border-[#e5e5ea] px-3.5 py-2.5 text-[0.95rem] text-[#1d1d1f] outline-none focus:border-[#0071e3]"
+            className="w-full rounded-xl border border-[#e5e5ea] px-3.5 py-2.5 text-base text-[#1d1d1f] outline-none focus:border-[#0071e3] sm:text-[0.95rem]"
           />
         </div>
 
@@ -251,7 +235,7 @@ export function PostForm({
             type="text"
             defaultValue={post?.slug}
             placeholder="my-post-title"
-            className="w-full rounded-xl border border-[#e5e5ea] px-3.5 py-2.5 text-[0.9rem] text-[#1d1d1f] outline-none focus:border-[#0071e3]"
+            className="w-full rounded-xl border border-[#e5e5ea] px-3.5 py-2.5 text-base text-[#1d1d1f] outline-none focus:border-[#0071e3] sm:text-[0.9rem]"
           />
         </div>
 
@@ -268,7 +252,7 @@ export function PostForm({
             rows={2}
             defaultValue={post?.excerpt}
             placeholder="Short summary shown on the blog listing page"
-            className="w-full resize-y rounded-xl border border-[#e5e5ea] px-3.5 py-2.5 text-[0.9rem] text-[#1d1d1f] outline-none focus:border-[#0071e3]"
+            className="w-full resize-y rounded-xl border border-[#e5e5ea] px-3.5 py-2.5 text-base text-[#1d1d1f] outline-none focus:border-[#0071e3] sm:text-[0.9rem]"
           />
         </div>
 
@@ -286,7 +270,7 @@ export function PostForm({
             rows={16}
             required
             defaultValue={post?.content}
-            className="w-full resize-y rounded-xl border border-[#e5e5ea] px-3.5 py-2.5 font-mono text-[0.85rem] text-[#1d1d1f] outline-none focus:border-[#0071e3]"
+            className="w-full resize-y rounded-xl border border-[#e5e5ea] px-3.5 py-2.5 font-mono text-[0.9rem] text-[#1d1d1f] outline-none focus:border-[#0071e3] sm:text-[0.85rem]"
           />
         </div>
 
@@ -306,7 +290,7 @@ export function PostForm({
             value={JSON.stringify(imagesForSubmit)}
           />
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-3 sm:grid-cols-4">
             {images.map((img, index) => {
               const isThisDeleting = isDeleting && deletingId === img.id;
               return (
@@ -343,18 +327,18 @@ export function PostForm({
 
                   <div className="flex items-center justify-between gap-1 border-t border-[#e5e5ea] bg-white px-2 py-1.5">
                     {img.uploading ? (
-                      <span className="text-[0.7rem] text-[#86868b]">
+                      <span className="text-[0.68rem] text-[#86868b] sm:text-[0.7rem]">
                         Uploading…
                       </span>
                     ) : index === 0 ? (
-                      <span className="rounded-full bg-[#0071e3]/10 px-2 py-0.5 text-[0.68rem] font-medium text-[#0071e3]">
+                      <span className="rounded-full bg-[#0071e3]/10 px-2 py-0.5 text-[0.66rem] font-medium text-[#0071e3] sm:text-[0.68rem]">
                         Cover
                       </span>
                     ) : (
                       <button
                         type="button"
                         onClick={() => makeCover(img.id)}
-                        className="text-[0.7rem] font-medium text-[#515154] hover:text-[#1d1d1f]"
+                        className="text-[0.68rem] font-medium text-[#515154] active:opacity-60 sm:text-[0.7rem] sm:hover:text-[#1d1d1f]"
                       >
                         Make cover
                       </button>
@@ -363,7 +347,7 @@ export function PostForm({
                       type="button"
                       onClick={() => handleDeleteImage(img)}
                       disabled={isThisDeleting}
-                      className="text-[0.7rem] font-medium text-red-600 hover:text-red-700 disabled:opacity-50"
+                      className="text-[0.68rem] font-medium text-red-600 active:opacity-60 disabled:opacity-50 sm:text-[0.7rem] sm:hover:text-red-700"
                     >
                       {isThisDeleting ? "Deleting…" : "Delete"}
                     </button>
@@ -374,7 +358,7 @@ export function PostForm({
 
             {canAddMore && (
               <label
-                className={`flex aspect-square flex-col items-center justify-center gap-1.5 rounded-xl border border-dashed border-[#c7c7cc] text-center text-[0.75rem] text-[#86868b] transition-colors hover:border-[#0071e3] hover:text-[#0071e3] ${
+                className={`flex aspect-square flex-col items-center justify-center gap-1.5 rounded-xl border border-dashed border-[#c7c7cc] text-center text-[0.75rem] text-[#86868b] transition-colors sm:hover:border-[#0071e3] sm:hover:text-[#0071e3] ${
                   isUploadingAny
                     ? "pointer-events-none opacity-50"
                     : "cursor-pointer"
@@ -401,25 +385,29 @@ export function PostForm({
             type="checkbox"
             name="published"
             defaultChecked={post?.published}
-            className="h-4 w-4 rounded border-[#e5e5ea]"
+            className="h-5 w-5 rounded border-[#e5e5ea] sm:h-4 sm:w-4"
           />
-          <span className="text-[0.88rem] text-[#1d1d1f]">
+          <span className="text-[0.9rem] text-[#1d1d1f] sm:text-[0.88rem]">
             Published (visible on the public blog)
           </span>
         </label>
       </div>
 
-      <button
-        type="submit"
-        disabled={pending || isUploadingAny}
-        className="btn bg-[#0071e3] text-white disabled:opacity-50"
-      >
-        {pending
-          ? "Saving…"
-          : isUploadingAny
-            ? "Uploading images…"
-            : submitLabel}
-      </button>
+      {/* Mobile: sticky bottom action bar, like a native app footer.
+          Desktop: plain inline button, no fixed positioning. */}
+      <div className="fixed inset-x-0 bottom-0 z-20 border-t border-[#e5e5ea] bg-white/95 px-4 py-3 backdrop-blur-md pb-[calc(0.75rem+env(safe-area-inset-bottom))] sm:static sm:z-auto sm:border-0 sm:bg-transparent sm:px-0 sm:py-0 sm:pb-0 sm:backdrop-blur-none">
+        <button
+          type="submit"
+          disabled={pending || isUploadingAny}
+          className="btn w-full bg-[#0071e3] text-white disabled:opacity-50 sm:w-auto"
+        >
+          {pending
+            ? "Saving…"
+            : isUploadingAny
+              ? "Uploading images…"
+              : submitLabel}
+        </button>
+      </div>
     </form>
   );
 }

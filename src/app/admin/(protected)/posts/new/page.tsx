@@ -8,7 +8,7 @@ export default function NewPostPage() {
       <div className="mb-6">
         <Link
           href="/admin"
-          className="text-[0.82rem] font-medium text-[#86868b] hover:text-[#1d1d1f]"
+          className="inline-block py-1 text-[0.82rem] font-medium text-[#86868b] active:opacity-60 sm:hover:text-[#1d1d1f]"
         >
           ← Back to posts
         </Link>
