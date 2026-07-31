@@ -40,6 +40,7 @@ import {
   DEFAULT_LOCATION_SLUG,
   LOCATION_HEADER,
 } from "@/lib/locations";
+import { SeoKeywords } from "@/components/SeoKeywords";
 
 export const metadata: Metadata = {
   title:
@@ -604,6 +605,8 @@ export default async function Home() {
             </div>
           </div>
         </section>
+
+        <SeoKeywords />
       </main>
       <SiteFooter />
     </>
