@@ -178,7 +178,7 @@ export const metadata: Metadata = {
     "compound wall fencing Chennai",
     // Districts and places
     ...locations.flatMap((city) => [
-      `fencing contractor in ${city}`,
+      `fencing contractors in ${city}`,
       `fencing contractors in ${city}`,
       `chain link fencing ${city}`,
       `barbed wire fencing ${city}`,

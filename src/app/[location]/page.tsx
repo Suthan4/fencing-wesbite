@@ -104,8 +104,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title =
     loc.kind === "district"
-      ? `Fencing Contractor in ${loc.name} — Navi Fencing`
-      : `Fencing Contractor in ${loc.name}, ${loc.districtName} — Navi Fencing`;
+      ? `Fencing Contractors in ${loc.name} — Navi Fencing`
+      : `Fencing Contractors in ${loc.name}, ${loc.districtName} — Navi Fencing`;
   const description = `Navi Fencing supplies and installs chain link, barbed wire, concertina coil, razor wire, welded mesh and PVC chainlink fencing in ${loc.name}${
     loc.kind === "area" ? `, ${loc.districtName}` : ""
   }. Free consultation, expert installation. Call ${company.displayPhones[0]}.`;
