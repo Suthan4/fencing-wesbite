@@ -11,7 +11,7 @@ import { getCurrentLocation } from "@/lib/get-location";
 export async function generateMetadata(): Promise<Metadata> {
   const location = await getCurrentLocation();
   return {
-    title: `Contact — Free Fencing Consultation in ${location.name}`,
+    title: `Contact Navi Fencing — ${location.name}`,
     description: `Contact Navi Fencing for a free fencing consultation and quote. Call, WhatsApp or email — serving ${location.name} and all of Tamil Nadu.`,
     alternates: { canonical: "/contact" },
   };

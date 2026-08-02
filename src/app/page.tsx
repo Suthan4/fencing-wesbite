@@ -40,22 +40,39 @@ import {
   DEFAULT_LOCATION_SLUG,
   LOCATION_HEADER,
 } from "@/lib/locations";
-import { SeoKeywords } from "@/components/SeoKeywords";
 
-export const metadata: Metadata = {
-  title:
-    "Navi Fencing Contractors — Best Fencing Contractor in Chennai & Tamil Nadu",
-  description:
-    "Navi Fencing Contractors — #1 fencing contractor in Chennai & Tamil Nadu. Chain link, barbed wire, concertina coil, razor wire, welded mesh, PVC chainlink. Free consultation, best rates. Serving all Tamil Nadu districts. Call +91 91763 37014.",
-  alternates: { canonical: "/" },
-  openGraph: {
-    title: "Navi Fencing Contractors — Chennai & Tamil Nadu",
-    description:
-      "Best fencing contractor in Tamil Nadu. Free consultation, expert installation, quality materials. Call now.",
-    url: "/",
-    type: "website",
-  },
-};
+// Dynamic per-visitor title/description: was previously hardcoded to
+// "Chennai" for every visitor regardless of detected location. Now mirrors
+// the same location-resolution the page body already uses.
+//
+// NOTE for SEO: this changes what a given *visitor* sees in their browser
+// tab, but Googlebot has no real geo-IP "home", so it will consistently
+// resolve to the default location (Chennai) and only ever index that one
+// version of the homepage. This is a UX/personalization improvement, not
+// what makes the site rank for "[brand] in Coimbatore" — that's handled by
+// the dedicated /coimbatore page, which has its own static, unique title.
+export async function generateMetadata(): Promise<Metadata> {
+  const headerList = await headers();
+  const detectedSlug = headerList.get(LOCATION_HEADER) ?? DEFAULT_LOCATION_SLUG;
+  const location =
+    getLocation(detectedSlug) ?? getLocation(DEFAULT_LOCATION_SLUG)!;
+
+  const title = `Fencing Contractor in ${location.name} | Navi Fencing`;
+  const description = `${location.name} fencing contractor — chain link, barbed wire, mesh & razor wire. Free quote, expert install. Call ${company.displayPhones[0]}.`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: "/" },
+    openGraph: {
+      title: `Navi Fencing Contractors — ${location.name} & Tamil Nadu`,
+      description:
+        "Best fencing contractor in Tamil Nadu. Free consultation, expert installation, quality materials. Call now.",
+      url: "/",
+      type: "website",
+    },
+  };
+}
 
 const services = [
   {
@@ -605,8 +622,6 @@ export default async function Home() {
             </div>
           </div>
         </section>
-
-        <SeoKeywords />
       </main>
       <SiteFooter />
     </>

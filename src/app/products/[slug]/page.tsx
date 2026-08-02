@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     p.details?.description ??
     `${p.title} supplied and installed by Navi Fencing across ${location.name} and Tamil Nadu.`;
   return {
-    title: `${p.title} — ${p.category} in ${location.name}`,
+    title: `${p.title} | Navi Fencing`,
     description: desc,
     alternates: { canonical: `/products/${p.slug}` },
     openGraph: {

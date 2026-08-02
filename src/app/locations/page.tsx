@@ -9,10 +9,9 @@ import { FloatingPhone } from "@/components/FloatingPhone";
 import { getDistricts, locations } from "@/lib/locations";
 
 export const metadata: Metadata = {
-  title:
-    "Fencing Contractor Locations — All Tamil Nadu Districts | Navi Fencing",
+  title: "Locations — All Tamil Nadu Districts | Navi Fencing",
   description:
-    "Navi Fencing serves every district in Tamil Nadu — Chennai, Coimbatore, Madurai, Tiruppur, Salem, Trichy and all 38 districts, with local area coverage in the major cities.",
+    "Navi Fencing serves all 38 Tamil Nadu districts — Chennai, Coimbatore, Madurai, Tiruppur, Salem, Trichy and more, with local area coverage.",
   alternates: { canonical: "/locations" },
 };
 

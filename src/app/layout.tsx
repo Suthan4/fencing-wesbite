@@ -24,183 +24,38 @@ const fraunces = Fraunces({
   preload: true,
 });
 
-const locations = [
-  "Coimbatore",
-  "Avinashi",
-  "Annur",
-  "Sulur",
-  "Pollachi",
-  "Mettupalayam",
-  "Karamadai",
-  "Kinathukadavu",
-  "Madukkarai",
-  "Perur",
-  "Saravanampatti",
-  "Vadavalli",
-
-  "Tiruppur",
-  "Palladam",
-  "Kangeyam",
-  "Dharapuram",
-  "Udumalpet",
-  "Avinashipalayam",
-
-  "Erode",
-  "Gobichettipalayam",
-  "Sathyamangalam",
-  "Perundurai",
-  "Bhavani",
-  "Anthiyur",
-  "Kodumudi",
-  "Chennimalai",
-
-  "Salem",
-  "Attur",
-  "Mettur",
-  "Edappadi",
-  "Omalur",
-  "Sankagiri",
-
-  "Namakkal",
-  "Tiruchengode",
-  "Rasipuram",
-  "Paramathi Velur",
-  "Kumarapalayam",
-
-  "Karur",
-  "Kulithalai",
-  "Aravakurichi",
-
-  "Ooty",
-  "Coonoor",
-  "Kotagiri",
-  "Gudalur",
-
-  "Dindigul",
-  "Palani",
-  "Oddanchatram",
-
-  "Madurai",
-  "Melur",
-  "Thirumangalam",
-  "Usilampatti",
-
-  "Tiruchirappalli",
-  "Manapparai",
-  "Lalgudi",
-  "Musiri",
-
-  "Thanjavur",
-  "Kumbakonam",
-  "Pattukkottai",
-
-  "Tirunelveli",
-  "Tenkasi",
-  "Sankarankovil",
-
-  "Thoothukudi",
-  "Kovilpatti",
-
-  "Virudhunagar",
-  "Sivakasi",
-  "Rajapalayam",
-  "Aruppukkottai",
-
-  "Dharmapuri",
-  "Harur",
-
-  "Krishnagiri",
-  "Hosur",
-
-  "Vellore",
-  "Ranipet",
-  "Arcot",
-  "Katpadi",
-
-  "Tiruvannamalai",
-  "Arani",
-  "Polur",
-
-  "Cuddalore",
-  "Neyveli",
-  "Panruti",
-  "Chidambaram",
-
-  "Villupuram",
-  "Tindivanam",
-  "Kallakurichi",
-
-  "Chennai",
-  "Tambaram",
-  "Avadi",
-  "Ambattur",
-  "Chengalpattu",
-  "Kanchipuram",
-];
-
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.navifencing.in"),
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "",
   },
-  title: {
-    default:
-      "Navi Fencing Contractors — #1 Fencing Contractor in Chennai & Tamil Nadu",
-    template: "%s · Navi Fencing Contractors",
-  },
+  // No title.template here on purpose: every page below sets its own
+  // complete title (already including the brand name) sized to stay
+  // under Google's ~60 char / 561px title limit. A template previously
+  // appended " · Navi Fencing Contractors" (27 chars) on top of that,
+  // silently pushing nearly every page's title over the limit.
+  title: "Navi Fencing Contractors — Chennai & Tamil Nadu",
   description:
-    "Navi Fencing Contractors — Top fencing contractor in Chennai & Tamil Nadu. Chain link, barbed wire, concertina coil, razor wire, welded mesh fencing. Free consultation & best rates. Call +91 91763 37014.",
+    "Top fencing contractor in Chennai & Tamil Nadu. Chain link, barbed wire, concertina coil & razor wire. Free consultation. Call +91 9094909918.",
   applicationName: company.name,
+  // NOTE: Google has ignored the meta-keywords tag since 2009 and Bing gives
+  // it negligible weight — it does not help rankings. Keeping a short, real
+  // list rather than the previous 1,600+ auto-generated (and duplicated)
+  // per-location phrases, which only bloated every page's <head>. Actual
+  // location targeting happens via unique titles/descriptions/H1s per page
+  // (see src/app/[location]/page.tsx) and the sitemap — that's what search
+  // engines actually use.
   keywords: [
-    // Brand
     "Navi Fencing",
-    "Navi Fencing Contractors",
-    "Navi Fencing Chennai",
-    // Core service
     "fencing contractor Chennai",
     "fencing contractor Tamil Nadu",
-    "fencing contractors near me",
-    "fencing company Chennai",
-    "best fencing contractor Tamil Nadu",
-    "top fencing contractor Chennai",
-    // Product types
-    "chain link fencing Tamil Nadu",
-    "chain link fencing Chennai",
-    "barbed wire fencing Tamil Nadu",
-    "barbed wire Chennai",
-    "concertina coil Tamil Nadu",
-    "concertina coil Chennai",
-    "razor wire Tamil Nadu",
-    "razor wire Chennai",
-    "welded mesh fencing Tamil Nadu",
-    "PVC chain link Chennai",
+    "chain link fencing",
+    "barbed wire fencing",
+    "concertina coil",
+    "razor wire fencing",
+    "welded mesh fencing",
     "security fencing Tamil Nadu",
-    "compound wall fencing Chennai",
-    // Districts and places
-    ...locations.flatMap((city) => [
-      `fencing contractors in ${city}`,
-      `fencing contractors in ${city}`,
-      `chain link fencing ${city}`,
-      `barbed wire fencing ${city}`,
-      `razor wire fencing ${city}`,
-      `welded mesh fencing ${city}`,
-      `security fencing ${city}`,
-    ]),
-    // Use-case
-    "agricultural fencing Tamil Nadu",
-    "farm fencing Tamil Nadu",
-    "industrial fencing Tamil Nadu",
-    "residential fencing Chennai",
-    "garden fencing Chennai",
-    "privacy fencing Tamil Nadu",
-    // Pricing intent
-    "fencing cost per foot Tamil Nadu",
-    "chain link fence price Tamil Nadu",
-    "barbed wire price Tamil Nadu",
-    "fencing rates Chennai",
-    "cheap fencing Tamil Nadu",
-    "affordable fencing Chennai",
-    "fencing materials supplier Tamil Nadu",
+    "compound wall fencing",
   ],
   authors: [{ name: company.name }],
   creator: company.name,
@@ -213,7 +68,7 @@ export const metadata: Metadata = {
     siteName: "Navi Fencing Contractors",
     title: "Navi Fencing Contractors — Chennai & Tamil Nadu",
     description:
-      "Top fencing contractor in Chennai & Tamil Nadu. Chain link, barbed wire, concertina coil, razor wire, welded mesh. Free consultation. Call +91 91763 37014.",
+      "Top fencing contractor in Chennai & Tamil Nadu. Chain link, barbed wire, concertina coil, razor wire, welded mesh. Free consultation. Call +91 9094909918.",
     images: [
       {
         url: "/logo.png",

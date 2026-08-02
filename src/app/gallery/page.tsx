@@ -14,8 +14,8 @@ import { getCurrentLocation } from "@/lib/get-location";
 export async function generateMetadata(): Promise<Metadata> {
   const location = await getCurrentLocation();
   return {
-    title: `Gallery — Fencing Projects in ${location.name} & Tamil Nadu`,
-    description: `Browse Navi Fencing's project gallery — chain link, barbed wire, concertina coil, razor wire, welded mesh and more, installed across ${location.name} and Tamil Nadu.`,
+    title: `Fencing Project Gallery — ${location.name} | Navi Fencing`,
+    description: `Navi Fencing's project gallery — chain link, barbed wire, concertina coil, razor wire & mesh installed across ${location.name} and Tamil Nadu.`,
     alternates: { canonical: "/gallery" },
   };
 }

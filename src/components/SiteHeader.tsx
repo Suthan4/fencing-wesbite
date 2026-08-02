@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Menu, X, Phone } from "lucide-react";
-import { whatsappUrl } from "@/lib/site";
+import { whatsappUrl, company } from "@/lib/site";
 import Image from "next/image";
 import { contactActions } from "@/application/contact-actions";
 
@@ -63,13 +63,13 @@ export function SiteHeader() {
 
           <div className="flex items-center gap-2">
             <a
-              href="tel:+919176337014"
+              href={`tel:${company.phones[0]}`}
               data-testid="header-call"
               onClick={() => contactActions.phone("header")}
               className="hidden sm:inline-flex items-center gap-1.5 text-[0.78rem] font-medium text-[#1d1d1f]/70 hover:text-[#1d1d1f]"
             >
               <Phone size={13} />
-              +91 90949 09918
+              {company.displayPhones[0]}
             </a>
             <a
               href={whatsappUrl()}
@@ -121,12 +121,12 @@ export function SiteHeader() {
               WhatsApp Us
             </a>
             <a
-              href="tel:+919094909918"
+              href={`tel:${company.phones[0]}`}
               data-testid="mobile-call"
               onClick={() => contactActions.phone("mobile_menu")}
               className="btn btn-ghost mt-3 w-full"
             >
-              Call +91 90949 09918
+              Call {company.displayPhones[0]}
             </a>
           </nav>
         </div>

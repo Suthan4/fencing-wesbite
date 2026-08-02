@@ -102,13 +102,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const loc = getLocation(location);
   if (!loc) return { title: "Location not found" };
 
-  const title =
+  // Keep titles short: full "Fencing Contractors in X, District — Navi Fencing"
+  // pushed 90%+ of location pages past Google's ~60 char / 561px title limit.
+  const title = `Fencing Contractor in ${loc.name} | Navi Fencing`;
+
+  // Keep descriptions under ~155 chars so they don't get truncated in the
+  // SERP snippet. District context now lives in the H1/subheading instead.
+  const description =
     loc.kind === "district"
-      ? `Fencing Contractors in ${loc.name} — Navi Fencing`
-      : `Fencing Contractors in ${loc.name}, ${loc.districtName} — Navi Fencing`;
-  const description = `Navi Fencing supplies and installs chain link, barbed wire, concertina coil, razor wire, welded mesh and PVC chainlink fencing in ${loc.name}${
-    loc.kind === "area" ? `, ${loc.districtName}` : ""
-  }. Free consultation, expert installation. Call ${company.displayPhones[0]}.`;
+      ? `Fencing supply & installation across ${loc.name} district. Chain link, barbed wire, mesh, razor wire. Free quote. Call ${company.displayPhones[0]}.`
+      : `${loc.name} fencing contractor — chain link, barbed wire, mesh & razor wire. Free quote, expert install. Call ${company.displayPhones[0]}.`;
 
   return {
     title,
@@ -266,7 +269,7 @@ export default async function LocationPage({ params }: Props) {
               <div className="lg:col-span-7">
                 <p className="eyebrow">Why Navi Fencing in {loc.name}</p>
                 <h2 className="display mt-5 text-4xl sm:text-6xl text-[#1d1d1f]">
-                  Local site visits.
+                  {loc.name} site visits.
                   <br />
                   <span className="italic font-normal text-[#86868b]">
                     Tamil Nadu-wide supply.
@@ -295,7 +298,7 @@ export default async function LocationPage({ params }: Props) {
             <div className="mb-16 max-w-2xl">
               <p className="eyebrow">Services in {loc.name}</p>
               <h2 className="display mt-5 text-4xl sm:text-6xl text-[#1d1d1f]">
-                What we do here.
+                What we do in {loc.name}.
               </h2>
             </div>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -330,7 +333,7 @@ export default async function LocationPage({ params }: Props) {
               <div>
                 <p className="eyebrow">Popular in {loc.name}</p>
                 <h2 className="display mt-4 text-4xl sm:text-5xl text-[#1d1d1f]">
-                  Fencing materials.
+                  Fencing materials in {loc.name}.
                 </h2>
               </div>
               <Link
@@ -404,7 +407,7 @@ export default async function LocationPage({ params }: Props) {
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <p className="eyebrow">Across Tamil Nadu</p>
             <h2 className="display mt-4 text-3xl sm:text-4xl text-[#1d1d1f]">
-              Other districts we serve.
+              Other districts near {loc.name}.
             </h2>
             <div className="mt-8 flex flex-wrap gap-2">
               {otherDistricts.map((d) => (

@@ -14,7 +14,7 @@ import { getCurrentLocation } from "@/lib/get-location";
 export const metadata: Metadata = {
   title: "Products — Fencing Materials, Wire, Mesh, Posts",
   description:
-    "Browse Navi Fencing's full product range: chain link, twisted chain link, PVC chainlink, barbed wire, concertina coil, razor wire, welded mesh, green mesh, steel, angles, cement posts and more.",
+    "Navi Fencing's full product range: chain link, PVC chainlink, barbed wire, concertina coil, razor wire, welded mesh, steel posts and more.",
   alternates: { canonical: "/products" },
 };
 
