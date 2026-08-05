@@ -23,8 +23,8 @@ import {
   serviceFaqs,
 } from "@/lib/services";
 import { getCurrentLocation } from "@/lib/get-location";
-import { getDistricts } from "@/lib/locations";
 import { FaqSection } from "@/components/FaqSection";
+import { getDistricts } from "@/lib/locations";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -68,7 +68,6 @@ export default async function ServiceDetailPage({ params }: Props) {
   const location = await getCurrentLocation();
   const related = relatedServices(service.slug, 3);
   const faqs = serviceFaqs(service, location);
-  const districts = getDistricts();
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -190,9 +189,7 @@ export default async function ServiceDetailPage({ params }: Props) {
           </div>
         </section>
 
-        {/* Location links — this is the actual entry point into the
-            /services/[slug]/[location] combo pages; without it those
-            pages are only reachable via sitemap/direct URL. */}
+        {/* Location links — entry point into /services/[slug]/[location] */}
         <section className="bg-[#f5f5f7] py-16 border-t border-[#e5e5ea]">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <p className="eyebrow">Available across Tamil Nadu</p>
@@ -204,7 +201,7 @@ export default async function ServiceDetailPage({ params }: Props) {
               cover.
             </p>
             <div className="mt-8 flex flex-wrap gap-2">
-              {districts.map((d) => (
+              {getDistricts().map((d) => (
                 <Link
                   key={d.slug}
                   href={`/services/${service.slug}/${d.slug}`}

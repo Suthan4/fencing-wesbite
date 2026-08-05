@@ -7,7 +7,6 @@ import {
   CheckCircle2,
   MessageCircle,
   Phone,
-  MapPin,
 } from "lucide-react";
 import { GsapAnimations } from "@/components/GsapAnimations";
 import { JsonLd } from "@/components/JsonLd";
@@ -20,71 +19,56 @@ import {
   services,
   getService,
   relatedServices,
-  serviceLocationJsonLd,
-  serviceLocationFaqs,
+  serviceJsonLd,
+  serviceFaqs,
 } from "@/lib/services";
-import {
-  getLocation,
-  getDistricts,
-  getNearbyLocations,
-  getDistrictHighlight,
-} from "@/lib/locations";
+import { getCurrentLocation } from "@/lib/get-location";
+import { getDistricts } from "@/lib/locations";
 import { FaqSection } from "@/components/FaqSection";
 
-type Props = { params: Promise<{ slug: string; location: string }> };
+type Props = { params: Promise<{ slug: string }> };
 
-// Pre-render every service x district combo at build time (45 x 38 ≈
-// 1,710 pages) — these are the highest-value, highest-search-volume
-// combos. Service x area combos (45 x 174 ≈ 7,830) are NOT pre-rendered
-// here to keep build time sane; dynamicParams stays enabled below so
-// those still render (and get cached) the first time they're requested —
-// e.g. when Googlebot crawls them from the sitemap, or a visitor lands
-// on one from search/WhatsApp.
 export async function generateStaticParams() {
-  const districts = getDistricts();
-  const params: { slug: string; location: string }[] = [];
-  for (const s of services) {
-    for (const loc of districts) {
-      params.push({ slug: s.slug, location: loc.slug });
-    }
-  }
-  return params;
+  return services.map((s) => ({ slug: s.slug }));
 }
 
-export const dynamicParams = true;
-
+// Metadata is built per-request (not statically cached) so the title and
+// description reflect the visitor's auto-detected location — set by
+// middleware.ts off Vercel's geo headers, or the nf_loc cookie on repeat
+// visits, falling back to Chennai. This mirrors the pattern used on
+// /products/[slug] and /[location].
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug: serviceSlug, location: locationSlug } = await params;
-  const service = getService(serviceSlug);
-  const location = getLocation(locationSlug);
-  if (!service || !location) return { title: "Not found" };
+  const { slug } = await params;
+  const service = getService(slug);
+  if (!service) return { title: "Service not found" };
+
+  const location = await getCurrentLocation();
 
   const title = `${service.title} in ${location.name} | Navi Fencing`;
-  const description = `${service.blurb} ${company.name} supplies and installs ${service.title.toLowerCase()} in ${location.name}${location.kind === "area" ? `, ${location.districtName} district` : ""} — free site visit, expert crew.`;
+  const description = `${service.blurb} ${company.name} supplies and installs ${service.title.toLowerCase()} in ${location.name} — free site visit, expert crew.`;
 
   return {
     title,
     description,
-    alternates: { canonical: `/services/${service.slug}/${location.slug}` },
+    alternates: { canonical: `/services/${service.slug}` },
     openGraph: {
       title,
       description,
-      url: `/services/${service.slug}/${location.slug}`,
+      url: `/services/${service.slug}`,
       type: "article",
     },
   };
 }
 
-export default async function ServiceLocationPage({ params }: Props) {
-  const { slug: serviceSlug, location: locationSlug } = await params;
-  const service = getService(serviceSlug);
-  const location = getLocation(locationSlug);
-  if (!service || !location) notFound();
+export default async function ServiceDetailPage({ params }: Props) {
+  const { slug } = await params;
+  const service = getService(slug);
+  if (!service) notFound();
 
+  const location = await getCurrentLocation();
   const related = relatedServices(service.slug, 3);
-  const nearby = getNearbyLocations(location.slug, 6);
-  const highlight = getDistrictHighlight(location.districtSlug);
-  const faqs = serviceLocationFaqs(service, location);
+  const faqs = serviceFaqs(service, location);
+  const districts = getDistricts();
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -103,12 +87,6 @@ export default async function ServiceLocationPage({ params }: Props) {
         name: service.title,
         item: `${siteUrl}/services/${service.slug}`,
       },
-      {
-        "@type": "ListItem",
-        position: 4,
-        name: location.name,
-        item: `${siteUrl}/services/${service.slug}/${location.slug}`,
-      },
     ],
   };
 
@@ -117,7 +95,7 @@ export default async function ServiceLocationPage({ params }: Props) {
   const highlights = [
     "Free on-site measurement and consultation",
     `Material supply and expert installation in ${location.name}`,
-    "Usually completed within a few days of the site visit",
+    "Usually completed within 24–48 hours of your call",
     "Tamil Nadu-wide crews, single point of contact",
   ];
 
@@ -125,7 +103,7 @@ export default async function ServiceLocationPage({ params }: Props) {
     <>
       <JsonLd
         data={[
-          serviceLocationJsonLd(service, location),
+          serviceJsonLd(service, location),
           breadcrumbJsonLd,
           faqJsonLd(faqs),
         ]}
@@ -140,7 +118,7 @@ export default async function ServiceLocationPage({ params }: Props) {
         <section className="bg-white pt-[100px] sm:pt-[120px] pb-16">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <nav
-              className="flex flex-wrap items-center gap-2 text-xs text-[#86868b]"
+              className="flex items-center gap-2 text-xs text-[#86868b]"
               aria-label="Breadcrumb"
             >
               <Link href="/" className="hover:text-[#1d1d1f]">
@@ -151,23 +129,14 @@ export default async function ServiceLocationPage({ params }: Props) {
                 Services
               </Link>
               <ArrowRight size={11} />
-              <Link
-                href={`/services/${service.slug}`}
-                className="hover:text-[#1d1d1f]"
-              >
-                {service.title}
-              </Link>
-              <ArrowRight size={11} />
-              <span className="text-[#1d1d1f]">{location.name}</span>
+              <span className="text-[#1d1d1f]">{service.title}</span>
             </nav>
 
             <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:gap-16 items-start">
               <div className="lg:col-span-7" data-reveal>
                 <p className="eyebrow flex items-center gap-2">
-                  <MapPin size={13} />
-                  {location.kind === "area"
-                    ? `${location.name} · ${location.districtName} District`
-                    : `${location.name} District · Tamil Nadu`}
+                  <span className="text-lg">{service.icon}</span>
+                  {service.category}
                 </p>
                 <h1 className="display mt-5 text-5xl sm:text-7xl text-[#1d1d1f]">
                   {service.title}
@@ -177,9 +146,8 @@ export default async function ServiceLocationPage({ params }: Props) {
                   </span>
                 </h1>
                 <p className="mt-6 max-w-xl text-lg text-[#515154] leading-relaxed">
-                  {highlight} {service.blurb} {company.name} supplies and
-                  installs it across {location.name} and every district of Tamil
-                  Nadu.
+                  {service.blurb} {company.name} supplies and installs it across{" "}
+                  {location.name} and every district of Tamil Nadu.
                 </p>
 
                 <div className="mt-8 flex flex-wrap gap-3">
@@ -222,33 +190,37 @@ export default async function ServiceLocationPage({ params }: Props) {
           </div>
         </section>
 
-        {/* Nearby areas — internal linking + local relevance */}
-        {nearby.length > 0 && (
-          <section className="bg-[#f5f5f7] py-16 border-t border-[#e5e5ea]">
-            <div className="mx-auto max-w-7xl px-5 sm:px-8">
-              <p className="eyebrow">Also serving</p>
-              <h2 className="display mt-4 text-3xl sm:text-4xl text-[#1d1d1f]">
-                {service.title} near {location.name}.
-              </h2>
-              <div className="mt-8 flex flex-wrap gap-2">
-                {nearby.map((n) => (
-                  <Link
-                    key={n.slug}
-                    href={`/services/${service.slug}/${n.slug}`}
-                    className="text-sm bg-white border border-[#e5e5ea] rounded-full px-4 py-2 text-[#515154] hover:bg-[#1d1d1f] hover:text-white transition-colors"
-                  >
-                    {n.name}
-                  </Link>
-                ))}
-              </div>
+        {/* Location links — this is the actual entry point into the
+            /services/[slug]/[location] combo pages; without it those
+            pages are only reachable via sitemap/direct URL. */}
+        <section className="bg-[#f5f5f7] py-16 border-t border-[#e5e5ea]">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8">
+            <p className="eyebrow">Available across Tamil Nadu</p>
+            <h2 className="display mt-4 text-3xl sm:text-4xl text-[#1d1d1f]">
+              {service.title} by district.
+            </h2>
+            <p className="mt-4 max-w-2xl text-[#515154]">
+              Pick your district for local pricing context and nearby areas we
+              cover.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-2">
+              {districts.map((d) => (
+                <Link
+                  key={d.slug}
+                  href={`/services/${service.slug}/${d.slug}`}
+                  className="text-sm bg-white border border-[#e5e5ea] rounded-full px-4 py-2 text-[#515154] hover:bg-[#1d1d1f] hover:text-white transition-colors"
+                >
+                  {d.name}
+                </Link>
+              ))}
             </div>
-          </section>
-        )}
+          </div>
+        </section>
 
         {/* FAQ — AEO: answer-first Q&A backed by FAQPage schema above */}
         <FaqSection
           faqs={faqs}
-          eyebrow={`FAQ — ${service.title} in ${location.name}`}
+          eyebrow={`FAQ — ${service.title}`}
           title={
             <>
               {service.title} in {location.name} —{" "}
@@ -270,12 +242,13 @@ export default async function ServiceLocationPage({ params }: Props) {
               Get a quote
               <br />
               <span className="italic font-normal text-[#86868b]">
-                for {location.name}.
+                for {service.title.toLowerCase()}.
               </span>
             </h2>
             <p className="mt-6 text-lg text-[#515154] max-w-xl mx-auto">
-              Share your site details in {location.name} and we&apos;ll come
-              back with a clear quote — usually the same day.
+              Share your site location in {location.name}, approximate length
+              and we&apos;ll come back with a clear quote — usually the same
+              day.
             </p>
             <div className="mt-10 flex flex-wrap gap-3 justify-center">
               <a
@@ -293,13 +266,13 @@ export default async function ServiceLocationPage({ params }: Props) {
           </div>
         </section>
 
-        {/* Related services, same location */}
+        {/* Related */}
         {related.length > 0 && (
           <section className="bg-[#f5f5f7] py-24 border-t border-[#e5e5ea]">
             <div className="mx-auto max-w-7xl px-5 sm:px-8">
               <div className="mb-12 flex items-end justify-between" data-reveal>
                 <div>
-                  <p className="eyebrow">More in {location.name}</p>
+                  <p className="eyebrow">More in {service.category}</p>
                   <h2 className="display mt-3 text-4xl sm:text-5xl text-[#1d1d1f]">
                     Related services.
                   </h2>
@@ -318,14 +291,14 @@ export default async function ServiceLocationPage({ params }: Props) {
                 {related.map((r) => (
                   <Link
                     key={r.slug}
-                    href={`/services/${r.slug}/${location.slug}`}
+                    href={`/services/${r.slug}`}
                     data-stagger-item
                     className="group card-soft card-hover bg-white p-7 flex flex-col gap-4"
                   >
                     <span className="text-2xl">{r.icon}</span>
                     <div>
                       <h3 className="text-lg font-semibold tracking-tight text-[#1d1d1f]">
-                        {r.title} in {location.name}
+                        {r.title}
                       </h3>
                       <p className="mt-2 text-sm text-[#515154] leading-relaxed line-clamp-2">
                         {r.blurb}
@@ -341,11 +314,8 @@ export default async function ServiceLocationPage({ params }: Props) {
         {/* Back link */}
         <div className="bg-white py-10 border-t border-[#e5e5ea]">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
-            <Link
-              href={`/services/${service.slug}`}
-              className="link-arrow !text-sm"
-            >
-              <ArrowLeft size={14} /> Back to {service.title}
+            <Link href="/services" className="link-arrow !text-sm">
+              <ArrowLeft size={14} /> Back to all services
             </Link>
           </div>
         </div>
