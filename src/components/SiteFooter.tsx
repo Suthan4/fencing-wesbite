@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Phone, Mail, MapPin } from "lucide-react";
 import Image from "next/image";
 import { company, whatsappUrl, products } from "@/lib/site";
+import { services, serviceCategories } from "@/lib/services";
 
 // Two branch locations.
 // If you'd rather keep this data in lib/site.ts (e.g. company.branches),
@@ -95,18 +96,23 @@ export function SiteFooter() {
       data-testid="site-footer"
       className="bg-[#fafafa] border-t border-[#e5e5ea] text-[#1d1d1f]"
     >
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 pt-24 pb-12">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 pt-24 pb-10">
         {/* Big CTA */}
-        <div className="mb-20">
+        <div className="mb-12">
           <p className="eyebrow">Let&apos;s talk</p>
-          <h2 className="display mt-4 text-5xl sm:text-7xl md:text-8xl text-[#1d1d1f] max-w-4xl">
+          <h2
+            className="display mt-4 text-4xl
+sm:text-5xl
+md:text-6xl
+ text-[#1d1d1f] max-w-4xl"
+          >
             Strong fences,
             <br />
             <span className="italic font-normal text-[#86868b]">
               built right.
             </span>
           </h2>
-          <div className="mt-10 flex flex-wrap gap-3">
+          <div className="mt-7 flex flex-wrap gap-3">
             <a
               href={whatsappUrl()}
               target="_blank"
@@ -126,7 +132,11 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="grid gap-12 md:grid-cols-4 border-t border-[#e5e5ea] pt-12">
+        <div
+          className="grid
+lg:grid-cols-[2fr_1fr_1fr_1fr_1fr]
+gap-8 md:grid-cols-2 border-t border-[#e5e5ea] pt-12"
+        >
           <div className="md:col-span-2">
             <div className="flex items-center gap-2.5">
               <Image
@@ -134,7 +144,7 @@ export function SiteFooter() {
                 alt="Navi Fencing Logo"
                 width={50}
                 height={50}
-                className="h-20 w-20 object-contain"
+                className="h-14 w-14 object-contain"
                 priority
               />
               <span className="text-[0.95rem] font-semibold tracking-tight">
@@ -145,7 +155,7 @@ export function SiteFooter() {
               {company.tagline} Residential, commercial and industrial fencing
               supply and installation across {company.area}.
             </p>
-            <div className="mt-6 space-y-2.5 text-sm text-[#515154]">
+            <div className="mt-4 space-y-2.5 text-sm text-[#515154]">
               {company.displayPhones.map((p, i) => (
                 <a
                   key={p}
@@ -166,7 +176,7 @@ export function SiteFooter() {
             </div>
 
             {/* Branch addresses */}
-            <div className="mt-6 space-y-4">
+            <div className="mt-4 space-y-2">
               {branches.map((b) => (
                 <a
                   key={b.label}
@@ -193,7 +203,7 @@ export function SiteFooter() {
             </div>
 
             {/* Social links */}
-            <div className="mt-6 flex items-center gap-3">
+            <div className="mt-4 flex items-center gap-3">
               {socials.map((s) => (
                 <a
                   key={s.label}
@@ -209,10 +219,9 @@ export function SiteFooter() {
               ))}
             </div>
           </div>
-
           <div>
             <p className="eyebrow !text-[0.65rem]">Explore</p>
-            <ul className="mt-5 space-y-3 text-sm">
+            <ul className="mt-5 space-y-2 text-sm">
               {[
                 ["Home", "/"],
                 ["Products", "/products"],
@@ -234,10 +243,47 @@ export function SiteFooter() {
               ))}
             </ul>
           </div>
+          <div>
+            <p className="eyebrow !text-[0.65rem]">Service Categories</p>
 
+            <ul className="mt-5 space-y-2 text-sm">
+              {serviceCategories.map((category) => (
+                <li key={category}>
+                  <Link
+                    href="/services"
+                    className="text-[#515154] hover:text-[#1d1d1f]"
+                  >
+                    {category}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="eyebrow !text-[0.65rem]">Popular Services</p>
+
+            <ul className="mt-5 space-y-2 text-sm">
+              {services.slice(0, 8).map((service) => (
+                <li key={service.slug}>
+                  <Link
+                    href={`/services/${service.slug}`}
+                    className="text-[#515154] hover:text-[#1d1d1f]"
+                  >
+                    {service.title}
+                  </Link>
+                </li>
+              ))}
+
+              <li>
+                <Link href="/services" className="font-medium text-black">
+                  View All →
+                </Link>
+              </li>
+            </ul>
+          </div>
           <div>
             <p className="eyebrow !text-[0.65rem]">Top Products</p>
-            <ul className="mt-5 space-y-3 text-sm">
+            <ul className="mt-5 space-y-2 text-sm">
               {products.slice(0, 7).map((p) => (
                 <li key={p.slug}>
                   <Link
@@ -252,7 +298,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-[#e5e5ea] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#86868b]">
+        <div className="mt-10 pt-5 border-t border-[#e5e5ea] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#86868b]">
           <p>
             © {new Date().getFullYear()} {company.name}. All rights reserved.
           </p>
