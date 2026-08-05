@@ -22,14 +22,25 @@ import {
   serviceJsonLd,
   serviceFaqs,
 } from "@/lib/services";
-import { getCurrentLocation } from "@/lib/get-location";
-import { getDistricts } from "@/lib/locations";
+import { getDistricts, getLocation } from "@/lib/locations";
 import { FaqSection } from "@/components/FaqSection";
 
-type Props = { params: Promise<{ slug: string }> };
+type Props = {
+  params: Promise<{
+    slug: string;
+    location: string;
+  }>;
+};
 
 export async function generateStaticParams() {
-  return services.map((s) => ({ slug: s.slug }));
+  const districts = getDistricts();
+
+  return services.flatMap((service) =>
+    districts.map((district) => ({
+      slug: service.slug,
+      location: district.slug,
+    })),
+  );
 }
 
 // Metadata is built per-request (not statically cached) so the title and
@@ -38,14 +49,22 @@ export async function generateStaticParams() {
 // visits, falling back to Chennai. This mirrors the pattern used on
 // /products/[slug] and /[location].
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, location } = await params;
+
   const service = getService(slug);
-  if (!service) return { title: "Service not found" };
 
-  const location = await getCurrentLocation();
+  if (!service) {
+    return { title: "Service not found" };
+  }
 
-  const title = `${service.title} in ${location.name} | Navi Fencing`;
-  const description = `${service.blurb} ${company.name} supplies and installs ${service.title.toLowerCase()} in ${location.name} — free site visit, expert crew.`;
+  const currentLocation = getLocation(location);
+
+  if (!currentLocation) {
+    return { title: "Location not found" };
+  }
+
+  const title = `${service.title} in ${currentLocation.name} | Navi Fencing`;
+  const description = `${service.blurb} ${company.name} supplies and installs ${service.title.toLowerCase()} in ${currentLocation.name} — free site visit, expert crew.`;
 
   return {
     title,
@@ -61,13 +80,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ServiceDetailPage({ params }: Props) {
-  const { slug } = await params;
-  const service = getService(slug);
-  if (!service) notFound();
+  const { slug, location } = await params;
 
-  const location = await getCurrentLocation();
+  const service = getService(slug);
+
+  if (!service) {
+    notFound();
+  }
+
+  const currentLocation = getLocation(location);
+
+  if (!currentLocation) {
+    notFound();
+  }
+
   const related = relatedServices(service.slug, 3);
-  const faqs = serviceFaqs(service, location);
+  const faqs = serviceFaqs(service, currentLocation);
   const districts = getDistricts();
 
   const breadcrumbJsonLd = {
@@ -90,11 +118,11 @@ export default async function ServiceDetailPage({ params }: Props) {
     ],
   };
 
-  const enquireMsg = `Hi Navi Fencing, I'd like a quote for ${service.title} in ${location.name}. Please share rates and availability.`;
+  const enquireMsg = `Hi Navi Fencing, I'd like a quote for ${service.title} in ${currentLocation.name}. Please share rates and availability.`;
 
   const highlights = [
     "Free on-site measurement and consultation",
-    `Material supply and expert installation in ${location.name}`,
+    `Material supply and expert installation in ${currentLocation.name}`,
     "Usually completed within 24–48 hours of your call",
     "Tamil Nadu-wide crews, single point of contact",
   ];
@@ -103,7 +131,7 @@ export default async function ServiceDetailPage({ params }: Props) {
     <>
       <JsonLd
         data={[
-          serviceJsonLd(service, location),
+          serviceJsonLd(service, currentLocation),
           breadcrumbJsonLd,
           faqJsonLd(faqs),
         ]}
@@ -142,12 +170,12 @@ export default async function ServiceDetailPage({ params }: Props) {
                   {service.title}
                   <br />
                   <span className="italic font-normal text-[#86868b]">
-                    in {location.name}.
+                    in {currentLocation.name}.
                   </span>
                 </h1>
                 <p className="mt-6 max-w-xl text-lg text-[#515154] leading-relaxed">
                   {service.blurb} {company.name} supplies and installs it across{" "}
-                  {location.name} and every district of Tamil Nadu.
+                  {currentLocation.name} and every district of Tamil Nadu.
                 </p>
 
                 <div className="mt-8 flex flex-wrap gap-3">
@@ -223,7 +251,7 @@ export default async function ServiceDetailPage({ params }: Props) {
           eyebrow={`FAQ — ${service.title}`}
           title={
             <>
-              {service.title} in {location.name} —{" "}
+              {service.title} in {currentLocation.name} —{" "}
               <span className="italic font-normal text-[#86868b]">
                 common questions.
               </span>
@@ -246,9 +274,9 @@ export default async function ServiceDetailPage({ params }: Props) {
               </span>
             </h2>
             <p className="mt-6 text-lg text-[#515154] max-w-xl mx-auto">
-              Share your site location in {location.name}, approximate length
-              and we&apos;ll come back with a clear quote — usually the same
-              day.
+              Share your site location in {currentLocation.name}, approximate
+              length and we&apos;ll come back with a clear quote — usually the
+              same day.
             </p>
             <div className="mt-10 flex flex-wrap gap-3 justify-center">
               <a
