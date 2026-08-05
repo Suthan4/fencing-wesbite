@@ -13,7 +13,7 @@ export const SITE = {
   email: "navifencing@gmail.com",
 };
 
-export const WHATSAPP_NUMBER = "919176337014";
+export const WHATSAPP_NUMBER = "919094909918";
 
 export function getWhatsAppLink(message?: string) {
   const text = message || "Hi, I'm interested in your fencing solutions. Can you help?";

@@ -216,6 +216,7 @@ export function SiteFooter() {
               {[
                 ["Home", "/"],
                 ["Products", "/products"],
+                ["Services", "/services"],
                 ["Locations", "/locations"],
                 ["About", "/about"],
                 ["Blog", "/blog"],

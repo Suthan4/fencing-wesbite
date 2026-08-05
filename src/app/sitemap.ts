@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { siteUrl, products } from "@/lib/site";
 import { locations } from "@/lib/locations";
+import { services } from "@/lib/services";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -21,6 +22,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "monthly",
   }));
 
+    const servicePages: MetadataRoute.Sitemap = services.map((s) => ({
+    url: `${siteUrl}/services/${s.slug}`,
+    lastModified: now,
+    priority: 0.85,
+    changeFrequency: "monthly",
+  }));
+
   // District pages (e.g. /chennai, /coimbatore) are the primary local-SEO
   // landing pages, so they get a higher priority than the smaller area
   // pages nested under them (e.g. /tambaram, /porur).
@@ -31,5 +39,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "monthly",
   }));
 
-  return [...staticPages, ...productPages, ...locationPages];
+    // Service x location combo pages (e.g. /services/chain-link-fencing/coimbatore).
+  // District-level combos are pre-rendered at build time and get a higher
+  // priority; area-level combos are rendered on first crawl/visit and
+  // cached (see dynamicParams in that route), so they get a lower
+  // priority/changeFrequency to nudge Google toward the district combos
+  // first. ~45 services x 212 locations ≈ 9,540 URLs — comfortably under
+  // the 50k-URL single-sitemap limit.
+  const serviceLocationPages: MetadataRoute.Sitemap = services.flatMap((s) =>
+    locations.map((loc) => ({
+      url: `${siteUrl}/services/${s.slug}/${loc.slug}`,
+      lastModified: now,
+      priority: loc.kind === "district" ? 0.75 : 0.55,
+      changeFrequency: "monthly" as const,
+    })),
+  );
+
+  return [
+    ...staticPages,
+    ...productPages,
+    ...servicePages,
+    ...locationPages,
+    ...serviceLocationPages
+  ];
 }

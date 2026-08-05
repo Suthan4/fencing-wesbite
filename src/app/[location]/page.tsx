@@ -2,16 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import {
-  ArrowRight,
-  Shield,
-  Home as HomeIcon,
-  Building2,
-  Wrench,
-  Phone,
-  MessageCircle,
-  MapPin,
-} from "lucide-react";
+import { ArrowRight, Phone, MessageCircle, MapPin } from "lucide-react";
 import { GsapAnimations } from "@/components/GsapAnimations";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -34,6 +25,7 @@ import {
   getDistricts,
 } from "@/lib/locations";
 import { FaqSection } from "@/components/FaqSection";
+import { services } from "@/lib/services";
 
 type Props = { params: Promise<{ location: string }> };
 
@@ -50,33 +42,6 @@ const galleryImages = [
   "IMG20210321074206_01.jpg",
   "IMG20210901071903.jpg",
   "IMG20210928151334.jpg",
-];
-
-const serviceTemplates = [
-  {
-    icon: HomeIcon,
-    title: "Residential Fencing",
-    descFor: (name: string) =>
-      `Privacy and security fencing for homes, villas and farmhouses in ${name}.`,
-  },
-  {
-    icon: Building2,
-    title: "Commercial Fencing",
-    descFor: (name: string) =>
-      `Perimeter security for factories, warehouses and offices around ${name}.`,
-  },
-  {
-    icon: Shield,
-    title: "Security Fencing",
-    descFor: () =>
-      "Concertina coil, razor wire and high-security wall toppings.",
-  },
-  {
-    icon: Wrench,
-    title: "Installation & Supply",
-    descFor: (name: string) =>
-      `Materials supplied and installed on-site by our ${name} project crew.`,
-  },
 ];
 
 /** Simple deterministic hash so each location gets a stable but varied
@@ -134,6 +99,7 @@ export default async function LocationPage({ params }: Props) {
   const hash = hashSlug(loc.slug);
   const heroImages = rotate(galleryImages, hash % galleryImages.length, 3);
   const featuredProducts = rotate(products, hash % products.length, 6);
+  const featuredServices = rotate(services, hash % services.length, 4);
   const nearby = getNearbyLocations(loc.slug, 8);
   const otherDistricts = getDistricts()
     .filter((d) => d.slug !== loc.districtSlug)
@@ -295,32 +261,40 @@ export default async function LocationPage({ params }: Props) {
         {/* Services */}
         <section className="bg-[#f5f5f7] py-16">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
-            <div className="mb-16 max-w-2xl">
-              <p className="eyebrow">Services in {loc.name}</p>
-              <h2 className="display mt-5 text-4xl sm:text-6xl text-[#1d1d1f]">
-                What we do in {loc.name}.
-              </h2>
+            <div className="mb-16 flex items-end justify-between max-w-full">
+              <div className="max-w-2xl">
+                <p className="eyebrow">Services in {loc.name}</p>
+                <h2 className="display mt-5 text-4xl sm:text-6xl text-[#1d1d1f]">
+                  What we do in {loc.name}.
+                </h2>
+              </div>
+              <Link
+                href="/services"
+                className="link-arrow !text-sm hidden sm:inline-flex"
+              >
+                All services <ArrowRight size={14} />
+              </Link>
             </div>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {serviceTemplates.map((s) => (
-                <article
-                  key={s.title}
-                  className="card-soft card-hover bg-white p-8 min-h-[240px] flex flex-col justify-between"
+              {featuredServices.map((s) => (
+                <Link
+                  key={s.slug}
+                  href={`/services/${s.slug}/${loc.slug}`}
+                  className="group card-soft card-hover bg-white p-8 min-h-[240px] flex flex-col justify-between"
                 >
-                  <s.icon
-                    size={28}
-                    strokeWidth={1.5}
-                    className="text-[#1d1d1f]"
-                  />
+                  <span className="text-3xl">{s.icon}</span>
                   <div>
                     <h3 className="text-xl font-semibold tracking-tight text-[#1d1d1f]">
                       {s.title}
                     </h3>
-                    <p className="mt-3 text-[#515154] text-sm leading-relaxed">
-                      {s.descFor(loc.name)}
+                    <p className="mt-3 text-[#515154] text-sm leading-relaxed line-clamp-2">
+                      {s.blurb}
                     </p>
+                    <span className="link-arrow !text-xs mt-4">
+                      In {loc.name} <ArrowRight size={12} />
+                    </span>
                   </div>
-                </article>
+                </Link>
               ))}
             </div>
           </div>

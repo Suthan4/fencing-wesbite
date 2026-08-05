@@ -10,6 +10,7 @@ import { contactActions } from "@/application/contact-actions";
 const nav = [
   { href: "/", label: "Home" },
   { href: "/products", label: "Products" },
+  { href: "/services", label: "Services" },
   { href: "/locations", label: "Locations" },
   { href: "/about", label: "About" },
   { href: "/blog", label: "Blog" },
