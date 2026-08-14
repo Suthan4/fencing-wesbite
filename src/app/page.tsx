@@ -57,8 +57,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const location =
     getLocation(detectedSlug) ?? getLocation(DEFAULT_LOCATION_SLUG)!;
 
-  const title = `Fencing Contractor in ${location.name} | Navi Fencing`;
-  const description = `${location.name} fencing contractor — chain link, barbed wire, mesh & razor wire. Free quote, expert install. Call ${company.displayPhones[0]}.`;
+  const title = `Fencing Contractors in Tamil Nadu | Navi Fencing`;
+  const description = `Tamil Nadu fencing contractors — chain link, barbed wire, mesh & razor wire. Free quote, expert install. Call ${company.displayPhones[0]}.`;
 
   return {
     title,
