@@ -4,6 +4,7 @@ import { Manrope, Fraunces } from "next/font/google";
 import { siteUrl, company } from "@/lib/site";
 import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 // FIX 1: preconnect + preload fonts more aggressively
 const manrope = Manrope({
@@ -126,6 +127,7 @@ export default function RootLayout({
       <body className="bg-white text-[#1d1d1f] antialiased">
         <div id="scroll-progress" aria-hidden="true" />
         {children}
+        <SpeedInsights />
       </body>
       <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID!} />
     </html>
