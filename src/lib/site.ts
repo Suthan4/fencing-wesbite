@@ -11,8 +11,8 @@ export const company = {
   whatsappMessage:
     "Hi Navi Fencing, I'd like a free consultation and quote for fencing.",
   email: "fencingnavi@gmail.com",
-  area: "Chennai · Across Tamil Nadu",
-  city: "Chennai",
+  area: "Avinashi · Tiruppur · Coimbatore · Across Tamil Nadu",
+  city: "Avinashi",
   state: "Tamil Nadu",
 };
 
@@ -299,9 +299,9 @@ const productDetailsMap: Record<string, ProductDetails> = {
   "pvc-chainlink": {
     tagline: "Coated. Cleaner. Corrosion-resistant.",
     description:
-      "PVC coated chain link adds a colored plastic coating over galvanised wire — corrosion resistant, low maintenance and visually clean. Ideal for coastal Chennai climates.",
+      "PVC coated chain link adds a colored plastic coating over galvanised wire — corrosion resistant, low maintenance and visually clean. Ideal for agricultural, residential and industrial applications across Avinashi, Tiruppur, and Coimbatore.",
     uses: [
-      "Coastal and humid environments",
+      "Agricultural and residential boundaries",
       "Residential boundaries (green/black)",
       "Sports courts and tennis enclosures",
       "Park and garden fencing",
@@ -340,11 +340,11 @@ const productDetailsMap: Record<string, ProductDetails> = {
     ],
   },
   "pvc-barbed-wire": {
-    tagline: "Barbed wire that holds up to the coast",
+    tagline: "Barbed wire built for long-term weather protection",
     description:
-      "PVC coated barbed wire is galvanised barbed wire with a plastic coating — better corrosion resistance in coastal Chennai and high-moisture sites.",
+      "PVC coated barbed wire is galvanised barbed wire with a plastic coating — offering superior corrosion resistance and weather protection for properties in Avinashi, Tiruppur, and Coimbatore.",
     uses: [
-      "Coastal compound walls",
+      "Farm and estate boundaries",
       "Long-life security toppings",
       "Coloured perimeter reinforcement",
     ],
@@ -684,7 +684,7 @@ export const homeFaqs: Faq[] = [
   {
     question: "Which areas in Tamil Nadu do you serve?",
     answer:
-      "Navi Fencing is based in Chennai and serves all districts across Tamil Nadu for residential, commercial and industrial fencing.",
+      "Navi Fencing is based in Avinashi and primarily serves Avinashi, Tiruppur, Coimbatore, and all districts across Tamil Nadu for residential, agricultural, commercial, and industrial fencing.",
   },
   {
     question: "Do you supply only materials or also install?",
@@ -694,7 +694,7 @@ export const homeFaqs: Faq[] = [
   {
     question: "How quickly can a site visit be arranged?",
     answer:
-      "Within 24 to 48 hours of your call or WhatsApp message for most locations in and around Chennai.",
+      "Within 24 to 48 hours of your call or WhatsApp message for most locations in Avinashi, Tiruppur, Coimbatore, and surrounding areas.",
   },
   {
     question: "Do you provide a free consultation?",
@@ -739,7 +739,7 @@ export function productFaqs(product: Product): Faq[] {
   faqs.push({
     question: `Does Navi Fencing supply and install ${product.title}?`,
     answer:
-      `Yes — Navi Fencing both supplies the material and handles expert installation for ${product.title} across Chennai and every district of Tamil Nadu.`,
+      `Yes — Navi Fencing both supplies the material and handles expert installation for ${product.title} across Avinashi, Tiruppur, Coimbatore, and every district of Tamil Nadu.`,
   });
 
   if (details?.specs && details.specs.length > 0) {
@@ -787,7 +787,7 @@ export function locationFaqs(
     },
     {
       question: `Is Navi Fencing a local contractor in ${name}?`,
-      answer: `Navi Fencing is based in Chennai and runs site visits and installation crews across ${name} and the rest of Tamil Nadu — we're a Tamil Nadu-wide contractor, not a single-city outfit.`,
+      answer: `Navi Fencing is based in Avinashi (Tiruppur district) and runs site visits and installation crews across Avinashi, Tiruppur, Coimbatore, and the rest of Tamil Nadu — we're a regional and statewide contractor, not a single-city outfit.`,
     },
   ];
 }
@@ -803,11 +803,35 @@ export function localBusinessJsonLd() {
     email: company.email,
     address: {
       "@type": "PostalAddress",
-      addressLocality: company.city,
+      streetAddress: "Avinashi",
+      addressLocality: "Avinashi",
       addressRegion: company.state,
+      postalCode: "641654",
       addressCountry: "IN",
     },
-    areaServed: "Tamil Nadu",
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 11.1932,
+      longitude: 77.2687,
+    },
+    areaServed: [
+      {
+        "@type": "AdministrativeArea",
+        name: "Avinashi",
+      },
+      {
+        "@type": "AdministrativeArea",
+        name: "Tiruppur",
+      },
+      {
+        "@type": "AdministrativeArea",
+        name: "Coimbatore",
+      },
+      {
+        "@type": "AdministrativeArea",
+        name: "Tamil Nadu",
+      },
+    ],
     description: company.tagline,
     priceRange: "₹₹",
   };

@@ -144,7 +144,6 @@ const localAreasByDistrict: Record<string, string[]> = {
   ],
 
   coimbatore: [
-    "Avinashi",
     "Annur",
     "Sulur",
     "Pollachi",
@@ -166,6 +165,7 @@ const localAreasByDistrict: Record<string, string[]> = {
   ],
 
   tiruppur: [
+    "Avinashi",
     "Palladam",
     "Kangeyam",
     "Dharapuram",
@@ -450,7 +450,7 @@ const locationBySlug: Record<string, LocationEntry> = Object.fromEntries(
   locations.map((l) => [l.slug, l]),
 );
 
-export const DEFAULT_LOCATION_SLUG = "chennai";
+export const DEFAULT_LOCATION_SLUG = "avinashi";
 
 export function getLocation(slug: string): LocationEntry | undefined {
   return locationBySlug[slugify(slug)];

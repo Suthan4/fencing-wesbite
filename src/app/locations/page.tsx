@@ -11,7 +11,7 @@ import { getDistricts, locations } from "@/lib/locations";
 export const metadata: Metadata = {
   title: "Locations — All Tamil Nadu Districts | Navi Fencing",
   description:
-    "Navi Fencing serves all 38 Tamil Nadu districts — Chennai, Coimbatore, Madurai, Tiruppur, Salem, Trichy and more, with local area coverage.",
+    "Navi Fencing serves all 38 Tamil Nadu districts — Avinashi, Tiruppur, Coimbatore, and across Tamil Nadu, with local area coverage.",
   alternates: { canonical: "/locations" },
 };
 
@@ -49,7 +49,7 @@ export default function LocationsPage() {
             <p className="mt-6 max-w-2xl text-base sm:text-lg text-[#515154] leading-relaxed">
               Navi Fencing supplies and installs fencing across all 38 Tamil
               Nadu districts. Pick your district below for local details, or a
-              local area if you&apos;re in Chennai, Coimbatore or Tiruppur.
+              local area if you&apos;re in Avinashi, Tiruppur or Coimbatore.
             </p>
           </div>
         </section>

@@ -302,7 +302,9 @@ gap-8 md:grid-cols-2 border-t border-[#e5e5ea] pt-12"
           <p>
             © {new Date().getFullYear()} {company.name}. All rights reserved.
           </p>
-          <p>Crafted with care in Chennai · navifencing.in</p>
+          <p>
+            Serving Avinashi, Tiruppur, Coimbatore & Tamil Nadu · navifencing.in
+          </p>
         </div>
       </div>
     </footer>

@@ -8,7 +8,7 @@
 //   x-vercel-ip-country-region   e.g. "TN"
 //   x-vercel-ip-country          e.g. "IN"
 // On any other host these headers are simply absent, and we fall back
-// to the default location (Chennai) — the site still works everywhere,
+// to the default location (Avinashi) — the site still works everywhere,
 // it just won't auto-detect the city off Vercel.
 
 import { NextResponse, type NextRequest } from "next/server";

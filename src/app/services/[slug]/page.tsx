@@ -35,7 +35,7 @@ export async function generateStaticParams() {
 // Metadata is built per-request (not statically cached) so the title and
 // description reflect the visitor's auto-detected location — set by
 // middleware.ts off Vercel's geo headers, or the nf_loc cookie on repeat
-// visits, falling back to Chennai. This mirrors the pattern used on
+// visits, falling back to Avinashi. This mirrors the pattern used on
 // /products/[slug] and /[location].
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;

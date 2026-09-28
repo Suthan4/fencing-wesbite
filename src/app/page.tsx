@@ -41,33 +41,25 @@ import {
   LOCATION_HEADER,
 } from "@/lib/locations";
 
-// Dynamic per-visitor title/description: was previously hardcoded to
-// "Chennai" for every visitor regardless of detected location. Now mirrors
-// the same location-resolution the page body already uses.
-//
-// NOTE for SEO: this changes what a given *visitor* sees in their browser
-// tab, but Googlebot has no real geo-IP "home", so it will consistently
-// resolve to the default location (Chennai) and only ever index that one
-// version of the homepage. This is a UX/personalization improvement, not
-// what makes the site rank for "[brand] in Coimbatore" — that's handled by
-// the dedicated /coimbatore page, which has its own static, unique title.
+// Dynamic per-visitor title/description: mirrors the location-resolution
+// the page body uses, falling back to Avinashi (DEFAULT_LOCATION_SLUG).
 export async function generateMetadata(): Promise<Metadata> {
   const headerList = await headers();
   const detectedSlug = headerList.get(LOCATION_HEADER) ?? DEFAULT_LOCATION_SLUG;
   const location =
     getLocation(detectedSlug) ?? getLocation(DEFAULT_LOCATION_SLUG)!;
 
-  const title = `Fencing Contractors in Tamil Nadu | Navi Fencing`;
-  const description = `Tamil Nadu fencing contractors — chain link, barbed wire, mesh & razor wire. Free quote, expert install. Call ${company.displayPhones[0]}.`;
+  const title = `Fencing Contractors in Avinashi, Tiruppur & Coimbatore | Navi Fencing`;
+  const description = `Leading fencing contractors in Avinashi, Tiruppur & Coimbatore. Chain link, barbed wire, mesh & razor wire. Free quote, expert installation. Call ${company.displayPhones[0]}.`;
 
   return {
     title,
     description,
     alternates: { canonical: "/" },
     openGraph: {
-      title: `Navi Fencing Contractors — ${location.name} & Tamil Nadu`,
+      title: `Navi Fencing Contractors — ${location.name === "Avinashi" ? "Avinashi, Tiruppur & Coimbatore" : `${location.name} & Tamil Nadu`}`,
       description:
-        "Best fencing contractor in Tamil Nadu. Free consultation, expert installation, quality materials. Call now.",
+        "Best fencing contractor in Avinashi, Tiruppur, Coimbatore & Tamil Nadu. Free consultation, expert installation, quality materials. Call now.",
       url: "/",
       type: "website",
     },
@@ -152,7 +144,7 @@ export default async function Home() {
           <div className="absolute inset-0" data-hero-bg>
             <Image
               src="/products/angle-fencing.webp"
-              alt="Navi Fencing Contractors — Best Fencing in Chennai Tamil Nadu"
+              alt="Navi Fencing Contractors — Fencing in Avinashi, Tiruppur & Coimbatore"
               fill
               className="object-cover"
               sizes="100vw"
@@ -279,9 +271,9 @@ export default async function Home() {
                   data-reveal
                 >
                   Navi Fencing Contractors deliver safe, private and beautiful
-                  spaces across Chennai and all Tamil Nadu districts. With
-                  reliable craftsmanship and modern techniques, we install
-                  fencing that lasts for years.
+                  spaces across Avinashi, Tiruppur, Coimbatore, and all Tamil
+                  Nadu districts. With reliable craftsmanship and modern
+                  techniques, we install fencing that lasts for years.
                 </p>
                 <ul className="mt-8 space-y-3" data-stagger>
                   {[

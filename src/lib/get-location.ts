@@ -2,7 +2,7 @@
 // Shared helper for Server Components / generateMetadata functions that
 // need the visitor's detected location (set by middleware.ts off Vercel's
 // geo headers, or the nf_loc cookie on repeat visits). Falls back to
-// Chennai (DEFAULT_LOCATION_SLUG) everywhere else.
+// Avinashi (DEFAULT_LOCATION_SLUG) everywhere else.
 
 import "server-only";
 import { headers } from "next/headers";

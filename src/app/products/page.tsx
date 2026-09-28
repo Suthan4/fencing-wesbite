@@ -12,9 +12,9 @@ import { FloatingPhone } from "@/components/FloatingPhone";
 import { getCurrentLocation } from "@/lib/get-location";
 
 export const metadata: Metadata = {
-  title: "Products — Fencing Materials, Wire, Mesh, Posts",
+  title: "Fencing Materials & Supplies — Avinashi, Tiruppur & Coimbatore",
   description:
-    "Navi Fencing's full product range: chain link, PVC chainlink, barbed wire, concertina coil, razor wire, welded mesh, steel posts and more.",
+    "Navi Fencing supplies chain link, barbed wire, concertina coil, razor wire, welded mesh & fence posts across Avinashi, Tiruppur, Coimbatore & Tamil Nadu.",
   alternates: { canonical: "/products" },
 };
 

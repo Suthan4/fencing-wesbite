@@ -132,7 +132,8 @@ export default async function ContactPage() {
 
                   <p className="mt-4 flex items-start gap-2 text-sm text-[#515154]">
                     <MapPin size={14} className="mt-1 shrink-0" />
-                    Chennai, Tamil Nadu, India — serving all of Tamil Nadu.
+                    Avinashi, Tiruppur, Coimbatore, Tamil Nadu, India — serving
+                    all of Tamil Nadu.
                   </p>
                 </div>
               </div>
