@@ -452,6 +452,31 @@ const locationBySlug: Record<string, LocationEntry> = Object.fromEntries(
 
 export const DEFAULT_LOCATION_SLUG = "avinashi";
 
+/** Primary service districts. Visitor geo-detection and page ordering only
+ *  ever surface these (and their local areas); every other district is
+ *  still served and has its own page, but is secondary. */
+export const PRIMARY_DISTRICT_SLUGS = ["tiruppur", "coimbatore"] as const;
+export const PRIMARY_DISPLAY = "Avinashi, Tiruppur & Coimbatore";
+
+/** True for Avinashi, Tiruppur, Coimbatore and the local areas within
+ *  the Tiruppur / Coimbatore districts. */
+export function isPrimaryLocation(slug: string | null | undefined): boolean {
+  if (!slug) return false;
+  const loc = locationBySlug[slugify(slug)];
+  if (!loc) return false;
+  return (
+    loc.slug === DEFAULT_LOCATION_SLUG ||
+    (PRIMARY_DISTRICT_SLUGS as readonly string[]).includes(loc.districtSlug)
+  );
+}
+
+/** Returns the location only if primary; otherwise the default (Avinashi). */
+export function getPrimaryLocation(slug: string | null | undefined): LocationEntry {
+  return isPrimaryLocation(slug)
+    ? locationBySlug[slugify(slug as string)]
+    : locationBySlug[DEFAULT_LOCATION_SLUG];
+}
+
 export function getLocation(slug: string): LocationEntry | undefined {
   return locationBySlug[slugify(slug)];
 }
@@ -461,7 +486,10 @@ export function getAllLocationSlugs(): string[] {
 }
 
 export function getDistricts(): LocationEntry[] {
-  return locations.filter((l) => l.kind === "district");
+  const all = locations.filter((l) => l.kind === "district");
+  const rank = (l: LocationEntry) => (isPrimaryLocation(l.slug) ? 0 : 1);
+  // Stable sort: primary districts (Tiruppur, Coimbatore) first.
+  return [...all].sort((a, b) => rank(a) - rank(b));
 }
 
 /** Areas + the district itself, other than the given slug — used for
@@ -487,9 +515,8 @@ export function getDistrictHighlight(districtSlug: string): string {
 export function resolveLocationFromCityString(
   city: string | null | undefined,
 ): LocationEntry {
-  if (city) {
-    const match = getLocation(slugify(city));
-    if (match) return match;
+  if (city && isPrimaryLocation(slugify(city))) {
+    return locationBySlug[slugify(city)];
   }
   return locationBySlug[DEFAULT_LOCATION_SLUG];
 }

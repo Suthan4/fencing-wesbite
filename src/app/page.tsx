@@ -34,8 +34,9 @@ import {
 } from "@/lib/site";
 import { FloatingPhone } from "@/components/FloatingPhone";
 import {
-  getLocation,
+  getPrimaryLocation,
   getNearbyLocations,
+  PRIMARY_DISPLAY,
   getDistricts,
   DEFAULT_LOCATION_SLUG,
   LOCATION_HEADER,
@@ -45,9 +46,7 @@ import {
 // the page body uses, falling back to Avinashi (DEFAULT_LOCATION_SLUG).
 export async function generateMetadata(): Promise<Metadata> {
   const headerList = await headers();
-  const detectedSlug = headerList.get(LOCATION_HEADER) ?? DEFAULT_LOCATION_SLUG;
-  const location =
-    getLocation(detectedSlug) ?? getLocation(DEFAULT_LOCATION_SLUG)!;
+  const location = getPrimaryLocation(headerList.get(LOCATION_HEADER));
 
   const title = `Fencing Contractors in Avinashi, Tiruppur & Coimbatore | Navi Fencing`;
   const description = `Leading fencing contractors in Avinashi, Tiruppur & Coimbatore. Chain link, barbed wire, mesh & razor wire. Free quote, expert installation. Call ${company.displayPhones[0]}.`;
@@ -57,7 +56,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description,
     alternates: { canonical: "/" },
     openGraph: {
-      title: `Navi Fencing Contractors — ${location.name === "Avinashi" ? "Avinashi, Tiruppur & Coimbatore" : `${location.name} & Tamil Nadu`}`,
+      title: `Navi Fencing Contractors — Avinashi, Tiruppur & Coimbatore`,
       description:
         "Best fencing contractor in Avinashi, Tiruppur, Coimbatore & Tamil Nadu. Free consultation, expert installation, quality materials. Call now.",
       url: "/",
@@ -118,15 +117,21 @@ const process = [
 const stats = [
   { value: 500, suffix: "+", label: "Projects delivered" },
   { value: 19, suffix: "", label: "Fencing products" },
-  { value: 10, suffix: "+", label: "Years across Tamil Nadu" },
+  {
+    value: 10,
+    suffix: "+",
+    label: "Years in Avinashi, Tiruppur, Coimbatore & Tamil Nadu",
+  },
   { value: 4.9, suffix: "★", label: "Customer rating" },
 ];
 
 export default async function Home() {
   const headerList = await headers();
-  const detectedSlug = headerList.get(LOCATION_HEADER) ?? DEFAULT_LOCATION_SLUG;
-  const location =
-    getLocation(detectedSlug) ?? getLocation(DEFAULT_LOCATION_SLUG)!;
+  const location = getPrimaryLocation(headerList.get(LOCATION_HEADER));
+  const isDefault = location.slug === DEFAULT_LOCATION_SLUG;
+  // Label used in headings/copy: the trio by default, the specific city
+  // only when the visitor is in a primary city/area.
+  const place = isDefault ? PRIMARY_DISPLAY : location.name;
   const nearbyAreas = getNearbyLocations(location.slug, 8);
   const districts = getDistricts().slice(0, 12);
 
@@ -156,7 +161,10 @@ export default async function Home() {
           <div className="relative h-full flex flex-col justify-between pt-[88px] sm:pt-[110px] pb-20 sm:pb-28">
             <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
               <p data-hero-sub className="eyebrow !text-white/70">
-                Navi Fencing Contractors · {location.name} · Across Tamil Nadu
+                Navi Fencing Contractors ·{" "}
+                {location.slug === DEFAULT_LOCATION_SLUG
+                  ? "Avinashi · Tiruppur · Coimbatore"
+                  : `${location.name} · Avinashi · Tiruppur · Coimbatore`}
               </p>
             </div>
 
@@ -179,10 +187,13 @@ export default async function Home() {
                 data-hero-sub
                 className="mt-7 max-w-xl text-base sm:text-lg text-white/70 leading-relaxed"
               >
-                Tamil Nadu&apos;s trusted fencing contractor — chain link,
-                barbed wire, concertina coil, razor wire, welded mesh. Supplied
-                &amp; installed in {location.name} and every district across
-                Tamil Nadu.
+                Trusted fencing contractor in Avinashi, Tiruppur and Coimbatore
+                — chain link, barbed wire, concertina coil, razor wire, welded
+                mesh. Supplied &amp; installed in{" "}
+                {location.slug === DEFAULT_LOCATION_SLUG
+                  ? PRIMARY_DISPLAY
+                  : location.name}{" "}
+                and every district across Tamil Nadu.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
@@ -305,7 +316,7 @@ export default async function Home() {
         <section className="bg-[#f5f5f7] py-16">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <div className="mb-16 max-w-2xl" data-reveal>
-              <p className="eyebrow">What we do in {location.name}</p>
+              <p className="eyebrow">What we do in {place}</p>
               <h2 className="display mt-5 text-5xl sm:text-7xl text-[#1d1d1f]">
                 One team.
                 <br />
@@ -336,7 +347,7 @@ export default async function Home() {
                       {s.title}
                     </h3>
                     <p className="mt-3 text-[#515154] text-sm leading-relaxed">
-                      {s.descFor(location.name)}
+                      {s.descFor(place)}
                     </p>
                   </div>
                 </article>
@@ -552,28 +563,25 @@ export default async function Home() {
         <section className="bg-white py-20 border-t border-[#e5e5ea]">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <p className="eyebrow flex items-center gap-2">
-              <MapPin size={13} /> Serving {location.name}
+              <MapPin size={13} /> Serving {place}
             </p>
             <h2 className="display mt-5 text-4xl sm:text-6xl text-[#1d1d1f]">
-              {location.name} & nearby.
+              {isDefault ? place : `${location.name} & nearby`}.
               <br />
               <span className="italic font-normal text-[#86868b]">
-                Every district in Tamil Nadu.
+                & every district in Tamil Nadu.
               </span>
             </h2>
             <p className="mt-6 max-w-2xl text-base text-[#515154] leading-relaxed">
-              You&apos;re browsing from around {location.name}
-              {location.kind === "area"
-                ? `, ${location.districtName} district`
-                : ""}
-              . We supply and install fencing here, in the areas nearby, and
-              across every one of Tamil Nadu&apos;s 38 districts.
+              Based in Avinashi, we supply and install fencing in {place}, the
+              areas nearby, and across every one of Tamil Nadu&apos;s 38
+              districts.
             </p>
 
             {nearbyAreas.length > 0 && (
               <div className="mt-10">
                 <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#86868b] mb-4">
-                  Local areas near {location.name}
+                  Local areas near {place}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {nearbyAreas.map((n) => (

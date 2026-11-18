@@ -7,15 +7,12 @@
 import "server-only";
 import { headers } from "next/headers";
 import {
-  getLocation,
-  DEFAULT_LOCATION_SLUG,
+  getPrimaryLocation,
   LOCATION_HEADER,
   type LocationEntry,
 } from "@/lib/locations";
 
 export async function getCurrentLocation(): Promise<LocationEntry> {
   const headerList = await headers();
-  const detectedSlug =
-    headerList.get(LOCATION_HEADER) ?? DEFAULT_LOCATION_SLUG;
-  return getLocation(detectedSlug) ?? getLocation(DEFAULT_LOCATION_SLUG)!;
+  return getPrimaryLocation(headerList.get(LOCATION_HEADER));
 }

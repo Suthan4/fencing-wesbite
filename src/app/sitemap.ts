@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { siteUrl, products } from "@/lib/site";
-import { locations } from "@/lib/locations";
+import { locations, isPrimaryLocation } from "@/lib/locations";
 import { services } from "@/lib/services";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -35,7 +35,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const locationPages: MetadataRoute.Sitemap = locations.map((loc) => ({
     url: `${siteUrl}/${loc.slug}`,
     lastModified: now,
-    priority: loc.kind === "district" ? 0.8 : 0.65,
+    priority: isPrimaryLocation(loc.slug) ? 0.95 : loc.kind === "district" ? 0.8 : 0.65,
     changeFrequency: "monthly",
   }));
 
@@ -50,7 +50,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     locations.map((loc) => ({
       url: `${siteUrl}/services/${s.slug}/${loc.slug}`,
       lastModified: now,
-      priority: loc.kind === "district" ? 0.75 : 0.55,
+      priority: isPrimaryLocation(loc.slug) ? 0.9 : loc.kind === "district" ? 0.75 : 0.55,
       changeFrequency: "monthly" as const,
     })),
   );

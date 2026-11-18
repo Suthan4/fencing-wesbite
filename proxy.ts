@@ -18,6 +18,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import {
   resolveLocationFromCityString,
+  isPrimaryLocation,
   LOCATION_HEADER,
   LOCATION_COOKIE,
 } from "@/lib/locations";
@@ -43,7 +44,9 @@ export async function proxy(request: NextRequest) {
   }
 
   // --- Location detection (unchanged) ---
-  const cookieSlug = request.cookies.get(LOCATION_COOKIE)?.value;
+  const rawCookie = request.cookies.get(LOCATION_COOKIE)?.value;
+  // Ignore stale cookies (e.g. "chennai") from before primary-only detection.
+  const cookieSlug = isPrimaryLocation(rawCookie) ? rawCookie : undefined;
   const ipCity =
     request.headers.get("x-vercel-ip-city") ??
     request.headers.get("x-vercel-ip-city-region");
